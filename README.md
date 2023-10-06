@@ -1,24 +1,4 @@
-```diff
-+ Searching for Pynecone? You are in the right repo. Pynecone has been renamed to Dotserve. +
-```
 
-<div align="center">
-<img src="https://raw.githubusercontent.com/dotserve/dotserve/main/docs/images/dotserve_dark.svg#gh-light-mode-only" alt="Dotserve Logo" width="300px">
-<img src="https://raw.githubusercontent.com/dotserve/dotserve/main/docs/images/dotserve_light.svg#gh-dark-mode-only" alt="Dotserve Logo" width="300px">
-
-<hr>
-
-### **✨ Performant, customizable web apps in pure Python. Deploy in seconds. ✨**
-[![PyPI version](https://badge.fury.io/py/dotserve.svg)](https://badge.fury.io/py/dotserve)
-![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
-![versions](https://img.shields.io/pypi/pyversions/dotserve.svg)
-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://dotagent.dev/docs/getting-started/introduction)
-[![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
-</div>
-
----
-[English](https://github.com/dot-agent/dotserve/blob/main/README.md) | [简体中文](https://github.com/dot-agent/dotserve/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/dot-agent/dotserve/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/dot-agent/dotserve/blob/main/docs/tr/README.md)
----
 ## ⚙️ Installation
 
 Open a terminal and run (Requires Python 3.7+):
@@ -222,13 +202,6 @@ As of July 2023, we are in the **Public Beta** stage.
 
 Dotserve has new releases and features coming every week! Make sure to :star: star and :eyes: watch this repository to stay up to date.
 
-## Contributing
-
-We welcome contributions of any size! Below are some good ways to get started in the Dotserve community.
-
--   **Join Our Discord**: Our [Discord](https://discord.gg/T5WSbC2YtQ) is the best place to get help on your Dotserve project and to discuss how you can contribute.
--   **GitHub Discussions**: A great way to talk about features you want added or things that are confusing/need clarification.
--   **GitHub Issues**: These are an excellent way to report bugs. Additionally, you can try and solve an existing issue and submit a PR.
 
 We are actively looking for contributors, no matter your skill level or experience.
 
