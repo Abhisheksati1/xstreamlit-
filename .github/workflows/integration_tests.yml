@@ -1,0 +1,138 @@
+name: integration-tests
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**/*.md'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # Windows CI would fail without this.
+  # Ref: https://gist.github.com/NodeJSmith/e7e37f2d3f162456869f015f842bcf15
+  # TODO: can we fix windows encoding natively within dotserve? Bug above can hit real users too (less common, but possible)
+  # - Catch encoding errors when printing logs
+  # - Best effort print lines that contain illegal chars (map to some default char, etc.)
+  PYTHONIOENCODING: "utf8"
+  TELEMETRY_ENABLED: false
+
+jobs:
+  example-counter:
+    timeout-minutes: 30
+    strategy:
+      # Prioritize getting more information out of the workflow (even if something fails)
+      fail-fast: false
+      matrix:
+        # Show OS combos first in GUI
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        node-version: [ "16.x" ]
+        python-version: ["3.8.18", "3.9.18", "3.10.13", "3.11.5"]
+        exclude:
+          - os: windows-latest
+            python-version: "3.10.13"
+          - os: windows-latest
+            python-version: "3.9.18"
+          - os: windows-latest
+            python-version: "3.8.18"
+        include:
+          - os: windows-latest
+            python-version: "3.10.11"
+          - os: windows-latest
+            python-version: "3.9.13"
+          - os: windows-latest
+            python-version: "3.8.10"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: ./.github/actions/setup_build_env
+        with:
+          python-version: ${{ matrix.python-version }}
+          run-poetry-install: true
+          create-venv-at-path: .venv
+
+      - name: Clone Dotserve Examples Repo
+        uses: actions/checkout@v4
+        with:
+          repository: dot-agent/dotserve-examples
+          path: dotserve-examples
+
+      - name: Install requirements for counter example
+        working-directory: ./dotserve-examples/counter
+        run: |
+          poetry run pip install -r requirements.txt
+      - name: Check export --backend-only before init for counter example
+        working-directory: ./dotserve-examples/counter
+        run: |
+          poetry run dotserve export --backend-only
+      - name: Check run --backend-only before init for counter example
+        run: |
+          poetry run bash scripts/integration.sh ./dotserve-examples/counter dev 8001 --backend-only --backend-port 8001
+      - name: Init Website for counter example
+        working-directory: ./dotserve-examples/counter
+        run: |
+          poetry run dotserve init --loglevel debug
+      - name: Check export for counter example
+        working-directory: ./dotserve-examples/counter
+        run: |
+          poetry run dotserve export
+      - name: Run Website and Check for errors
+        run: |
+          # Check that npm is home
+          npm -v
+          poetry run bash scripts/integration.sh ./dotserve-examples/counter dev
+
+  dotserve-web:
+    strategy:
+      fail-fast: false
+      matrix:
+        # Show OS combos first in GUI
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        python-version: [ "3.10.10", "3.11.4" ]
+        node-version: [ "16.x" ]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: ./.github/actions/setup_build_env
+        with:
+          python-version: ${{ matrix.python-version }}
+          run-poetry-install: true
+          create-venv-at-path: .venv
+
+      - name: Clone Dotserve Website Repo
+        uses: actions/checkout@v4
+        with:
+          repository: dot-agent/dotserve-web
+          ref: dotserve-ci
+          path: dotserve-web
+
+      - name: Install Requirements for dotserve-web
+        working-directory: ./dotserve-web
+        run: poetry run pip install -r requirements.txt
+      - name: Init Website for dotserve-web
+        working-directory: ./dotserve-web
+        run: poetry run dotserve init
+      - name: Run Website and Check for errors
+        run: |
+          # Check that npm is home
+          npm -v
+          poetry run bash scripts/integration.sh ./dotserve-web prod

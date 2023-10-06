@@ -1,0 +1,29 @@
+name: dotserve-init-in-docker-test
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  # TODO we can extend to various starting points (e.g. Ubuntu with node, without node, with unzip, without unzip, etc.)
+  # Currently starting point is: Ubuntu + unzip, xz-utils, Python suite.  No node.
+  dotserve-install-and-init:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - shell: bash
+      run: |
+        # Run dotserve init in a docker container
+ 
+        # cwd is repo root
+        docker build -f integration/init-test/Dockerfile -t dotserve-init-test integration/init-test
+        docker run --rm -v $(pwd):/dotserve-repo/ dotserve-init-test /dotserve-repo/integration/init-test/in_docker_test_script.sh
