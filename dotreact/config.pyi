@@ -65,7 +65,7 @@ class Config(Base):
     next_compression: bool
     event_namespace: Optional[str]
     frontend_packages: List[str]
-    dsdeploy_url: Optional[str]
+    drdeploy_url: Optional[str]
     username: Optional[str]
 
     def __init__(
@@ -89,7 +89,7 @@ class Config(Base):
         next_compression: Optional[bool] = None,
         event_namespace: Optional[str] = None,
         frontend_packages: Optional[List[str]] = None,
-        dsdeploy_url: Optional[str] = None,
+        drdeploy_url: Optional[str] = None,
         username: Optional[str] = None,
         **kwargs
     ) -> None: ...

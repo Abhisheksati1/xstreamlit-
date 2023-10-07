@@ -170,7 +170,7 @@ def get_default_app_name() -> str:
 
 
 def create_config(app_name: str):
-    """Create a new dsconfig file.
+    """Create a new drconfig file.
 
     Args:
         app_name: The name of the app.
@@ -181,7 +181,7 @@ def create_config(app_name: str):
     config_name = f"{re.sub(r'[^a-zA-Z]', '', app_name).capitalize()}Config"
     with open(constants.Config.FILE, "w") as f:
         console.debug(f"Creating {constants.Config.FILE}")
-        f.write(templates.DSCONFIG.render(app_name=app_name, config_name=config_name))
+        f.write(templates.DRCONFIG.render(app_name=app_name, config_name=config_name))
 
 
 def initialize_gitignore():
@@ -228,7 +228,7 @@ def initialize_web_directory():
 
     path_ops.mkdir(constants.Dirs.WEB_ASSETS)
 
-    # update nextJS config based on dsConfig
+    # update nextJS config based on drConfig
     next_config_file = os.path.join(constants.Dirs.WEB, constants.Next.CONFIG_FILE)
 
     with open(next_config_file, "r") as file:
@@ -657,7 +657,7 @@ def migrate_to_dotreact():
     if action == "n":
         return
 
-    # Rename pcconfig to dsconfig.
+    # Rename pcconfig to drconfig.
     console.log(
         f"[bold]Renaming {constants.Config.PREVIOUS_FILE} to {constants.Config.FILE}"
     )
@@ -677,7 +677,7 @@ def migrate_to_dotreact():
         "pynecone.io": "dotreact.dev",
         "pynecone": "dotreact",
         "pc.": "dr.",
-        "pcconfig": "dsconfig",
+        "pcconfig": "drconfig",
     }
     for file_path in file_list:
         with FileInput(file_path, inplace=True) as file:

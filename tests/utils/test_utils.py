@@ -198,7 +198,7 @@ def test_issubclass(cls: type, cls_check: type, expected: bool):
     ],
 )
 def test_create_config(app_name, expected_config_name, mocker):
-    """Test templates.DSCONFIG is formatted with correct app name and config class name.
+    """Test templates.DRCONFIG is formatted with correct app name and config class name.
 
     Args:
         app_name: App name.
@@ -206,7 +206,7 @@ def test_create_config(app_name, expected_config_name, mocker):
         mocker: Mocker object.
     """
     mocker.patch("builtins.open")
-    tmpl_mock = mocker.patch("dotreact.compiler.templates.DSCONFIG")
+    tmpl_mock = mocker.patch("dotreact.compiler.templates.DRCONFIG")
     prerequisites.create_config(app_name)
     tmpl_mock.render.assert_called_with(
         app_name=app_name, config_name=expected_config_name

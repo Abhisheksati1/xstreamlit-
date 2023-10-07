@@ -3,7 +3,7 @@
 It is possible to run Dotreact apps in dev mode under a debugger.
 
 1. Run Dotreact as a module: `python -m dotreact run --env dev`
-2. Set current working directory to the dir containing `dsconfig.py`
+2. Set current working directory to the dir containing `drconfig.py`
 
 ## VSCode
 

@@ -55,7 +55,7 @@ def get_template(name: str) -> Template:
 
 
 # Template for the Dotreact config file.
-DSCONFIG = get_template("app/dsconfig.py.jinja2")
+DRCONFIG = get_template("app/drconfig.py.jinja2")
 
 # Code to render a NextJS Document root.
 DOCUMENT_ROOT = get_template("web/pages/_document.js.jinja2")

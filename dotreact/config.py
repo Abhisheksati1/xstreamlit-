@@ -185,8 +185,8 @@ class Config(Base):
 
     # Params to remove eventually.
     # For rest are for deploy only.
-    # The dsdeploy url.
-    dsdeploy_url: Optional[str] = None
+    # The drdeploy url.
+    drdeploy_url: Optional[str] = None
 
     # The username.
     username: Optional[str] = None
@@ -279,17 +279,17 @@ def get_config(reload: bool = False) -> Config:
     """Get the app config.
 
     Args:
-        reload: Re-import the dsconfig module from disk
+        reload: Re-import the drconfig module from disk
 
     Returns:
         The app config.
     """
     sys.path.insert(0, os.getcwd())
     try:
-        dsconfig = __import__(constants.Config.MODULE)
+        drconfig = __import__(constants.Config.MODULE)
         if reload:
-            importlib.reload(dsconfig)
-        return dsconfig.config
+            importlib.reload(drconfig)
+        return drconfig.config
 
     except ImportError:
         return Config(app_name="")  # type: ignore

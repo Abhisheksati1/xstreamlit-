@@ -8,14 +8,7 @@
 
 <hr>
 
-**✨ 使用 Python 建立高效且可自訂的網頁應用程式，幾秒鐘內即可部署。✨**  
 
-[![PyPI version](https://badge.fury.io/py/dotreact.svg)](https://badge.fury.io/py/dotreact)
-![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
-![versions](https://img.shields.io/pypi/pyversions/dotreact.svg)
-[![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://dotagent.dev/docs/getting-started/introduction)
-[![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
-</div>
 
 ---
 [English](https://github.com/dot-agent/dotreact/blob/main/README.md) | [简体中文](https://github.com/dot-agent/dotreact/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/dot-agent/dotreact/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/dot-agent/dotreact/blob/main/docs/tr/README.md)

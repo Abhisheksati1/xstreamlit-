@@ -14,7 +14,7 @@ class Config(SimpleNamespace):
     """Config constants."""
 
     # The name of the dotreact config module.
-    MODULE = "dsconfig"
+    MODULE = "drconfig"
     # The python config file.
     FILE = f"{MODULE}{Ext.PY}"
     # The previous config file.
