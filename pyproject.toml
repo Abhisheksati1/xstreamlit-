@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dotreact"
-version = "0.1.01"
+version = "0.1.02"
 description = "Web apps in pure Python."
 license = "Apache-2.0"
 authors = [

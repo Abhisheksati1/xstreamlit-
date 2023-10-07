@@ -160,7 +160,7 @@ class Config(Base):
     redis_url: Optional[str] = None
 
     # Telemetry opt-in.
-    telemetry_enabled: bool = True
+    telemetry_enabled: bool = False
 
     # The bun path
     bun_path: str = constants.Bun.DEFAULT_PATH
