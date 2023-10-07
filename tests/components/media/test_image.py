@@ -6,9 +6,9 @@ try:
     import PIL
     from PIL.Image import Image as Img
 
-    import dotserve as ds
-    from dotserve.components.media.image import Image, serialize_image  # type: ignore
-    from dotserve.utils.serializers import serialize
+    import dotreact as dr
+    from dotreact.components.media.image import Image, serialize_image  # type: ignore
+    from dotreact.utils.serializers import serialize
 
     @pytest.fixture
     def pil_image() -> Img:
@@ -33,7 +33,7 @@ try:
 
     def test_set_src_str():
         """Test that setting the src works."""
-        image = ds.image(src="pic2.jpeg")
+        image = dr.image(src="pic2.jpeg")
         assert str(image.src) == "{`pic2.jpeg`}"  # type: ignore
 
     def test_set_src_img(pil_image: Img):

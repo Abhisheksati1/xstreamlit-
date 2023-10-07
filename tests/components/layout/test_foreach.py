@@ -2,9 +2,9 @@ from typing import Dict, List, Set, Tuple
 
 import pytest
 
-from dotserve.components import box, foreach, text
-from dotserve.components.layout import Foreach
-from dotserve.state import State
+from dotreact.components import box, foreach, text
+from dotreact.components.layout import Foreach
+from dotreact.state import State
 
 
 class ForEachState(State):

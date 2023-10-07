@@ -1,20 +1,20 @@
-# Dotserve Docker Container
+# Dotreact Docker Container
 
-This example describes how to create and use a container image for Dotserve with your own code.
+This example describes how to create and use a container image for Dotreact with your own code.
 
 ## Update Requirements
 
-The `requirements.txt` includes the dotserve package which is needed to install
-Dotserve framework. If you use additional packages in your project you have to add
+The `requirements.txt` includes the dotreact package which is needed to install
+Dotreact framework. If you use additional packages in your project you have to add
 this in the `requirements.txt` first. Copy the `Dockerfile`, `.dockerignore` and
 the `requirements.txt` file in your project folder.
 
-## Build Dotserve Container Image
+## Build Dotreact Container Image
 
 To build your container image run the following command:
 
 ```bash
-docker build -t dotserve-app:latest . --build-arg API_URL=http://app.example.com:8000
+docker build -t dotreact-app:latest . --build-arg API_URL=http://app.example.com:8000
 ```
 
 Ensure that `API_URL` is set to the publicly accessible hostname or IP where the app
@@ -22,10 +22,10 @@ will be hosted.
 
 ## Start Container Service
 
-Finally, you can start your Dotserve container service as follows:
+Finally, you can start your Dotreact container service as follows:
 
 ```bash
-docker run -p 3000:3000 -p 8000:8000 --name app dotserve-app:latest
+docker run -p 3000:3000 -p 8000:8000 --name app dotreact-app:latest
 ```
 
 It may take a few seconds for the service to become available.
@@ -43,7 +43,7 @@ build leverages the same `Dockerfile` described above.
 If the app uses additional backend API routes, those should be added to the
 `@backend_routes` path matcher to ensure they are forwarded to the backend.
 
-## Build Dotserve Production Service
+## Build Dotreact Production Service
 
 During build, set `DOMAIN` environment variable to the domain where the app will
 be hosted!  (Do not include http or https, it will always use https)
@@ -56,7 +56,7 @@ This will build both the `app` service from the existing `Dockerfile` and the `w
 service via `Caddy.Dockerfile` that copies the `Caddyfile` and static frontend export
 from the `app` service into the container.
 
-## Run Dotserve Production Service
+## Run Dotreact Production Service
 
 ```bash
 DOMAIN=example.com docker compose up

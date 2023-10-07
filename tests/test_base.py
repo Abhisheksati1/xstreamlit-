@@ -1,6 +1,6 @@
 import pytest
 
-from dotserve.base import Base
+from dotreact.base import Base
 
 
 @pytest.fixture

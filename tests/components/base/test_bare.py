@@ -1,6 +1,6 @@
 import pytest
 
-from dotserve.components.base.bare import Bare
+from dotreact.components.base.bare import Bare
 
 
 @pytest.mark.parametrize(

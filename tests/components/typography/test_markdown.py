@@ -1,7 +1,7 @@
 import pytest
 
-import dotserve as ds
-from dotserve.components.typography.markdown import Markdown
+import dotreact as dr
+from dotreact.components.typography.markdown import Markdown
 
 
 @pytest.mark.parametrize(
@@ -36,10 +36,10 @@ def test_get_component(tag, expected):
 def test_set_component_map():
     """Test setting the component map."""
     component_map = {
-        "h1": lambda value: ds.box(
-            ds.heading(value, as_="h1", size="2xl"), padding="1em"
+        "h1": lambda value: dr.box(
+            dr.heading(value, as_="h1", size="2xl"), padding="1em"
         ),
-        "p": lambda value: ds.box(ds.text(value), padding="1em"),
+        "p": lambda value: dr.box(dr.text(value), padding="1em"),
     }
     md = Markdown.create("# Hello", component_map=component_map)
 

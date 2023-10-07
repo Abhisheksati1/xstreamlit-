@@ -1,6 +1,6 @@
 import pytest
 
-import dotserve as ds
+import dotreact as dr
 
 
 @pytest.fixture
@@ -12,9 +12,9 @@ def upload_component():
     """
 
     def upload_component():
-        return ds.upload(
-            ds.button("select file"),
-            ds.text("Drag and drop files here or click to select files"),
+        return dr.upload(
+            dr.button("select file"),
+            dr.text("Drag and drop files here or click to select files"),
             border="1px dotted black",
         )
 
@@ -30,9 +30,9 @@ def upload_component_with_props():
     """
 
     def upload_component_with_props():
-        return ds.upload(
-            ds.button("select file"),
-            ds.text("Drag and drop files here or click to select files"),
+        return dr.upload(
+            dr.button("select file"),
+            dr.text("Drag and drop files here or click to select files"),
             border="1px dotted black",
             no_drag=True,
             max_files=2,

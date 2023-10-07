@@ -2,13 +2,13 @@
 from pathlib import Path
 from typing import ClassVar, List
 
-import dotserve as ds
+import dotreact as dr
 
 
-class UploadState(ds.State):
+class UploadState(dr.State):
     """The base state for uploading a file."""
 
-    async def handle_upload1(self, files: List[ds.UploadFile]):
+    async def handle_upload1(self, files: List[dr.UploadFile]):
         """Handle the upload of a file.
 
         Args:
@@ -17,7 +17,7 @@ class UploadState(ds.State):
         pass
 
 
-class BaseState(ds.State):
+class BaseState(dr.State):
     """The test base state."""
 
     pass
@@ -28,7 +28,7 @@ class SubUploadState(BaseState):
 
     img: str
 
-    async def handle_upload(self, files: List[ds.UploadFile]):
+    async def handle_upload(self, files: List[dr.UploadFile]):
         """Handle the upload of a file.
 
         Args:
@@ -37,7 +37,7 @@ class SubUploadState(BaseState):
         pass
 
 
-class FileUploadState(ds.State):
+class FileUploadState(dr.State):
     """The base state for uploading a file."""
 
     img_list: List[str]
@@ -60,7 +60,7 @@ class FileUploadState(ds.State):
             # Update the img var.
             self.img_list.append(file.filename)
 
-    async def multi_handle_upload(self, files: List[ds.UploadFile]):
+    async def multi_handle_upload(self, files: List[dr.UploadFile]):
         """Handle the upload of a file.
 
         Args:
@@ -79,7 +79,7 @@ class FileUploadState(ds.State):
             self.img_list.append(file.filename)
 
 
-class FileStateBase1(ds.State):
+class FileStateBase1(dr.State):
     """The base state for a child FileUploadState."""
 
     pass
@@ -108,7 +108,7 @@ class ChildFileUploadState(FileStateBase1):
             # Update the img var.
             self.img_list.append(file.filename)
 
-    async def multi_handle_upload(self, files: List[ds.UploadFile]):
+    async def multi_handle_upload(self, files: List[dr.UploadFile]):
         """Handle the upload of a file.
 
         Args:
@@ -156,7 +156,7 @@ class GrandChildFileUploadState(FileStateBase2):
             # Update the img var.
             self.img_list.append(file.filename)
 
-    async def multi_handle_upload(self, files: List[ds.UploadFile]):
+    async def multi_handle_upload(self, files: List[dr.UploadFile]):
         """Handle the upload of a file.
 
         Args:

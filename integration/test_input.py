@@ -6,34 +6,34 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from dotserve.testing import AppHarness
+from dotreact.testing import AppHarness
 
 
 def FullyControlledInput():
     """App using a fully controlled input with implicit debounce wrapper."""
-    import dotserve as ds
+    import dotreact as dr
 
-    class State(ds.State):
+    class State(dr.State):
         text: str = "initial"
 
-        @ds.var
+        @dr.var
         def token(self) -> str:
             return self.get_token()
 
-    app = ds.App(state=State)
+    app = dr.App(state=State)
 
     @app.add_page
     def index():
-        return ds.fragment(
-            ds.input(value=State.token, is_read_only=True, id="token"),
-            ds.input(
+        return dr.fragment(
+            dr.input(value=State.token, is_read_only=True, id="token"),
+            dr.input(
                 id="debounce_input_input",
                 on_change=State.set_text,  # type: ignore
                 value=State.text,
             ),
-            ds.input(value=State.text, id="value_input"),
-            ds.input(on_change=State.set_text, id="on_change_input"),  # type: ignore
-            ds.button("CLEAR", on_click=ds.set_value("on_change_input", "")),
+            dr.input(value=State.text, id="value_input"),
+            dr.input(on_change=State.set_text, id="on_change_input"),  # type: ignore
+            dr.button("CLEAR", on_click=dr.set_value("on_change_input", "")),
         )
 
     app.compile()

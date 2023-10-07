@@ -7,54 +7,54 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotserve.testing import AppHarness
+from dotreact.testing import AppHarness
 
 
 def UploadFile():
     """App for testing dynamic routes."""
-    import dotserve as ds
+    import dotreact as dr
 
-    class UploadState(ds.State):
+    class UploadState(dr.State):
         _file_data: dict[str, str] = {}
 
-        async def handle_upload(self, files: list[ds.UploadFile]):
+        async def handle_upload(self, files: list[dr.UploadFile]):
             for file in files:
                 upload_data = await file.read()
                 self._file_data[file.filename or ""] = upload_data.decode("utf-8")
 
-        @ds.var
+        @dr.var
         def token(self) -> str:
             return self.get_token()
 
     def index():
-        return ds.vstack(
-            ds.input(value=UploadState.token, is_read_only=True, id="token"),
-            ds.upload(
-                ds.vstack(
-                    ds.button("Select File"),
-                    ds.text("Drag and drop files here or click to select files"),
+        return dr.vstack(
+            dr.input(value=UploadState.token, is_read_only=True, id="token"),
+            dr.upload(
+                dr.vstack(
+                    dr.button("Select File"),
+                    dr.text("Drag and drop files here or click to select files"),
                 ),
             ),
-            ds.button(
+            dr.button(
                 "Upload",
-                on_click=lambda: UploadState.handle_upload(ds.upload_files()),  # type: ignore
+                on_click=lambda: UploadState.handle_upload(dr.upload_files()),  # type: ignore
                 id="upload_button",
             ),
-            ds.box(
-                ds.foreach(
-                    ds.selected_files,
-                    lambda f: ds.text(f),
+            dr.box(
+                dr.foreach(
+                    dr.selected_files,
+                    lambda f: dr.text(f),
                 ),
                 id="selected_files",
             ),
-            ds.button(
+            dr.button(
                 "Clear",
-                on_click=ds.clear_selected_files,
+                on_click=dr.clear_selected_files,
                 id="clear_button",
             ),
         )
 
-    app = ds.App(state=UploadState)
+    app = dr.App(state=UploadState)
     app.add_page(index)
     app.compile()
 
@@ -160,7 +160,7 @@ async def test_upload_file_multiple(tmp_path, upload_file: AppHarness, driver):
     exp_files = {
         "test1.txt": "test file contents!",
         "test2.txt": "this is test file number 2!",
-        "dotserve.txt": "dotserve is awesome!",
+        "dotreact.txt": "dotreact is awesome!",
     }
     for exp_name, exp_contents in exp_files.items():
         target_file = tmp_path / exp_name
@@ -209,7 +209,7 @@ def test_clear_files(tmp_path, upload_file: AppHarness, driver):
     exp_files = {
         "test1.txt": "test file contents!",
         "test2.txt": "this is test file number 2!",
-        "dotserve.txt": "dotserve is awesome!",
+        "dotreact.txt": "dotreact is awesome!",
     }
     for exp_name, exp_contents in exp_files.items():
         target_file = tmp_path / exp_name

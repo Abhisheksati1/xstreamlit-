@@ -2,29 +2,29 @@
 
 import pytest
 
-import dotserve as ds
-from dotserve.vars import BaseVar
+import dotreact as dr
+from dotreact.vars import BaseVar
 
 
 def test_render_no_child():
     """DebounceInput raises RuntimeError if no child is provided."""
     with pytest.raises(RuntimeError):
-        _ = ds.debounce_input().render()
+        _ = dr.debounce_input().render()
 
 
 def test_render_no_child_recursive():
     """DebounceInput raises RuntimeError if no child is provided."""
     with pytest.raises(RuntimeError):
-        _ = ds.debounce_input(ds.debounce_input(ds.debounce_input())).render()
+        _ = dr.debounce_input(dr.debounce_input(dr.debounce_input())).render()
 
 
 def test_render_many_child():
     """DebounceInput raises RuntimeError if more than 1 child is provided."""
     with pytest.raises(RuntimeError):
-        _ = ds.debounce_input("foo", "bar").render()
+        _ = dr.debounce_input("foo", "bar").render()
 
 
-class S(ds.State):
+class S(dr.State):
     """Example state for debounce tests."""
 
     value: str = ""
@@ -41,8 +41,8 @@ class S(ds.State):
 
 def test_render_child_props():
     """DebounceInput should render props from child component."""
-    tag = ds.debounce_input(
-        ds.input(
+    tag = dr.debounce_input(
+        dr.input(
             foo="bar",
             baz="quuc",
             value="real",
@@ -64,11 +64,11 @@ def test_render_child_props_recursive():
     If the child component is a DebounceInput, then props will be copied from it
     recursively.
     """
-    tag = ds.debounce_input(
-        ds.debounce_input(
-            ds.debounce_input(
-                ds.debounce_input(
-                    ds.input(
+    tag = dr.debounce_input(
+        dr.debounce_input(
+            dr.debounce_input(
+                dr.debounce_input(
+                    dr.input(
                         foo="bar",
                         baz="quuc",
                         value="real",
@@ -98,7 +98,7 @@ def test_render_child_props_recursive():
 
 def test_full_control_implicit_debounce():
     """DebounceInput is used when value and on_change are used together."""
-    tag = ds.input(
+    tag = dr.input(
         value=S.value,
         on_change=S.on_change,
     )._render()
@@ -110,7 +110,7 @@ def test_full_control_implicit_debounce():
 
 def test_full_control_implicit_debounce_text_area():
     """DebounceInput is used when value and on_change are used together."""
-    tag = ds.text_area(
+    tag = dr.text_area(
         value=S.value,
         on_change=S.on_change,
     )._render()

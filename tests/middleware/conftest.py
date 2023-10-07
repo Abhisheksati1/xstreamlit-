@@ -1,6 +1,6 @@
 import pytest
 
-from dotserve.event import Event
+from dotreact.event import Event
 
 
 def create_event(name):

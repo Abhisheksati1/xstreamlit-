@@ -5,7 +5,7 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotserve.testing import AppHarness, WebDriver
+from dotreact.testing import AppHarness, WebDriver
 
 MANY_EVENTS = 50
 
@@ -15,16 +15,16 @@ def EventChain():
     import asyncio
     import time
 
-    import dotserve as ds
+    import dotreact as dr
 
     # repeated here since the outer global isn't exported into the App module
     MANY_EVENTS = 50
 
-    class State(ds.State):
+    class State(dr.State):
         event_order: list[str] = []
         interim_value: str = ""
 
-        @ds.var
+        @dr.var
         def token(self) -> str:
             return self.get_token()
 
@@ -45,7 +45,7 @@ def EventChain():
         def event_nested_2(self):
             self.event_order.append("event_nested_2")
             yield State.event_nested_3
-            yield ds.console_log("event_nested_2")
+            yield dr.console_log("event_nested_2")
             yield State.event_arg("nested_2")  # type: ignore
 
         def event_nested_3(self):
@@ -71,7 +71,7 @@ def EventChain():
             self.event_order.append("click_return_events")
             return [
                 State.event_arg(7),  # type: ignore
-                ds.console_log("click_return_events"),
+                dr.console_log("click_return_events"),
                 State.event_arg(8),  # type: ignore
                 State.event_arg(9),  # type: ignore
             ]
@@ -80,7 +80,7 @@ def EventChain():
             self.event_order.append("click_yield_chain:0")
             yield State.event_arg(10)  # type: ignore
             self.event_order.append("click_yield_chain:1")
-            yield ds.console_log("click_yield_chain")
+            yield dr.console_log("click_yield_chain")
             yield State.event_arg(11)  # type: ignore
             self.event_order.append("click_yield_chain:2")
             yield State.event_arg(12)  # type: ignore
@@ -90,7 +90,7 @@ def EventChain():
             self.event_order.append("click_yield_many_events")
             for ix in range(MANY_EVENTS):
                 yield State.event_arg(ix)  # type: ignore
-                yield ds.console_log(f"many_events_{ix}")
+                yield dr.console_log(f"many_events_{ix}")
             self.event_order.append("click_yield_many_events_done")
 
         def click_yield_nested(self):
@@ -100,11 +100,11 @@ def EventChain():
 
         def redirect_return_chain(self):
             self.event_order.append("redirect_return_chain")
-            yield ds.redirect("/on-load-return-chain")
+            yield dr.redirect("/on-load-return-chain")
 
         def redirect_yield_chain(self):
             self.event_order.append("redirect_yield_chain")
-            yield ds.redirect("/on-load-yield-chain")
+            yield dr.redirect("/on-load-yield-chain")
 
         def click_return_int_type(self):
             self.event_order.append("click_return_int_type")
@@ -126,74 +126,74 @@ def EventChain():
             time.sleep(0.5)
             self.interim_value = "final"
 
-    app = ds.App(state=State)
+    app = dr.App(state=State)
 
     @app.add_page
     def index():
-        return ds.fragment(
-            ds.input(value=State.token, readonly=True, id="token"),
-            ds.input(value=State.interim_value, readonly=True, id="interim_value"),
-            ds.button(
+        return dr.fragment(
+            dr.input(value=State.token, readonly=True, id="token"),
+            dr.input(value=State.interim_value, readonly=True, id="interim_value"),
+            dr.button(
                 "Return Event",
                 id="return_event",
                 on_click=State.click_return_event,
             ),
-            ds.button(
+            dr.button(
                 "Return Events",
                 id="return_events",
                 on_click=State.click_return_events,
             ),
-            ds.button(
+            dr.button(
                 "Yield Chain",
                 id="yield_chain",
                 on_click=State.click_yield_chain,
             ),
-            ds.button(
+            dr.button(
                 "Yield Many events",
                 id="yield_many_events",
                 on_click=State.click_yield_many_events,
             ),
-            ds.button(
+            dr.button(
                 "Yield Nested",
                 id="yield_nested",
                 on_click=State.click_yield_nested,
             ),
-            ds.button(
+            dr.button(
                 "Redirect Yield Chain",
                 id="redirect_yield_chain",
                 on_click=State.redirect_yield_chain,
             ),
-            ds.button(
+            dr.button(
                 "Redirect Return Chain",
                 id="redirect_return_chain",
                 on_click=State.redirect_return_chain,
             ),
-            ds.button(
+            dr.button(
                 "Click Int Type",
                 id="click_int_type",
                 on_click=lambda: State.event_arg_repr_type(1),  # type: ignore
             ),
-            ds.button(
+            dr.button(
                 "Click Dict Type",
                 id="click_dict_type",
                 on_click=lambda: State.event_arg_repr_type({"a": 1}),  # type: ignore
             ),
-            ds.button(
+            dr.button(
                 "Return Chain Int Type",
                 id="return_int_type",
                 on_click=State.click_return_int_type,
             ),
-            ds.button(
+            dr.button(
                 "Return Chain Dict Type",
                 id="return_dict_type",
                 on_click=State.click_return_dict_type,
             ),
-            ds.button(
+            dr.button(
                 "Click Yield Interim Value (Async)",
                 id="click_yield_interim_value_async",
                 on_click=State.click_yield_interim_value_async,
             ),
-            ds.button(
+            dr.button(
                 "Click Yield Interim Value",
                 id="click_yield_interim_value",
                 on_click=State.click_yield_interim_value,
@@ -201,31 +201,31 @@ def EventChain():
         )
 
     def on_load_return_chain():
-        return ds.fragment(
-            ds.text("return"),
-            ds.input(value=State.token, readonly=True, id="token"),
+        return dr.fragment(
+            dr.text("return"),
+            dr.input(value=State.token, readonly=True, id="token"),
         )
 
     def on_load_yield_chain():
-        return ds.fragment(
-            ds.text("yield"),
-            ds.input(value=State.token, readonly=True, id="token"),
+        return dr.fragment(
+            dr.text("yield"),
+            dr.input(value=State.token, readonly=True, id="token"),
         )
 
     def on_mount_return_chain():
-        return ds.fragment(
-            ds.text(
+        return dr.fragment(
+            dr.text(
                 "return",
                 on_mount=State.on_load_return_chain,
                 on_unmount=lambda: State.event_arg("unmount"),  # type: ignore
             ),
-            ds.input(value=State.token, readonly=True, id="token"),
-            ds.button("Unmount", on_click=ds.redirect("/"), id="unmount"),
+            dr.input(value=State.token, readonly=True, id="token"),
+            dr.button("Unmount", on_click=dr.redirect("/"), id="unmount"),
         )
 
     def on_mount_yield_chain():
-        return ds.fragment(
-            ds.text(
+        return dr.fragment(
+            dr.text(
                 "yield",
                 on_mount=[
                     State.on_load_yield_chain,
@@ -233,8 +233,8 @@ def EventChain():
                 ],
                 on_unmount=State.event_no_args,
             ),
-            ds.input(value=State.token, readonly=True, id="token"),
-            ds.button("Unmount", on_click=ds.redirect("/"), id="unmount"),
+            dr.input(value=State.token, readonly=True, id="token"),
+            dr.button("Unmount", on_click=dr.redirect("/"), id="unmount"),
         )
 
     app.add_page(on_load_return_chain, on_load=State.on_load_return_chain)  # type: ignore

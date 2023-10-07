@@ -1,6 +1,6 @@
 # Entry conditions:
 # - `setup/checkout` has already happened
-# - working dir is the root directory of your project (e.g. `dotserve/`).
+# - working dir is the root directory of your project (e.g. `dotreact/`).
 # - You have a `poetry.lock` file in the root directory of your project
 # - You have a `pyproject.toml` file in the root directory of your project
 #
@@ -9,7 +9,7 @@
 # - Poetry of version `poetry-version` is ready ot be invoked as `poetry`.
 # - If `run-poetry-install` is true, deps as defined in `pyproject.toml` will have been installed into the venv at `create-venv-at-path`.
 
-name: 'Setup Dotserve build environment'
+name: 'Setup Dotreact build environment'
 description: 'Sets up Python, install poetry (cached), install project deps (cached)'
 inputs:
   python-version:

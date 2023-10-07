@@ -1,7 +1,7 @@
 ### All Submissions:
 
-- [ ] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/dot-agent/dotserve/blob/main/CONTRIBUTING.md) file?
-- [ ] Have you checked to ensure there aren't any other open [Pull Requests](https://github.com/dot-agent/dotserve/pulls ) for the desired changed?
+- [ ] Have you followed the guidelines stated in [CONTRIBUTING.md](https://github.com/dot-agent/dotreact/blob/main/CONTRIBUTING.md) file?
+- [ ] Have you checked to ensure there aren't any other open [Pull Requests](https://github.com/dot-agent/dotreact/pulls ) for the desired changed?
 
 <!-- You can erase any parts of this template not applicable to your Pull Request. -->
 

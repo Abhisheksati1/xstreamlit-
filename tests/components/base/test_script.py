@@ -1,8 +1,8 @@
 """Test that Script from next/script renders correctly."""
 import pytest
 
-from dotserve.components.base.script import Script
-from dotserve.state import State
+from dotreact.components.base.script import Script
+from dotreact.state import State
 
 
 def test_script_inline():

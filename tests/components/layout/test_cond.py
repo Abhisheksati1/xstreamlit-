@@ -3,24 +3,24 @@ from typing import Any
 
 import pytest
 
-import dotserve as ds
-from dotserve.components.layout.box import Box
-from dotserve.components.layout.cond import Cond, cond
-from dotserve.components.layout.fragment import Fragment
-from dotserve.components.layout.responsive import (
+import dotreact as dr
+from dotreact.components.layout.box import Box
+from dotreact.components.layout.cond import Cond, cond
+from dotreact.components.layout.fragment import Fragment
+from dotreact.components.layout.responsive import (
     desktop_only,
     mobile_and_tablet,
     mobile_only,
     tablet_and_desktop,
     tablet_only,
 )
-from dotserve.components.typography.text import Text
-from dotserve.vars import Var
+from dotreact.components.typography.text import Text
+from dotreact.vars import Var
 
 
 @pytest.fixture
 def cond_state(request):
-    class CondState(ds.State):
+    class CondState(dr.State):
         value: request.param["value_type"] = request.param["value"]  # noqa
 
     return CondState
@@ -35,8 +35,8 @@ def cond_state(request):
     ],
     indirect=True,
 )
-def test_validate_cond(cond_state: ds.Var):
-    """Test if cond can be a ds.Var with any values.
+def test_validate_cond(cond_state: dr.Var):
+    """Test if cond can be a dr.Var with any values.
 
     Args:
         cond_state: A fixture.

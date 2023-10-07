@@ -6,7 +6,7 @@ from typing import Generator, Iterator
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from dotserve.testing import AppHarness
+from dotreact.testing import AppHarness
 
 
 @contextmanager

@@ -2,8 +2,8 @@ import numpy as np
 import plotly.graph_objects as go
 import pytest
 
-from dotserve.components.graphing.plotly import serialize_figure  # type: ignore
-from dotserve.utils.serializers import serialize
+from dotreact.components.graphing.plotly import serialize_figure  # type: ignore
+from dotreact.utils.serializers import serialize
 
 
 @pytest.fixture

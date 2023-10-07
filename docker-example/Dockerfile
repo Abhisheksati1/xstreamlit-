@@ -13,14 +13,14 @@ ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python3 -m venv $VIRTUAL_ENV
 
-# Install app requirements and dotserve inside virtualenv
+# Install app requirements and dotreact inside virtualenv
 RUN pip install -r requirements.txt
 
 # Deploy templates and prepare app
-RUN dotserve init
+RUN dotreact init
 
 # Export static copy of frontend to /app/.web/_static
-RUN dotserve export --frontend-only --no-zip
+RUN dotreact export --frontend-only --no-zip
 
 # Copy static files out of /app to save space in backend image
 RUN mv .web/_static /tmp/_static
@@ -31,9 +31,9 @@ RUN mv /tmp/_static .web/_static
 FROM python:3.11-slim
 ARG API_URL
 WORKDIR /app
-RUN adduser --disabled-password --home /app dotserve
-COPY --chown=dotserve --from=init /app /app
-USER dotserve
+RUN adduser --disabled-password --home /app dotreact
+COPY --chown=dotreact --from=init /app /app
+USER dotreact
 ENV PATH="/app/.venv/bin:$PATH" API_URL=$API_URL
 
-CMD dotserve db migrate && dotserve run --env prod --backend-only
+CMD dotreact db migrate && dotreact run --env prod --backend-only

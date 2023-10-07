@@ -1,7 +1,7 @@
 import pytest
 
-from dotserve import style
-from dotserve.vars import Var
+from dotreact import style
+from dotreact.vars import Var
 
 test_style = [
     ({"a": 1}, {"a": 1}),

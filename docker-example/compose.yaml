@@ -2,7 +2,7 @@
 # to publicly accessible domain where app will be hosted
 services:
   app:
-    image: local/dotserve-app
+    image: local/dotreact-app
     build:
       context: .
       args:

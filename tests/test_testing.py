@@ -1,6 +1,6 @@
 """Unit tests for the included testing tools."""
-from dotserve.constants import IS_WINDOWS
-from dotserve.testing import AppHarness
+from dotreact.constants import IS_WINDOWS
+from dotreact.testing import AppHarness
 
 
 def test_app_harness(tmp_path):
@@ -14,10 +14,10 @@ def test_app_harness(tmp_path):
         return
 
     def BasicApp():
-        import dotserve as ds
+        import dotreact as dr
 
-        app = ds.App()
-        app.add_page(lambda: ds.text("Basic App"), route="/", title="index")
+        app = dr.App()
+        app.add_page(lambda: dr.text("Basic App"), route="/", title="index")
         app.compile()
 
     with AppHarness.create(

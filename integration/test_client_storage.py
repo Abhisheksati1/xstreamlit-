@@ -8,96 +8,96 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from dotserve.testing import AppHarness
+from dotreact.testing import AppHarness
 
 from . import utils
 
 
 def ClientSide():
     """App for testing client-side state."""
-    import dotserve as ds
+    import dotreact as dr
 
-    class ClientSideState(ds.State):
+    class ClientSideState(dr.State):
         state_var: str = ""
         input_value: str = ""
 
-        @ds.var
+        @dr.var
         def token(self) -> str:
             return self.get_token()
 
     class ClientSideSubState(ClientSideState):
         # cookies with default settings
-        c1: str = ds.Cookie()
-        c2: ds.Cookie = "c2 default"  # type: ignore
+        c1: str = dr.Cookie()
+        c2: dr.Cookie = "c2 default"  # type: ignore
 
         # cookies with custom settings
-        c3: str = ds.Cookie(max_age=2)  # expires after 2 second
-        c4: ds.Cookie = ds.Cookie(same_site="strict")
-        c5: str = ds.Cookie(path="/foo/")  # only accessible on `/foo/`
-        c6: str = ds.Cookie(name="c6")
-        c7: str = ds.Cookie("c7 default")
+        c3: str = dr.Cookie(max_age=2)  # expires after 2 second
+        c4: dr.Cookie = dr.Cookie(same_site="strict")
+        c5: str = dr.Cookie(path="/foo/")  # only accessible on `/foo/`
+        c6: str = dr.Cookie(name="c6")
+        c7: str = dr.Cookie("c7 default")
 
         # local storage with default settings
-        l1: str = ds.LocalStorage()
-        l2: ds.LocalStorage = "l2 default"  # type: ignore
+        l1: str = dr.LocalStorage()
+        l2: dr.LocalStorage = "l2 default"  # type: ignore
 
         # local storage with custom settings
-        l3: str = ds.LocalStorage(name="l3")
-        l4: str = ds.LocalStorage("l4 default")
+        l3: str = dr.LocalStorage(name="l3")
+        l4: str = dr.LocalStorage("l4 default")
 
         def set_var(self):
             setattr(self, self.state_var, self.input_value)
             self.state_var = self.input_value = ""
 
     class ClientSideSubSubState(ClientSideSubState):
-        c1s: str = ds.Cookie()
-        l1s: str = ds.LocalStorage()
+        c1s: str = dr.Cookie()
+        l1s: str = dr.LocalStorage()
 
         def set_var(self):
             setattr(self, self.state_var, self.input_value)
             self.state_var = self.input_value = ""
 
     def index():
-        return ds.fragment(
-            ds.input(value=ClientSideState.token, is_read_only=True, id="token"),
-            ds.input(
+        return dr.fragment(
+            dr.input(value=ClientSideState.token, is_read_only=True, id="token"),
+            dr.input(
                 placeholder="state var",
                 value=ClientSideState.state_var,
                 on_change=ClientSideState.set_state_var,  # type: ignore
                 id="state_var",
             ),
-            ds.input(
+            dr.input(
                 placeholder="input value",
                 value=ClientSideState.input_value,
                 on_change=ClientSideState.set_input_value,  # type: ignore
                 id="input_value",
             ),
-            ds.button(
+            dr.button(
                 "Set ClientSideSubState",
                 on_click=ClientSideSubState.set_var,
                 id="set_sub_state",
             ),
-            ds.button(
+            dr.button(
                 "Set ClientSideSubSubState",
                 on_click=ClientSideSubSubState.set_var,
                 id="set_sub_sub_state",
             ),
-            ds.box(ClientSideSubState.c1, id="c1"),
-            ds.box(ClientSideSubState.c2, id="c2"),
-            ds.box(ClientSideSubState.c3, id="c3"),
-            ds.box(ClientSideSubState.c4, id="c4"),
-            ds.box(ClientSideSubState.c5, id="c5"),
-            ds.box(ClientSideSubState.c6, id="c6"),
-            ds.box(ClientSideSubState.c7, id="c7"),
-            ds.box(ClientSideSubState.l1, id="l1"),
-            ds.box(ClientSideSubState.l2, id="l2"),
-            ds.box(ClientSideSubState.l3, id="l3"),
-            ds.box(ClientSideSubState.l4, id="l4"),
-            ds.box(ClientSideSubSubState.c1s, id="c1s"),
-            ds.box(ClientSideSubSubState.l1s, id="l1s"),
+            dr.box(ClientSideSubState.c1, id="c1"),
+            dr.box(ClientSideSubState.c2, id="c2"),
+            dr.box(ClientSideSubState.c3, id="c3"),
+            dr.box(ClientSideSubState.c4, id="c4"),
+            dr.box(ClientSideSubState.c5, id="c5"),
+            dr.box(ClientSideSubState.c6, id="c6"),
+            dr.box(ClientSideSubState.c7, id="c7"),
+            dr.box(ClientSideSubState.l1, id="l1"),
+            dr.box(ClientSideSubState.l2, id="l2"),
+            dr.box(ClientSideSubState.l3, id="l3"),
+            dr.box(ClientSideSubState.l4, id="l4"),
+            dr.box(ClientSideSubSubState.c1s, id="c1s"),
+            dr.box(ClientSideSubSubState.l1s, id="l1s"),
         )
 
-    app = ds.App(state=ClientSideState)
+    app = dr.App(state=ClientSideState)
     app.add_page(index)
     app.add_page(index, route="/foo")
     app.compile()

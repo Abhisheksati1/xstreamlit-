@@ -1,43 +1,43 @@
 ```diff
-+ 正在尋找 Pynecone？ 你在正確的 repo 中。 Pynecone 已更名為 Dotserve。 +
++ 正在尋找 Pynecone？ 你在正確的 repo 中。 Pynecone 已更名為 Dotreact。 +
 ```
 
 <div align="center">
-<img src="../../images/dotserve_dark.svg#gh-light-mode-only" alt="Dotserve Logo" width="300px">
-<img src="../../images/dotserve_light.svg#gh-dark-mode-only" alt="Dotserve Logo" width="300px">
+<img src="../../images/dotreact_dark.svg#gh-light-mode-only" alt="Dotreact Logo" width="300px">
+<img src="../../images/dotreact_light.svg#gh-dark-mode-only" alt="Dotreact Logo" width="300px">
 
 <hr>
 
 **✨ 使用 Python 建立高效且可自訂的網頁應用程式，幾秒鐘內即可部署。✨**  
 
-[![PyPI version](https://badge.fury.io/py/dotserve.svg)](https://badge.fury.io/py/dotserve)
+[![PyPI version](https://badge.fury.io/py/dotreact.svg)](https://badge.fury.io/py/dotreact)
 ![tests](https://github.com/pynecone-io/pynecone/actions/workflows/integration.yml/badge.svg)
-![versions](https://img.shields.io/pypi/pyversions/dotserve.svg)
+![versions](https://img.shields.io/pypi/pyversions/dotreact.svg)
 [![Documentaiton](https://img.shields.io/badge/Documentation%20-Introduction%20-%20%23007ec6)](https://dotagent.dev/docs/getting-started/introduction)
 [![Discord](https://img.shields.io/discord/1029853095527727165?color=%237289da&label=Discord)](https://discord.gg/T5WSbC2YtQ)
 </div>
 
 ---
-[English](https://github.com/dot-agent/dotserve/blob/main/README.md) | [简体中文](https://github.com/dot-agent/dotserve/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/dot-agent/dotserve/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/dot-agent/dotserve/blob/main/docs/tr/README.md)
+[English](https://github.com/dot-agent/dotreact/blob/main/README.md) | [简体中文](https://github.com/dot-agent/dotreact/blob/main/docs/zh/zh_cn/README.md) | [繁體中文](https://github.com/dot-agent/dotreact/blob/main/docs/zh/zh_tw/README.md) | [Türkçe](https://github.com/dot-agent/dotreact/blob/main/docs/tr/README.md)
 ---
 ## ⚙️ 安裝
 
 開啟一個終端機並且執行 (需要 Python 3.7+):
 
 ```bash
-pip install dotserve
+pip install dotreact
 ```
 
 ## 🥳 建立你的第一個應用程式
 
-安裝 Dotserve 的同時也會安裝 `dotserve` 命令行工具。
+安裝 Dotreact 的同時也會安裝 `dotreact` 命令行工具。
 
 通過創建一個新專案來測試是否安裝成功。(把 my_app_name 作為新專案名稱):
 
 ```bash
 mkdir my_app_name
 cd my_app_name
-dotserve init
+dotreact init
 ```
 
 此命令會初始化一個應用程式模板在你的新資料夾中。
@@ -45,12 +45,12 @@ dotserve init
 你可以在開發者模式運行這個應用程式:
 
 ```bash
-dotserve run
+dotreact run
 ```
 
 你可以看到你的應用程式運行在 http://localhost:3000。
 
-現在在以下位置修改原始碼 `my_app_name/my_app_name.py`，Dotserve 擁有快速刷新功能，存儲程式碼後便可立即看到改變。
+現在在以下位置修改原始碼 `my_app_name/my_app_name.py`，Dotreact 擁有快速刷新功能，存儲程式碼後便可立即看到改變。
 
 ## 🫧 範例應用程式
 
@@ -67,12 +67,12 @@ dotserve run
 下方為該應用之完整程式碼，這一切都只需要一個 Python 檔案就能作到!
 
 ```python
-import dotserve as ds
+import dotreact as dr
 import openai
 
 openai.api_key = "YOUR_API_KEY"
 
-class State(ds.State):
+class State(dr.State):
     """應用程式狀態"""
     prompt = ""
     image_url = ""
@@ -82,7 +82,7 @@ class State(ds.State):
     def get_image(self):
         """透過提示詞取得圖片"""
         if self.prompt == "":
-            return ds.window_alert("Prompt Empty")
+            return dr.window_alert("Prompt Empty")
 
         self.processing, self.complete = True, False
         yield
@@ -92,19 +92,19 @@ class State(ds.State):
         
 
 def index():
-    return ds.center(
-        ds.vstack(
-            ds.heading("DALL·E"),
-            ds.input(placeholder="Enter a prompt", on_blur=State.set_prompt),
-            ds.button(
+    return dr.center(
+        dr.vstack(
+            dr.heading("DALL·E"),
+            dr.input(placeholder="Enter a prompt", on_blur=State.set_prompt),
+            dr.button(
                 "Generate Image",
                 on_click=State.get_image,
                 is_loading=State.processing,
                 width="100%",
             ),
-            ds.cond(
+            dr.cond(
                 State.complete,
-                     ds.image(
+                     dr.image(
                          src=State.image_url,
                          height="25em",
                          width="25em",
@@ -119,19 +119,19 @@ def index():
     )
 
 # 把狀態跟頁面添加到應用程式。
-app = ds.App()
-app.add_page(index, title="dotserve:DALL·E")
+app = dr.App()
+app.add_page(index, title="dotreact:DALL·E")
 app.compile()
 ```
 
 ## 讓我們來拆解一下。
-### **Dotserve 使用者介面**
+### **Dotreact 使用者介面**
 
 讓我們從使用介面開始。
 
 ```python
 def index():
-    return ds.center(
+    return dr.center(
         ...
     )
 ```
@@ -140,14 +140,14 @@ def index():
 
 我們用不同的元件像是 `center`, `vstack`, `input`, 和 `button` 來建立前端，元件之間可互相套入以建立出複雜的版面配置。並且您可使用關鍵字引數 *keyword args* 運行 CSS 全部功能來設計這些元件們的樣式。
 
-Dotserve 擁有 [60+ 內建元件](https://dotagent.dev/docs/library) 來幫助你開始建立應用程式。我們正積極添加元件，你也可以簡單地 [創建自己所屬的元件](https://dotagent.dev/docs/advanced-guide/wrapping-react)。
+Dotreact 擁有 [60+ 內建元件](https://dotagent.dev/docs/library) 來幫助你開始建立應用程式。我們正積極添加元件，你也可以簡單地 [創建自己所屬的元件](https://dotagent.dev/docs/advanced-guide/wrapping-react)。
 
 ### **應用程式狀態**
 
-Dotserve 使用應用程式狀態中的函式來渲染你的 UI。
+Dotreact 使用應用程式狀態中的函式來渲染你的 UI。
 
 ```python
-class State(ds.State):
+class State(dr.State):
     """應用程式狀態"""
     prompt = ""
     image_url = ""
@@ -165,7 +165,7 @@ class State(ds.State):
 def get_image(self):
     """透過提示詞取得圖片"""
     if self.prompt == "":
-        return ds.window_alert("Prompt Empty")
+        return dr.window_alert("Prompt Empty")
 
     self.processing, self.complete = True, False
     yield
@@ -174,7 +174,7 @@ def get_image(self):
     self.processing, self.complete = False, True
 ```
 
-在應用程式狀態中，我們定義稱之為事件處理程序的函式來改變其 vars. 事件處理程序是我們用來改變 Dotserve 應用程式狀態的方法。
+在應用程式狀態中，我們定義稱之為事件處理程序的函式來改變其 vars. 事件處理程序是我們用來改變 Dotreact 應用程式狀態的方法。
 
 當使用者動作被響應時，對應的事件處理程序就會被呼叫。點擊按鈕或是文字框輸入都是使用者動作，它們被稱之為事件。
 
@@ -185,7 +185,7 @@ def get_image(self):
 最後，我們定義我們的應用程式 app。
 
 ```python
-app = ds.App()
+app = dr.App()
 ```
 
 添加從應用程式根目錄(root of the app) 到 index 元件的路由。 我們也添加了一個標題將會顯示在 預覽/瀏覽 分頁。
@@ -207,24 +207,24 @@ app.compile()
 
 
 
-## ✅ Dotserve 狀態
+## ✅ Dotreact 狀態
 
-Dotserve 於 2022 年 12 月推出，當時名為 Pynecone。
+Dotreact 於 2022 年 12 月推出，當時名為 Pynecone。
 
 截至 2023 年 7 月，我們處於 **Public Beta** 階段。
 
--   :white_check_mark: **Public Alpha**: 任何人都可以安裝與使用 Dotserve，或許包含問題， 但我們正在積極的解決他們。
+-   :white_check_mark: **Public Alpha**: 任何人都可以安裝與使用 Dotreact，或許包含問題， 但我們正在積極的解決他們。
 -   :large_orange_diamond: **Public Beta**: 對於不涉及商業目的使用情境來說足夠穩定。
--   **Public Hosting Beta**: _Optionally_, 部屬跟託管你的 Dotserve!
--   **Public**: 這版本的 Dotserve 是可用於軟體產品的。
+-   **Public Hosting Beta**: _Optionally_, 部屬跟託管你的 Dotreact!
+-   **Public**: 這版本的 Dotreact 是可用於軟體產品的。
 
-Dotserve 每周都有新功能和釋出新版本! 確保你按下 :star: 和 :eyes: watch 這個 repository 來確保知道最新資訊。
+Dotreact 每周都有新功能和釋出新版本! 確保你按下 :star: 和 :eyes: watch 這個 repository 來確保知道最新資訊。
 
 ## 貢獻
 
-我們歡迎任何大小的貢獻，以下是幾個好的方法來加入 Dotserve 社群。
+我們歡迎任何大小的貢獻，以下是幾個好的方法來加入 Dotreact 社群。
 
--   **加入我們的 Discord**: 我們的 [Discord](https://discord.gg/T5WSbC2YtQ) 是幫助你加入 Dotserve 專案和討論或貢獻最棒的地方。
+-   **加入我們的 Discord**: 我們的 [Discord](https://discord.gg/T5WSbC2YtQ) 是幫助你加入 Dotreact 專案和討論或貢獻最棒的地方。
 -   **GitHub Discussions**: 一個來討論你想要添加的功能或是需要澄清的事情的好地方。
 -   **GitHub Issues**: 報告錯誤的絕佳地方，另外你可以試著解決一些 issue 和送出 PR。
 
@@ -232,4 +232,4 @@ Dotserve 每周都有新功能和釋出新版本! 確保你按下 :star: 和 :ey
 
 ## 授權
 
-Dotserve 是一個開源專案且使用 [Apache License 2.0](LICENSE) 授權。
+Dotreact 是一個開源專案且使用 [Apache License 2.0](LICENSE) 授權。

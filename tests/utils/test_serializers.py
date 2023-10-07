@@ -3,8 +3,8 @@ from typing import Any, Dict, List, Type
 
 import pytest
 
-from dotserve.utils import serializers
-from dotserve.vars import Var
+from dotreact.utils import serializers
+from dotreact.vars import Var
 
 
 @pytest.mark.parametrize(

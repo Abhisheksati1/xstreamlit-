@@ -3,15 +3,15 @@ from typing import Any, Dict
 
 import pytest
 
-import dotserve as ds
-import dotserve.config
-from dotserve.constants import Endpoint
+import dotreact as dr
+import dotreact.config
+from dotreact.constants import Endpoint
 
 
 def test_requires_app_name():
     """Test that a config requires an app_name."""
     with pytest.raises(ValueError):
-        ds.Config()  # type: ignore
+        dr.Config()  # type: ignore
 
 
 def test_set_app_name(base_config_values):
@@ -20,7 +20,7 @@ def test_set_app_name(base_config_values):
     Args:
         base_config_values: Config values.
     """
-    config = ds.Config(**base_config_values)
+    config = dr.Config(**base_config_values)
     assert config.app_name == base_config_values["app_name"]
 
 
@@ -40,7 +40,7 @@ def test_deprecated_params(base_config_values: Dict[str, Any], param):
         param: The deprecated param.
     """
     with pytest.raises(ValueError):
-        ds.Config(**base_config_values, **{param: "test"})  # type: ignore
+        dr.Config(**base_config_values, **{param: "test"})  # type: ignore
 
 
 @pytest.mark.parametrize(
@@ -71,7 +71,7 @@ def test_update_from_env(base_config_values, monkeypatch, env_var, value):
     """
     monkeypatch.setenv(env_var, str(value))
     assert os.environ.get(env_var) == str(value)
-    config = ds.Config(**base_config_values)
+    config = dr.Config(**base_config_values)
     assert getattr(config, env_var.lower()) == value
 
 
@@ -102,9 +102,9 @@ def test_event_namespace(mocker, kwargs, expected):
         kwargs: The Config kwargs.
         expected: Expected namespace
     """
-    conf = ds.Config(**kwargs)
-    mocker.patch("dotserve.config.get_config", return_value=conf)
+    conf = dr.Config(**kwargs)
+    mocker.patch("dotreact.config.get_config", return_value=conf)
 
-    config = dotserve.config.get_config()
+    config = dotreact.config.get_config()
     assert conf == config
     assert config.get_event_namespace() == expected

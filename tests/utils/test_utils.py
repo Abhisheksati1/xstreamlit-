@@ -7,19 +7,19 @@ import pytest
 import typer
 from packaging import version
 
-from dotserve import constants
-from dotserve.base import Base
-from dotserve.event import EventHandler
-from dotserve.state import State
-from dotserve.utils import (
+from dotreact import constants
+from dotreact.base import Base
+from dotreact.event import EventHandler
+from dotreact.state import State
+from dotreact.utils import (
     build,
     imports,
     prerequisites,
     types,
 )
-from dotserve.utils import exec as utils_exec
-from dotserve.utils.serializers import serialize
-from dotserve.vars import Var
+from dotreact.utils import exec as utils_exec
+from dotreact.utils.serializers import serialize
+from dotreact.vars import Var
 
 
 def mock_event(arg):
@@ -96,8 +96,8 @@ def test_validate_invalid_bun_path(mocker):
     """
     mock = mocker.Mock()
     mocker.patch.object(mock, "bun_path", return_value="/mock/path")
-    mocker.patch("dotserve.utils.prerequisites.get_config", mock)
-    mocker.patch("dotserve.utils.prerequisites.get_bun_version", return_value=None)
+    mocker.patch("dotreact.utils.prerequisites.get_config", mock)
+    mocker.patch("dotreact.utils.prerequisites.get_bun_version", return_value=None)
 
     with pytest.raises(typer.Exit):
         prerequisites.validate_bun()
@@ -111,9 +111,9 @@ def test_validate_bun_path_incompatible_version(mocker):
     """
     mock = mocker.Mock()
     mocker.patch.object(mock, "bun_path", return_value="/mock/path")
-    mocker.patch("dotserve.utils.prerequisites.get_config", mock)
+    mocker.patch("dotreact.utils.prerequisites.get_config", mock)
     mocker.patch(
-        "dotserve.utils.prerequisites.get_bun_version",
+        "dotreact.utils.prerequisites.get_bun_version",
         return_value=version.parse("0.6.5"),
     )
 
@@ -127,8 +127,8 @@ def test_remove_existing_bun_installation(mocker):
     Args:
         mocker: Pytest mocker.
     """
-    mocker.patch("dotserve.utils.prerequisites.os.path.exists", return_value=True)
-    rm = mocker.patch("dotserve.utils.prerequisites.path_ops.rm", mocker.Mock())
+    mocker.patch("dotreact.utils.prerequisites.os.path.exists", return_value=True)
+    rm = mocker.patch("dotreact.utils.prerequisites.path_ops.rm", mocker.Mock())
 
     prerequisites.remove_existing_bun_installation()
     rm.assert_called_once()
@@ -147,8 +147,8 @@ def test_setup_frontend(tmp_path, mocker):
     assets.mkdir()
     (assets / "favicon.ico").touch()
 
-    mocker.patch("dotserve.utils.prerequisites.install_frontend_packages")
-    mocker.patch("dotserve.utils.build.set_env_json")
+    mocker.patch("dotreact.utils.prerequisites.install_frontend_packages")
+    mocker.patch("dotreact.utils.build.set_env_json")
 
     build.setup_frontend(tmp_path, disable_telemetry=False)
     assert web_public_folder.exists()
@@ -206,7 +206,7 @@ def test_create_config(app_name, expected_config_name, mocker):
         mocker: Mocker object.
     """
     mocker.patch("builtins.open")
-    tmpl_mock = mocker.patch("dotserve.compiler.templates.DSCONFIG")
+    tmpl_mock = mocker.patch("dotreact.compiler.templates.DSCONFIG")
     prerequisites.create_config(app_name)
     tmpl_mock.render.assert_called_with(
         app_name=app_name, config_name=expected_config_name
@@ -277,7 +277,7 @@ def test_is_dataframe(class_type, expected):
 
 @pytest.mark.parametrize("gitignore_exists", [True, False])
 def test_initialize_non_existent_gitignore(tmp_path, mocker, gitignore_exists):
-    """Test that the generated .gitignore_file file on dotserve init contains the correct file
+    """Test that the generated .gitignore_file file on dotreact init contains the correct file
     names with correct formatting.
 
     Args:
@@ -286,7 +286,7 @@ def test_initialize_non_existent_gitignore(tmp_path, mocker, gitignore_exists):
         gitignore_exists: Whether a gitignore file exists in the root dir.
     """
     expected = constants.GitIgnore.DEFAULTS.copy()
-    mocker.patch("dotserve.constants.GitIgnore.FILE", tmp_path / ".gitignore")
+    mocker.patch("dotreact.constants.GitIgnore.FILE", tmp_path / ".gitignore")
 
     gitignore_file = tmp_path / ".gitignore"
 
@@ -308,16 +308,16 @@ def test_initialize_non_existent_gitignore(tmp_path, mocker, gitignore_exists):
 
 
 def test_app_default_name(tmp_path, mocker):
-    """Test that an error is raised if the app name is dotserve.
+    """Test that an error is raised if the app name is dotreact.
 
     Args:
         tmp_path: Test working dir.
         mocker: Pytest mocker object.
     """
-    dotserve = tmp_path / "dotserve"
-    dotserve.mkdir()
+    dotreact = tmp_path / "dotreact"
+    dotreact.mkdir()
 
-    mocker.patch("dotserve.utils.prerequisites.os.getcwd", return_value=str(dotserve))
+    mocker.patch("dotreact.utils.prerequisites.os.getcwd", return_value=str(dotreact))
 
     with pytest.raises(typer.Exit):
         prerequisites.get_default_app_name()
@@ -330,23 +330,23 @@ def test_node_install_windows(tmp_path, mocker):
         tmp_path: Test working dir.
         mocker: Pytest mocker object.
     """
-    fnm_root_path = tmp_path / "dotserve" / "fnm"
+    fnm_root_path = tmp_path / "dotreact" / "fnm"
     fnm_exe = fnm_root_path / "fnm.exe"
 
-    mocker.patch("dotserve.utils.prerequisites.constants.Fnm.DIR", fnm_root_path)
-    mocker.patch("dotserve.utils.prerequisites.constants.Fnm.EXE", fnm_exe)
-    mocker.patch("dotserve.utils.prerequisites.constants.IS_WINDOWS", True)
-    mocker.patch("dotserve.utils.processes.new_process")
-    mocker.patch("dotserve.utils.processes.stream_logs")
+    mocker.patch("dotreact.utils.prerequisites.constants.Fnm.DIR", fnm_root_path)
+    mocker.patch("dotreact.utils.prerequisites.constants.Fnm.EXE", fnm_exe)
+    mocker.patch("dotreact.utils.prerequisites.constants.IS_WINDOWS", True)
+    mocker.patch("dotreact.utils.processes.new_process")
+    mocker.patch("dotreact.utils.processes.stream_logs")
 
     class Resp(Base):
         status_code = 200
         text = "test"
 
     mocker.patch("httpx.stream", return_value=Resp())
-    download = mocker.patch("dotserve.utils.prerequisites.download_and_extract_fnm_zip")
-    mocker.patch("dotserve.utils.prerequisites.zipfile.ZipFile")
-    mocker.patch("dotserve.utils.prerequisites.path_ops.rm")
+    download = mocker.patch("dotreact.utils.prerequisites.download_and_extract_fnm_zip")
+    mocker.patch("dotreact.utils.prerequisites.zipfile.ZipFile")
+    mocker.patch("dotreact.utils.prerequisites.path_ops.rm")
 
     prerequisites.install_node()
 
@@ -372,24 +372,24 @@ def test_node_install_windows(tmp_path, mocker):
     ],
 )
 def test_node_install_unix(tmp_path, mocker, machine, system):
-    fnm_root_path = tmp_path / "dotserve" / "fnm"
+    fnm_root_path = tmp_path / "dotreact" / "fnm"
     fnm_exe = fnm_root_path / "fnm"
 
-    mocker.patch("dotserve.utils.prerequisites.constants.Fnm.DIR", fnm_root_path)
-    mocker.patch("dotserve.utils.prerequisites.constants.Fnm.EXE", fnm_exe)
-    mocker.patch("dotserve.utils.prerequisites.constants.IS_WINDOWS", False)
-    mocker.patch("dotserve.utils.prerequisites.platform.machine", return_value=machine)
-    mocker.patch("dotserve.utils.prerequisites.platform.system", return_value=system)
+    mocker.patch("dotreact.utils.prerequisites.constants.Fnm.DIR", fnm_root_path)
+    mocker.patch("dotreact.utils.prerequisites.constants.Fnm.EXE", fnm_exe)
+    mocker.patch("dotreact.utils.prerequisites.constants.IS_WINDOWS", False)
+    mocker.patch("dotreact.utils.prerequisites.platform.machine", return_value=machine)
+    mocker.patch("dotreact.utils.prerequisites.platform.system", return_value=system)
 
     class Resp(Base):
         status_code = 200
         text = "test"
 
     mocker.patch("httpx.stream", return_value=Resp())
-    download = mocker.patch("dotserve.utils.prerequisites.download_and_extract_fnm_zip")
-    process = mocker.patch("dotserve.utils.processes.new_process")
-    chmod = mocker.patch("dotserve.utils.prerequisites.os.chmod")
-    mocker.patch("dotserve.utils.processes.stream_logs")
+    download = mocker.patch("dotreact.utils.prerequisites.download_and_extract_fnm_zip")
+    process = mocker.patch("dotreact.utils.processes.new_process")
+    chmod = mocker.patch("dotreact.utils.prerequisites.os.chmod")
+    mocker.patch("dotreact.utils.processes.stream_logs")
 
     prerequisites.install_node()
 
@@ -419,30 +419,30 @@ def test_bun_install_without_unzip(mocker):
     Args:
         mocker: Pytest mocker object.
     """
-    mocker.patch("dotserve.utils.path_ops.which", return_value=None)
+    mocker.patch("dotreact.utils.path_ops.which", return_value=None)
     mocker.patch("os.path.exists", return_value=False)
-    mocker.patch("dotserve.utils.prerequisites.constants.IS_WINDOWS", False)
+    mocker.patch("dotreact.utils.prerequisites.constants.IS_WINDOWS", False)
 
     with pytest.raises(FileNotFoundError):
         prerequisites.install_bun()
 
 
 @pytest.mark.parametrize("is_windows", [True, False])
-def test_create_dotserve_dir(mocker, is_windows):
-    """Test that a dotserve directory is created on initializing frontend
+def test_create_dotreact_dir(mocker, is_windows):
+    """Test that a dotreact directory is created on initializing frontend
     dependencies.
 
     Args:
         mocker: Pytest mocker object.
         is_windows: Whether platform is windows.
     """
-    mocker.patch("dotserve.utils.prerequisites.constants.IS_WINDOWS", is_windows)
-    mocker.patch("dotserve.utils.prerequisites.processes.run_concurrently", mocker.Mock())
-    mocker.patch("dotserve.utils.prerequisites.initialize_web_directory", mocker.Mock())
-    mocker.patch("dotserve.utils.processes.run_concurrently")
-    mocker.patch("dotserve.utils.prerequisites.validate_bun")
+    mocker.patch("dotreact.utils.prerequisites.constants.IS_WINDOWS", is_windows)
+    mocker.patch("dotreact.utils.prerequisites.processes.run_concurrently", mocker.Mock())
+    mocker.patch("dotreact.utils.prerequisites.initialize_web_directory", mocker.Mock())
+    mocker.patch("dotreact.utils.processes.run_concurrently")
+    mocker.patch("dotreact.utils.prerequisites.validate_bun")
     create_cmd = mocker.patch(
-        "dotserve.utils.prerequisites.path_ops.mkdir", mocker.Mock()
+        "dotreact.utils.prerequisites.path_ops.mkdir", mocker.Mock()
     )
 
     prerequisites.initialize_frontend_dependencies()
@@ -451,7 +451,7 @@ def test_create_dotserve_dir(mocker, is_windows):
 
 
 def test_output_system_info(mocker):
-    """Make sure dotserve does not crash dumping system info.
+    """Make sure dotreact does not crash dumping system info.
 
     Args:
         mocker: Pytest mocker object.
@@ -459,7 +459,7 @@ def test_output_system_info(mocker):
     This test makes no assertions about the output, other than it executes
     without crashing.
     """
-    mocker.patch("dotserve.utils.console._LOG_LEVEL", constants.LogLevel.DEBUG)
+    mocker.patch("dotreact.utils.console._LOG_LEVEL", constants.LogLevel.DEBUG)
     utils_exec.output_system_info()
 
 

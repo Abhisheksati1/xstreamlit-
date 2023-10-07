@@ -2,7 +2,7 @@ import urllib.parse
 
 import pytest
 
-from dotserve.config import DBConfig
+from dotreact.config import DBConfig
 
 
 @pytest.mark.parametrize(

@@ -2,11 +2,11 @@ from typing import Any
 
 import pytest
 
-from dotserve.components.tags.tag import Tag
-from dotserve.event import EVENT_ARG, EventChain, EventHandler, EventSpec
-from dotserve.style import Style
-from dotserve.utils import format
-from dotserve.vars import BaseVar, Var
+from dotreact.components.tags.tag import Tag
+from dotreact.event import EVENT_ARG, EventChain, EventHandler, EventSpec
+from dotreact.style import Style
+from dotreact.utils import format
+from dotreact.vars import BaseVar, Var
 from tests.test_state import ChildState, DateTimeState, GrandchildState, TestState
 
 

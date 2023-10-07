@@ -22,7 +22,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Specifics (please complete the following information):**
  - Python Version:
- - Dotserve Version:
+ - Dotreact Version:
  - OS: 
  - Browser (Optional):
  

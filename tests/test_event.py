@@ -2,10 +2,10 @@ import json
 
 import pytest
 
-from dotserve import event
-from dotserve.event import Event, EventHandler, EventSpec, fix_events
-from dotserve.utils import format
-from dotserve.vars import Var
+from dotreact import event
+from dotreact.event import Event, EventHandler, EventSpec, fix_events
+from dotreact.utils import format
+from dotreact.vars import Var
 
 
 def make_var(value) -> Var:

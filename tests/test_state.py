@@ -13,11 +13,11 @@ from unittest.mock import AsyncMock, Mock
 import pytest
 from plotly.graph_objects import Figure
 
-import dotserve as ds
-from dotserve.base import Base
-from dotserve.constants import CompileVars, RouteVar, SocketEvent
-from dotserve.event import Event, EventHandler
-from dotserve.state import (
+import dotreact as dr
+from dotreact.base import Base
+from dotreact.constants import CompileVars, RouteVar, SocketEvent
+from dotreact.event import Event, EventHandler
+from dotreact.state import (
     ImmutableStateError,
     LockExpiredError,
     MutableProxy,
@@ -28,9 +28,9 @@ from dotserve.state import (
     StateProxy,
     StateUpdate,
 )
-from dotserve.utils import prerequisites
-from dotserve.utils.format import json_dumps
-from dotserve.vars import BaseVar, ComputedVar
+from dotreact.utils import prerequisites
+from dotreact.utils.format import json_dumps
+from dotreact.vars import BaseVar, ComputedVar
 
 from .states import GenState
 
@@ -773,9 +773,9 @@ def test_get_cookies(test_state, mocker, router_data):
 
     assert test_state.get_cookies() == {
         "csrftoken": "mocktoken",
-        "name": "dotserve",
+        "name": "dotreact",
         "list_cookies": ["some", "random", "cookies"],
-        "dict_cookies": {"name": "dotserve"},
+        "dict_cookies": {"name": "dotreact"},
         "val": True,
     }
 
@@ -848,7 +848,7 @@ class InterdependentState(State):
     v1: int = 0
     _v2: int = 1
 
-    @ds.cached_var
+    @dr.cached_var
     def v1x2(self) -> int:
         """Depends on var v1.
 
@@ -857,7 +857,7 @@ class InterdependentState(State):
         """
         return self.v1 * 2
 
-    @ds.cached_var
+    @dr.cached_var
     def v2x2(self) -> int:
         """Depends on backend var _v2.
 
@@ -866,7 +866,7 @@ class InterdependentState(State):
         """
         return self._v2 * 2
 
-    @ds.cached_var
+    @dr.cached_var
     def v1x2x2(self) -> int:
         """Depends on ComputedVar v1x2.
 
@@ -1042,7 +1042,7 @@ def test_computed_var_cached():
     class ComputedState(State):
         v: int = 0
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_v(self) -> int:
             nonlocal comp_v_calls
             comp_v_calls += 1
@@ -1067,15 +1067,15 @@ def test_computed_var_cached_depends_on_non_cached():
     class ComputedState(State):
         v: int = 0
 
-        @ds.var
+        @dr.var
         def no_cache_v(self) -> int:
             return self.v
 
-        @ds.cached_var
+        @dr.cached_var
         def dep_v(self) -> int:
             return self.no_cache_v
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_v(self) -> int:
             return self.v
 
@@ -1107,14 +1107,14 @@ def test_computed_var_depends_on_parent_non_cached():
     counter = 0
 
     class ParentState(State):
-        @ds.var
+        @dr.var
         def no_cache_v(self) -> int:
             nonlocal counter
             counter += 1
             return counter
 
     class ChildState(ParentState):
-        @ds.cached_var
+        @dr.cached_var
         def dep_v(self) -> int:
             return self.no_cache_v
 
@@ -1157,7 +1157,7 @@ def test_cached_var_depends_on_event_handler(use_partial: bool):
         def handler(self):
             self.x = self.x + 1
 
-        @ds.cached_var
+        @dr.cached_var
         def cached_x_side_effect(self) -> int:
             self.handler()
             nonlocal counter
@@ -1189,7 +1189,7 @@ def test_computed_var_dependencies():
         y: List[int] = [1, 2, 3]
         _z: List[int] = [1, 2, 3]
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_v(self) -> int:
             """Direct access.
 
@@ -1198,7 +1198,7 @@ def test_computed_var_dependencies():
             """
             return self.v
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_w(self):
             """Nested lambda.
 
@@ -1207,7 +1207,7 @@ def test_computed_var_dependencies():
             """
             return lambda: self.w
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_x(self):
             """Nested function.
 
@@ -1220,7 +1220,7 @@ def test_computed_var_dependencies():
 
             return _
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_y(self) -> List[int]:
             """Comprehension iterating over attribute.
 
@@ -1229,7 +1229,7 @@ def test_computed_var_dependencies():
             """
             return [round(y) for y in self.y]
 
-        @ds.cached_var
+        @dr.cached_var
         def comp_z(self) -> List[bool]:
             """Comprehension accesses attribute.
 
@@ -1262,7 +1262,7 @@ def test_backend_method():
 
 
 def test_setattr_of_mutable_types(mutable_state):
-    """Test that mutable types are converted to corresponding Dotserve wrappers.
+    """Test that mutable types are converted to corresponding Dotreact wrappers.
 
     Args:
         mutable_state: A test state.
@@ -1325,7 +1325,7 @@ def test_error_on_state_method_shadow():
     """Test that an error is thrown when an event handler shadows a state method."""
     with pytest.raises(NameError) as err:
 
-        class InvalidTest(ds.State):
+        class InvalidTest(dr.State):
             def reset(self):
                 pass
 
@@ -1338,7 +1338,7 @@ def test_error_on_state_method_shadow():
 def test_state_with_invalid_yield():
     """Test that an error is thrown when a state yields an invalid value."""
 
-    class StateWithInvalidYield(ds.State):
+    class StateWithInvalidYield(dr.State):
         """A state that yields an invalid value."""
 
         def invalid_handler(self):
@@ -1353,7 +1353,7 @@ def test_state_with_invalid_yield():
     with pytest.raises(TypeError) as err:
         invalid_state._check_valid(
             invalid_state.event_handlers["invalid_handler"],
-            ds.event.Event(token="fake_token", name="invalid_handler"),
+            dr.event.Event(token="fake_token", name="invalid_handler"),
         )
     assert (
         "must only return/yield: None, Events or other EventHandlers"
@@ -1526,7 +1526,7 @@ async def test_state_manager_lock_expire_contend(
 
 
 @pytest.fixture(scope="function")
-def mock_app(monkeypatch, app: ds.App, state_manager: StateManager) -> ds.App:
+def mock_app(monkeypatch, app: dr.App, state_manager: StateManager) -> dr.App:
     """Mock app fixture.
 
     Args:
@@ -1548,7 +1548,7 @@ def mock_app(monkeypatch, app: ds.App, state_manager: StateManager) -> ds.App:
 
 
 @pytest.mark.asyncio
-async def test_state_proxy(grandchild_state: GrandchildState, mock_app: ds.App):
+async def test_state_proxy(grandchild_state: GrandchildState, mock_app: dr.App):
     """Test that the state proxy works.
 
     Args:
@@ -1627,7 +1627,7 @@ class BackgroundTaskState(State):
     order: List[str] = []
     dict_list: Dict[str, List[int]] = {"foo": [1, 2, 3]}
 
-    @ds.background
+    @dr.background
     async def background_task(self):
         """A background task that updates the state."""
         async with self:
@@ -1664,7 +1664,7 @@ class BackgroundTaskState(State):
             self.other()  # direct calling event handlers works in context
             self._private_method()
 
-    @ds.background
+    @dr.background
     async def background_task_reset(self):
         """A background task that resets the state."""
         with pytest.raises(ImmutableStateError):
@@ -1678,7 +1678,7 @@ class BackgroundTaskState(State):
         async with self:
             self.order.append("reset")
 
-    @ds.background
+    @dr.background
     async def background_task_generator(self):
         """A background task generator that does nothing.
 
@@ -1706,7 +1706,7 @@ class BackgroundTaskState(State):
 
 
 @pytest.mark.asyncio
-async def test_background_task_no_block(mock_app: ds.App, token: str):
+async def test_background_task_no_block(mock_app: dr.App, token: str):
     """Test that a background task does not block other events.
 
     Args:
@@ -1715,7 +1715,7 @@ async def test_background_task_no_block(mock_app: ds.App, token: str):
     """
     router_data = {"query": {}}
     mock_app.state_manager.state = mock_app.state = BackgroundTaskState
-    async for update in ds.app.process(  # type: ignore
+    async for update in dr.app.process(  # type: ignore
         mock_app,
         Event(
             token=token,
@@ -1735,7 +1735,7 @@ async def test_background_task_no_block(mock_app: ds.App, token: str):
     assert len(mock_app.background_tasks) == 1
 
     # Process another normal event
-    async for update in ds.app.process(  # type: ignore
+    async for update in dr.app.process(  # type: ignore
         mock_app,
         Event(
             token=token,
@@ -1774,7 +1774,7 @@ async def test_background_task_no_block(mock_app: ds.App, token: str):
 
 
 @pytest.mark.asyncio
-async def test_background_task_reset(mock_app: ds.App, token: str):
+async def test_background_task_reset(mock_app: dr.App, token: str):
     """Test that a background task calling reset is protected by the state proxy.
 
     Args:
@@ -1783,7 +1783,7 @@ async def test_background_task_reset(mock_app: ds.App, token: str):
     """
     router_data = {"query": {}}
     mock_app.state_manager.state = mock_app.state = BackgroundTaskState
-    async for update in ds.app.process(  # type: ignore
+    async for update in dr.app.process(  # type: ignore
         mock_app,
         Event(
             token=token,

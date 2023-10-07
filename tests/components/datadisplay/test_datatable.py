@@ -1,13 +1,13 @@
 import pandas as pd
 import pytest
 
-import dotserve as ds
-from dotserve.components.datadisplay.datatable import (
+import dotreact as dr
+from dotreact.components.datadisplay.datatable import (
     DataTable,
     serialize_dataframe,  # type: ignore
 )
-from dotserve.utils import types
-from dotserve.utils.serializers import serialize
+from dotreact.utils import types
+from dotreact.utils.serializers import serialize
 
 
 @pytest.mark.parametrize(
@@ -26,7 +26,7 @@ from dotserve.utils.serializers import serialize
     ],
     indirect=["data_table_state"],
 )
-def test_validate_data_table(data_table_state: ds.Var, expected):
+def test_validate_data_table(data_table_state: dr.Var, expected):
     """Test the str/render function.
 
     Args:

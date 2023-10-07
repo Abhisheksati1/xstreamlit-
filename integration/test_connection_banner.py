@@ -6,20 +6,20 @@ import pytest
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-from dotserve.testing import AppHarness, WebDriver
+from dotreact.testing import AppHarness, WebDriver
 
 
 def ConnectionBanner():
     """App with a connection banner."""
-    import dotserve as ds
+    import dotreact as dr
 
-    class State(ds.State):
+    class State(dr.State):
         foo: int = 0
 
     def index():
-        return ds.text("Hello World")
+        return dr.text("Hello World")
 
-    app = ds.App(state=State)
+    app = dr.App(state=State)
     app.add_page(index)
     app.compile()
 

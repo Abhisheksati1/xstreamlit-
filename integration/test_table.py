@@ -4,16 +4,16 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotserve.testing import AppHarness
+from dotreact.testing import AppHarness
 
 
 def Table():
     """App using table component."""
     from typing import List
 
-    import dotserve as ds
+    import dotreact as dr
 
-    class TableState(ds.State):
+    class TableState(dr.State):
         rows: List[List[str]] = [
             ["John", "30", "New York"],
             ["Jane", "31", "San Fransisco"],
@@ -26,18 +26,18 @@ def Table():
 
         caption: str = "random caption"
 
-        @ds.var
+        @dr.var
         def token(self) -> str:
             return self.get_token()
 
-    app = ds.App(state=TableState)
+    app = dr.App(state=TableState)
 
     @app.add_page
     def index():
-        return ds.center(
-            ds.input(id="token", value=TableState.token, is_read_only=True),
-            ds.table_container(
-                ds.table(
+        return dr.center(
+            dr.input(id="token", value=TableState.token, is_read_only=True),
+            dr.table_container(
+                dr.table(
                     headers=TableState.headers,
                     rows=TableState.rows,
                     footers=TableState.footers,
@@ -51,37 +51,37 @@ def Table():
 
     @app.add_page
     def another():
-        return ds.center(
-            ds.table_container(
-                ds.table(  # type: ignore
-                    ds.thead(  # type: ignore
-                        ds.tr(  # type: ignore
-                            ds.th("Name"),
-                            ds.th("Age"),
-                            ds.th("Location"),
+        return dr.center(
+            dr.table_container(
+                dr.table(  # type: ignore
+                    dr.thead(  # type: ignore
+                        dr.tr(  # type: ignore
+                            dr.th("Name"),
+                            dr.th("Age"),
+                            dr.th("Location"),
                         )
                     ),
-                    ds.tbody(  # type: ignore
-                        ds.tr(  # type: ignore
-                            ds.td("John"),
-                            ds.td(30),
-                            ds.td("New York"),
+                    dr.tbody(  # type: ignore
+                        dr.tr(  # type: ignore
+                            dr.td("John"),
+                            dr.td(30),
+                            dr.td("New York"),
                         ),
-                        ds.tr(  # type: ignore
-                            ds.td("Jane"),
-                            ds.td(31),
-                            ds.td("San Francisco"),
+                        dr.tr(  # type: ignore
+                            dr.td("Jane"),
+                            dr.td(31),
+                            dr.td("San Francisco"),
                         ),
-                        ds.tr(  # type: ignore
-                            ds.td("Joe"),
-                            ds.td(32),
-                            ds.td("Los Angeles"),
+                        dr.tr(  # type: ignore
+                            dr.td("Joe"),
+                            dr.td(32),
+                            dr.td("Los Angeles"),
                         ),
                     ),
-                    ds.tfoot(  # type: ignore
-                        ds.tr(ds.td("footer1"), ds.td("footer2"), ds.td("footer3"))  # type: ignore
+                    dr.tfoot(  # type: ignore
+                        dr.tr(dr.td("footer1"), dr.td("footer2"), dr.td("footer3"))  # type: ignore
                     ),
-                    ds.table_caption("random caption"),
+                    dr.table_caption("random caption"),
                     variant="striped",
                     color_scheme="teal",
                 )

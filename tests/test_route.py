@@ -1,7 +1,7 @@
 import pytest
 
-from dotserve import constants
-from dotserve.route import catchall_in_route, get_route_args, verify_route_validity
+from dotreact import constants
+from dotreact.route import catchall_in_route, get_route_args, verify_route_validity
 
 
 @pytest.mark.parametrize(

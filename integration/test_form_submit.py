@@ -6,51 +6,51 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from dotserve.testing import AppHarness
+from dotreact.testing import AppHarness
 
 
 def FormSubmit():
     """App with a form using on_submit."""
-    import dotserve as ds
+    import dotreact as dr
 
-    class FormState(ds.State):
+    class FormState(dr.State):
         form_data: dict = {}
 
         def form_submit(self, form_data: dict):
             self.form_data = form_data
 
-        @ds.var
+        @dr.var
         def token(self) -> str:
             return self.get_token()
 
-    app = ds.App(state=FormState)
+    app = dr.App(state=FormState)
 
     @app.add_page
     def index():
-        return ds.vstack(
-            ds.input(value=FormState.token, is_read_only=True, id="token"),
-            ds.form(
-                ds.vstack(
-                    ds.input(id="name_input"),
-                    ds.hstack(ds.pin_input(length=4, id="pin_input")),
-                    ds.number_input(id="number_input"),
-                    ds.checkbox(id="bool_input"),
-                    ds.switch(id="bool_input2"),
-                    ds.slider(id="slider_input"),
-                    ds.range_slider(id="range_input"),
-                    ds.radio_group(["option1", "option2"], id="radio_input"),
-                    ds.select(["option1", "option2"], id="select_input"),
-                    ds.text_area(id="text_area_input"),
-                    ds.input(
+        return dr.vstack(
+            dr.input(value=FormState.token, is_read_only=True, id="token"),
+            dr.form(
+                dr.vstack(
+                    dr.input(id="name_input"),
+                    dr.hstack(dr.pin_input(length=4, id="pin_input")),
+                    dr.number_input(id="number_input"),
+                    dr.checkbox(id="bool_input"),
+                    dr.switch(id="bool_input2"),
+                    dr.slider(id="slider_input"),
+                    dr.range_slider(id="range_input"),
+                    dr.radio_group(["option1", "option2"], id="radio_input"),
+                    dr.select(["option1", "option2"], id="select_input"),
+                    dr.text_area(id="text_area_input"),
+                    dr.input(
                         id="debounce_input",
                         debounce_timeout=0,
-                        on_change=ds.console_log,
+                        on_change=dr.console_log,
                     ),
-                    ds.button("Submit", type_="submit"),
+                    dr.button("Submit", type_="submit"),
                 ),
                 on_submit=FormState.form_submit,
             ),
-            ds.spacer(),
+            dr.spacer(),
             height="100vh",
         )
 
