@@ -4,7 +4,7 @@
 Open a terminal and run (Requires Python 3.7+):
 
 ```bash
-pip install dotreact
+pip install nextpy
 ```
 
 ## 🥳 Create your first app
@@ -38,9 +38,7 @@ Let's go over an example: creating an image generation UI around DALL·E. For si
 
 &nbsp;
 
-<div align="center">
-<img src="https://raw.githubusercontent.com/dotreact/dotreact/main/docs/images/dalle.gif" alt="A frontend wrapper for DALL·E, shown in the process of generating an image." width="550" />
-</div>
+
 
 &nbsp;
 
@@ -122,7 +120,6 @@ This `index` function defines the frontend of the app.
 We use different components such as `center`, `vstack`, `input`, and `button` to build the frontend. Components can be nested within each other
 to create complex layouts. And you can use keyword args to style them with the full power of CSS.
 
-Dotreact comes with [60+ built-in components](https://dotagent.dev/docs/library) to help you get started. We are actively adding more components, and it's easy to [create your own components](https://dotagent.dev/docs/advanced-guide/wrapping-react).
 
 ### **State**
 
@@ -176,35 +173,3 @@ app.compile()
 ```
 
 You can create a multi-page app by adding more pages.
-
-## 📑 Resources
-
-<div align="center">
-
-📑 [Docs](https://dotagent.dev/docs/getting-started/introduction) &nbsp; |  &nbsp; 🗞️ [Blog](https://dotagent.dev/blog) &nbsp; |  &nbsp; 📱 [Component Library](https://dotagent.dev/docs/library) &nbsp; |  &nbsp; 🖼️ [Gallery](https://dotagent.dev/docs/gallery) &nbsp; |  &nbsp; 🛸 [Deployment](https://dotagent.dev/docs/hosting/deploy)  &nbsp;   
-
-</div>
-
-
-
-
-
-## ✅ Status
-
-Dotreact launched in December 2022 with the name Pynecone.
-
-As of July 2023, we are in the **Public Beta** stage.
-
--   :white_check_mark: **Public Alpha**: Anyone can install and use Dotreact. There may be issues, but we are working to resolve them actively.
--   :large_orange_diamond: **Public Beta**: Stable enough for non-enterprise use-cases.
--   **Public Hosting Beta**: _Optionally_, deploy and host your apps on Dotreact!
--   **Public**: Dotreact is production ready.
-
-Dotreact has new releases and features coming every week! Make sure to :star: star and :eyes: watch this repository to stay up to date.
-
-
-We are actively looking for contributors, no matter your skill level or experience.
-
-## License
-
-Dotreact is open-source and licensed under the [Apache License 2.0](LICENSE).

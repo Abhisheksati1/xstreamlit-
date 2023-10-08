@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "dotreact"
-version = "0.1.02"
-description = "Web apps in pure Python."
+name = "nextpy"
+version = "0.1.0"
+description = "Web apps in pure Python with all the flexibility and speed of nextjs."
 license = "Apache-2.0"
 authors = [
-    "Team dotagent <anurag@dotagent.dev>",
+    "Team dotagent <anurag@dotagent.ai>",
 ]
 readme = "README.md"
 homepage = "https://dotagent.dev"
