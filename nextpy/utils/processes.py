@@ -46,7 +46,7 @@ def get_process_on_port(port) -> Optional[psutil.Process]:
     for proc in psutil.process_iter(["pid", "name", "cmdline"]):
         try:
             for conns in proc.connections(kind="inet"):
-                if conns.ladxt.port == int(port):
+                if conns.laddr.port == int(port):
                     return proc
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
