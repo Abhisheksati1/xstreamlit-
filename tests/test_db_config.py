@@ -2,7 +2,7 @@ import urllib.parse
 
 import pytest
 
-from dotreact.config import DBConfig
+from nextpy.config import DBConfig
 
 
 @pytest.mark.parametrize(

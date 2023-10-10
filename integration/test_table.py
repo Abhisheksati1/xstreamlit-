@@ -4,16 +4,16 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotreact.testing import AppHarness
+from nextpy.testing import AppHarness
 
 
 def Table():
     """App using table component."""
     from typing import List
 
-    import dotreact as dr
+    import nextpy as xt
 
-    class TableState(dr.State):
+    class TableState(xt.State):
         rows: List[List[str]] = [
             ["John", "30", "New York"],
             ["Jane", "31", "San Fransisco"],
@@ -26,18 +26,18 @@ def Table():
 
         caption: str = "random caption"
 
-        @dr.var
+        @xt.var
         def token(self) -> str:
             return self.get_token()
 
-    app = dr.App(state=TableState)
+    app = xt.App(state=TableState)
 
     @app.add_page
     def index():
-        return dr.center(
-            dr.input(id="token", value=TableState.token, is_read_only=True),
-            dr.table_container(
-                dr.table(
+        return xt.center(
+            xt.input(id="token", value=TableState.token, is_read_only=True),
+            xt.table_container(
+                xt.table(
                     headers=TableState.headers,
                     rows=TableState.rows,
                     footers=TableState.footers,
@@ -51,37 +51,37 @@ def Table():
 
     @app.add_page
     def another():
-        return dr.center(
-            dr.table_container(
-                dr.table(  # type: ignore
-                    dr.thead(  # type: ignore
-                        dr.tr(  # type: ignore
-                            dr.th("Name"),
-                            dr.th("Age"),
-                            dr.th("Location"),
+        return xt.center(
+            xt.table_container(
+                xt.table(  # type: ignore
+                    xt.thead(  # type: ignore
+                        xt.tr(  # type: ignore
+                            xt.th("Name"),
+                            xt.th("Age"),
+                            xt.th("Location"),
                         )
                     ),
-                    dr.tbody(  # type: ignore
-                        dr.tr(  # type: ignore
-                            dr.td("John"),
-                            dr.td(30),
-                            dr.td("New York"),
+                    xt.tbody(  # type: ignore
+                        xt.tr(  # type: ignore
+                            xt.td("John"),
+                            xt.td(30),
+                            xt.td("New York"),
                         ),
-                        dr.tr(  # type: ignore
-                            dr.td("Jane"),
-                            dr.td(31),
-                            dr.td("San Francisco"),
+                        xt.tr(  # type: ignore
+                            xt.td("Jane"),
+                            xt.td(31),
+                            xt.td("San Francisco"),
                         ),
-                        dr.tr(  # type: ignore
-                            dr.td("Joe"),
-                            dr.td(32),
-                            dr.td("Los Angeles"),
+                        xt.tr(  # type: ignore
+                            xt.td("Joe"),
+                            xt.td(32),
+                            xt.td("Los Angeles"),
                         ),
                     ),
-                    dr.tfoot(  # type: ignore
-                        dr.tr(dr.td("footer1"), dr.td("footer2"), dr.td("footer3"))  # type: ignore
+                    xt.tfoot(  # type: ignore
+                        xt.tr(xt.td("footer1"), xt.td("footer2"), xt.td("footer3"))  # type: ignore
                     ),
-                    dr.table_caption("random caption"),
+                    xt.table_caption("random caption"),
                     variant="striped",
                     color_scheme="teal",
                 )

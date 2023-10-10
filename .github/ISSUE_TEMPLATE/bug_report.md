@@ -22,7 +22,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Specifics (please complete the following information):**
  - Python Version:
- - Dotreact Version:
+ - Nextpy Version:
  - OS: 
  - Browser (Optional):
  

@@ -6,20 +6,20 @@ import pytest
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-from dotreact.testing import AppHarness, WebDriver
+from nextpy.testing import AppHarness, WebDriver
 
 
 def ConnectionBanner():
     """App with a connection banner."""
-    import dotreact as dr
+    import nextpy as xt
 
-    class State(dr.State):
+    class State(xt.State):
         foo: int = 0
 
     def index():
-        return dr.text("Hello World")
+        return xt.text("Hello World")
 
-    app = dr.App(state=State)
+    app = xt.App(state=State)
     app.add_page(index)
     app.compile()
 

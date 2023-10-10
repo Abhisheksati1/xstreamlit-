@@ -1,8 +1,8 @@
 """Test that Script from next/script renders correctly."""
 import pytest
 
-from dotreact.components.base.script import Script
-from dotreact.state import State
+from nextpy.components.base.script import Script
+from nextpy.state import State
 
 
 def test_script_inline():

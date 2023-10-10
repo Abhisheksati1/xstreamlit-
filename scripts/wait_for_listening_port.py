@@ -9,7 +9,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Tuple
 
-# psutil is already a dependency of Dotreact itself - so it's OK to use
+# psutil is already a dependency of Nextpy itself - so it's OK to use
 import psutil
 
 

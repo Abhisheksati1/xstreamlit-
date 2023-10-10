@@ -2,11 +2,11 @@
 
 from typing import Dict, List, Set, Union
 
-import dotreact as dr
+import nextpy as xt
 
 
-class DictMutationTestState(dr.State):
-    """A state for testing DotreactDict mutation."""
+class DictMutationTestState(xt.State):
+    """A state for testing NextpyDict mutation."""
 
     # plain dict
     details = {"name": "Tommy"}
@@ -62,8 +62,8 @@ class DictMutationTestState(dr.State):
         self.friend_in_nested_dict["friend"]["age"] = 30
 
 
-class ListMutationTestState(dr.State):
-    """A state for testing DotreactList mutation."""
+class ListMutationTestState(xt.State):
+    """A state for testing NextpyList mutation."""
 
     # plain list
     plain_friends = ["Tommy"]
@@ -128,13 +128,13 @@ class ListMutationTestState(dr.State):
         self.friends_in_nested_list[1].append("Jimmy")
 
 
-class OtherBase(dr.Base):
+class OtherBase(xt.Base):
     """A Base model with a str field."""
 
     bar: str = ""
 
 
-class CustomVar(dr.Base):
+class CustomVar(xt.Base):
     """A Base model with multiple fields."""
 
     foo: str = ""
@@ -144,7 +144,7 @@ class CustomVar(dr.Base):
     custom: OtherBase = OtherBase()
 
 
-class MutableTestState(dr.State):
+class MutableTestState(xt.State):
     """A test state."""
 
     array: List[Union[str, List, Dict[str, str]]] = [

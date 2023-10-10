@@ -1,6 +1,6 @@
 import pytest
 
-from dotreact.base import Base
+from nextpy.base import Base
 
 
 @pytest.fixture

@@ -11,8 +11,8 @@ from typing import Any, Dict, List, Optional, Union, get_args  # NOQA
 
 import black
 
-from dotreact.components.component import Component
-from dotreact.vars import Var
+from nextpy.components.component import Component
+from nextpy.vars import Var
 
 ruff_dont_remove = [Var, Optional, Dict, List]
 
@@ -73,7 +73,7 @@ def _get_var_definition(_module, _var_name):
 
 
 class PyiGenerator:
-    """A .pyi file generator that will scan all defined Component in Dotreact and
+    """A .pyi file generator that will scan all defined Component in Nextpy and
     generate the approriate stub.
     """
 
@@ -100,8 +100,8 @@ class PyiGenerator:
         return [
             f"from typing import {','.join(sorted(typing_imports))}",
             *[f"from {base.__module__} import {base.__name__}" for base in bases],
-            "from dotreact.vars import Var, BaseVar, ComputedVar",
-            "from dotreact.event import EventHandler, EventChain, EventSpec",
+            "from nextpy.vars import Var, BaseVar, ComputedVar",
+            "from nextpy.event import EventHandler, EventChain, EventSpec",
         ]
 
     def _generate_pyi_class(self, _class: type[Component]):
@@ -286,7 +286,7 @@ class PyiGenerator:
 
 
 if __name__ == "__main__":
-    targets = sys.argv[1:] if len(sys.argv) > 1 else ["dotreact/components"]
+    targets = sys.argv[1:] if len(sys.argv) > 1 else ["nextpy/components"]
     print(f"Running .pyi generator for {targets}")
     gen = PyiGenerator()
     gen.scan_all(targets)

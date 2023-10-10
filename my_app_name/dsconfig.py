@@ -1,5 +1,5 @@
-import dotreact as dr
+import nextpy as xt
 
-config = dr.Config(
+config = xt.Config(
     app_name="my_app_name",
 )

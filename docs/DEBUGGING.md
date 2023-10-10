@@ -1,13 +1,13 @@
 # Debugging
 
-It is possible to run Dotreact apps in dev mode under a debugger.
+It is possible to run Nextpy apps in dev mode under a debugger.
 
-1. Run Dotreact as a module: `python -m dotreact run --env dev`
-2. Set current working directory to the dir containing `drconfig.py`
+1. Run Nextpy as a module: `python -m nextpy run --env dev`
+2. Set current working directory to the dir containing `xtconfig.py`
 
 ## VSCode
 
-The following launch configuration can be used to interactively debug a Dotreact
+The following launch configuration can be used to interactively debug a Nextpy
 app with breakpoints.
 
 ```json
@@ -15,10 +15,10 @@ app with breakpoints.
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Dotreact App",
+            "name": "Nextpy App",
             "type": "python",
             "request": "launch",
-            "module": "dotreact",
+            "module": "nextpy",
             "args": "run --env dev",
             "justMyCode": true,
             "cwd": "${fileDirname}/.."

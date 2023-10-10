@@ -1,6 +1,6 @@
 import pytest
 
-import dotreact as dr
+import nextpy as xt
 
 
 @pytest.fixture
@@ -12,9 +12,9 @@ def upload_component():
     """
 
     def upload_component():
-        return dr.upload(
-            dr.button("select file"),
-            dr.text("Drag and drop files here or click to select files"),
+        return xt.upload(
+            xt.button("select file"),
+            xt.text("Drag and drop files here or click to select files"),
             border="1px dotted black",
         )
 
@@ -30,9 +30,9 @@ def upload_component_with_props():
     """
 
     def upload_component_with_props():
-        return dr.upload(
-            dr.button("select file"),
-            dr.text("Drag and drop files here or click to select files"),
+        return xt.upload(
+            xt.button("select file"),
+            xt.text("Drag and drop files here or click to select files"),
             border="1px dotted black",
             no_drag=True,
             max_files=2,

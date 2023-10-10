@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nextpy"
-version = "0.1.0"
+version = "0.1.01"
 description = "Web apps in pure Python with all the flexibility and speed of nextjs."
 license = "Apache-2.0"
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 readme = "README.md"
 homepage = "https://dotagent.dev"
-repository = "https://github.com/dot-agent/dotreact"
+repository = "https://github.com/dot-agent/nextpy"
 documentation = "https://dotagent.dev/docs/getting-started/introduction"
 keywords = [
     "web",
@@ -18,7 +18,7 @@ classifiers = [
     "Development Status :: 4 - Beta",
 ]
 packages = [
-    {include = "dotreact"}
+    {include = "nextpy"}
 ]
 
 [tool.poetry.dependencies]
@@ -72,7 +72,7 @@ pre-commit = {version = "^3.2.1", python = ">=3.8,<4.0"}
 selenium = "^4.11.0"
 
 [tool.poetry.scripts]
-dotreact = "dotreact.dotreact:cli"
+nextpy = "nextpy.nextpy:cli"
 
 [build-system]
 requires = ["poetry-core>=1.5.1"]
@@ -92,5 +92,5 @@ target-version = "py37"
 
 "__init__.py" = ["F401"]
 "tests/*.py" = ["D100", "D103", "D104"]
-"dotreact/.templates/*.py" = ["D100", "D103", "D104"]
+"nextpy/.templates/*.py" = ["D100", "D103", "D104"]
 "*.pyi" = ["ALL"]

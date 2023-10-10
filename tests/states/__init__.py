@@ -1,5 +1,5 @@
-"""Common dr.State subclasses for use in tests."""
-import dotreact as dr
+"""Common xt.State subclasses for use in tests."""
+import nextpy as xt
 
 from .mutation import DictMutationTestState, ListMutationTestState, MutableTestState
 from .upload import (
@@ -11,7 +11,7 @@ from .upload import (
 )
 
 
-class GenState(dr.State):
+class GenState(xt.State):
     """A state with event handlers that generate multiple updates."""
 
     value: int

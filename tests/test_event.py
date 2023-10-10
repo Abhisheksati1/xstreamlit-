@@ -2,10 +2,10 @@ import json
 
 import pytest
 
-from dotreact import event
-from dotreact.event import Event, EventHandler, EventSpec, fix_events
-from dotreact.utils import format
-from dotreact.vars import Var
+from nextpy import event
+from nextpy.event import Event, EventHandler, EventSpec, fix_events
+from nextpy.utils import format
+from nextpy.vars import Var
 
 
 def make_var(value) -> Var:

@@ -4,16 +4,16 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotreact.testing import AppHarness
+from nextpy.testing import AppHarness
 
 # pyright: reportOptionalMemberAccess=false, reportGeneralTypeIssues=false, reportUnknownMemberType=false
 
 
 def VarOperations():
     """App with var operations."""
-    import dotreact as dr
+    import nextpy as xt
 
-    class VarOperationState(dr.State):
+    class VarOperationState(xt.State):
         int_var1: int = 10
         int_var2: int = 5
         int_var3: int = 7
@@ -29,499 +29,499 @@ def VarOperations():
         dict1: dict = {1: 2}
         dict2: dict = {3: 4}
 
-        @dr.var
+        @xt.var
         def token(self) -> str:
             return self.get_token()
 
-    app = dr.App(state=VarOperationState)
+    app = xt.App(state=VarOperationState)
 
     @app.add_page
     def index():
-        return dr.vstack(
-            dr.input(id="token", value=VarOperationState.token, is_read_only=True),
+        return xt.vstack(
+            xt.input(id="token", value=VarOperationState.token, is_read_only=True),
             # INT INT
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 + VarOperationState.int_var2,
                 id="int_add_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 * VarOperationState.int_var2,
                 id="int_mult_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 - VarOperationState.int_var2,
                 id="int_sub_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1**VarOperationState.int_var2,
                 id="int_exp_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 / VarOperationState.int_var2,
                 id="int_div_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 // VarOperationState.int_var3,
                 id="int_floor_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 % VarOperationState.int_var2,
                 id="int_mod_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 | VarOperationState.int_var2,
                 id="int_or_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 > VarOperationState.int_var2).to_string(),
                 id="int_gt_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 < VarOperationState.int_var2).to_string(),
                 id="int_lt_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 >= VarOperationState.int_var2).to_string(),
                 id="int_gte_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 <= VarOperationState.int_var2).to_string(),
                 id="int_lte_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.int_var1 & VarOperationState.int_var2,
                 id="int_and_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 | VarOperationState.int_var2).to_string(),
                 id="int_or_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 == VarOperationState.int_var2).to_string(),
                 id="int_eq_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 != VarOperationState.int_var2).to_string(),
                 id="int_neq_int",
             ),
             # INT FLOAT OR FLOAT INT
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 + VarOperationState.int_var2,
                 id="float_add_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 * VarOperationState.int_var2,
                 id="float_mult_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 - VarOperationState.int_var2,
                 id="float_sub_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1**VarOperationState.int_var2,
                 id="float_exp_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 / VarOperationState.int_var2,
                 id="float_div_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 // VarOperationState.int_var3,
                 id="float_floor_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 % VarOperationState.int_var2,
                 id="float_mod_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 > VarOperationState.int_var2).to_string(),
                 id="float_gt_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 < VarOperationState.int_var2).to_string(),
                 id="float_lt_int",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 >= VarOperationState.int_var2
                 ).to_string(),
                 id="float_gte_int",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 <= VarOperationState.int_var2
                 ).to_string(),
                 id="float_lte_int",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 == VarOperationState.int_var2
                 ).to_string(),
                 id="float_eq_int",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 != VarOperationState.int_var2
                 ).to_string(),
                 id="float_neq_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 & VarOperationState.int_var2).to_string(),
                 id="float_and_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 | VarOperationState.int_var2).to_string(),
                 id="float_or_int",
             ),
             # INT, DICT
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 | VarOperationState.dict1).to_string(),
                 id="int_or_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 & VarOperationState.dict1).to_string(),
                 id="int_and_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 == VarOperationState.dict1).to_string(),
                 id="int_eq_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.int_var1 != VarOperationState.dict1).to_string(),
                 id="int_neq_dict",
             ),
             # FLOAT FLOAT
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 + VarOperationState.float_var2,
                 id="float_add_float",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 * VarOperationState.float_var2,
                 id="float_mult_float",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 - VarOperationState.float_var2,
                 id="float_sub_float",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1**VarOperationState.float_var2,
                 id="float_exp_float",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 / VarOperationState.float_var2,
                 id="float_div_float",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 // VarOperationState.float_var2,
                 id="float_floor_float",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 % VarOperationState.float_var2,
                 id="float_mod_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 > VarOperationState.float_var2
                 ).to_string(),
                 id="float_gt_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 < VarOperationState.float_var2
                 ).to_string(),
                 id="float_lt_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 >= VarOperationState.float_var2
                 ).to_string(),
                 id="float_gte_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 <= VarOperationState.float_var2
                 ).to_string(),
                 id="float_lte_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 == VarOperationState.float_var2
                 ).to_string(),
                 id="float_eq_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 != VarOperationState.float_var2
                 ).to_string(),
                 id="float_neq_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 & VarOperationState.float_var2
                 ).to_string(),
                 id="float_and_float",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 | VarOperationState.float_var2
                 ).to_string(),
                 id="float_or_float",
             ),
             # FLOAT STR
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 | VarOperationState.str_var1,
                 id="float_or_str",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.float_var1 & VarOperationState.str_var1,
                 id="float_and_str",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 == VarOperationState.str_var1
                 ).to_string(),
                 id="float_eq_str",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 != VarOperationState.str_var1
                 ).to_string(),
                 id="float_neq_str",
             ),
             # FLOAT LIST
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 | VarOperationState.list1).to_string(),
                 id="float_or_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 & VarOperationState.list1).to_string(),
                 id="float_and_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 == VarOperationState.list1).to_string(),
                 id="float_eq_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 != VarOperationState.list1).to_string(),
                 id="float_neq_list",
             ),
             # FLOAT DICT
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 | VarOperationState.dict1).to_string(),
                 id="float_or_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 & VarOperationState.dict1).to_string(),
                 id="float_and_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 == VarOperationState.dict1).to_string(),
                 id="float_eq_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.float_var1 != VarOperationState.dict1).to_string(),
                 id="float_neq_dict",
             ),
             # STR STR
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 + VarOperationState.str_var2,
                 id="str_add_str",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 > VarOperationState.str_var2).to_string(),
                 id="str_gt_str",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 < VarOperationState.str_var2).to_string(),
                 id="str_lt_str",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 >= VarOperationState.str_var2).to_string(),
                 id="str_gte_str",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 <= VarOperationState.str_var2).to_string(),
                 id="str_lte_str",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 == VarOperationState.float_var2
                 ).to_string(),
                 id="str_eq_str",
             ),
-            dr.text(
+            xt.text(
                 (
                     VarOperationState.float_var1 != VarOperationState.float_var2
                 ).to_string(),
                 id="str_neq_str",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1.contains("fir").to_string(),
                 id="str_contains",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 | VarOperationState.str_var1, id="str_or_str"
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 & VarOperationState.str_var2,
                 id="str_and_str",
             ),
             # STR, INT
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 * VarOperationState.int_var2,
                 id="str_mult_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 & VarOperationState.int_var2,
                 id="str_and_int",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 | VarOperationState.int_var2, id="str_or_int"
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 == VarOperationState.int_var1).to_string(),
                 id="str_eq_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 != VarOperationState.int_var1).to_string(),
                 id="str_neq_int",
             ),
             # STR, LIST
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 | VarOperationState.list1, id="str_or_list"
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 & VarOperationState.list1).to_string(),
                 id="str_and_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 == VarOperationState.list1).to_string(),
                 id="str_eq_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 != VarOperationState.list1).to_string(),
                 id="str_neq_list",
             ),
             # STR, DICT
-            dr.text(
+            xt.text(
                 VarOperationState.str_var1 | VarOperationState.dict1, id="str_or_dict"
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 & VarOperationState.dict1).to_string(),
                 id="str_and_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 == VarOperationState.dict1).to_string(),
                 id="str_eq_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.str_var1 != VarOperationState.dict1).to_string(),
                 id="str_neq_dict",
             ),
             # LIST, LIST
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 + VarOperationState.list2).to_string(),
                 id="list_add_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 & VarOperationState.list2).to_string(),
                 id="list_and_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 | VarOperationState.list2).to_string(),
                 id="list_or_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 > VarOperationState.list2).to_string(),
                 id="list_gt_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 < VarOperationState.list2).to_string(),
                 id="list_lt_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 >= VarOperationState.list2).to_string(),
                 id="list_gte_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 <= VarOperationState.list2).to_string(),
                 id="list_lte_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 == VarOperationState.list2).to_string(),
                 id="list_eq_list",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 != VarOperationState.list2).to_string(),
                 id="list_neq_list",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.list1.contains(1).to_string(), id="list_contains"
             ),
-            dr.text(VarOperationState.list1.reverse().to_string(), id="list_reverse"),
+            xt.text(VarOperationState.list1.reverse().to_string(), id="list_reverse"),
             # LIST, INT
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 * VarOperationState.int_var2).to_string(),
                 id="list_mult_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 | VarOperationState.int_var1).to_string(),
                 id="list_or_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 & VarOperationState.int_var1).to_string(),
                 id="list_and_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 == VarOperationState.int_var1).to_string(),
                 id="list_eq_int",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 != VarOperationState.int_var1).to_string(),
                 id="list_neq_int",
             ),
             # LIST, DICT
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 | VarOperationState.dict1).to_string(),
                 id="list_or_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 & VarOperationState.dict1).to_string(),
                 id="list_and_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 == VarOperationState.dict1).to_string(),
                 id="list_eq_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.list1 != VarOperationState.dict1).to_string(),
                 id="list_neq_dict",
             ),
             # DICT, DICT
-            dr.text(
+            xt.text(
                 (VarOperationState.dict1 | VarOperationState.dict2).to_string(),
                 id="dict_or_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.dict1 & VarOperationState.dict2).to_string(),
                 id="dict_and_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.dict1 == VarOperationState.dict2).to_string(),
                 id="dict_eq_dict",
             ),
-            dr.text(
+            xt.text(
                 (VarOperationState.dict1 != VarOperationState.dict2).to_string(),
                 id="dict_neq_dict",
             ),
-            dr.text(
+            xt.text(
                 VarOperationState.dict1.contains(1).to_string(), id="dict_contains"
             ),
-            dr.text(VarOperationState.str_var3.lower(), id="str_lower"),
-            dr.text(VarOperationState.str_var3.upper(), id="str_upper"),
-            dr.text(VarOperationState.str_var4.split(" ").to_string(), id="str_split"),
-            dr.text(VarOperationState.list3.join(""), id="list_join"),
-            dr.text(VarOperationState.list3.join(","), id="list_join_comma"),
+            xt.text(VarOperationState.str_var3.lower(), id="str_lower"),
+            xt.text(VarOperationState.str_var3.upper(), id="str_upper"),
+            xt.text(VarOperationState.str_var4.split(" ").to_string(), id="str_split"),
+            xt.text(VarOperationState.list3.join(""), id="list_join"),
+            xt.text(VarOperationState.list3.join(","), id="list_join_comma"),
         )
 
     app.compile()

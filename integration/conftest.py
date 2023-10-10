@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from dotreact.testing import AppHarness, AppHarnessProd
+from nextpy.testing import AppHarness, AppHarnessProd
 
 DISPLAY = None
 XVFB_DIMENSIONS = (800, 600)

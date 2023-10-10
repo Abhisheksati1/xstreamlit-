@@ -1,25 +1,25 @@
-"""Test @dr.background task functionality."""
+"""Test @xt.background task functionality."""
 
 from typing import Generator
 
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotreact.testing import DEFAULT_TIMEOUT, AppHarness, WebDriver
+from nextpy.testing import DEFAULT_TIMEOUT, AppHarness, WebDriver
 
 
 def BackgroundTask():
     """Test that background tasks work as expected."""
     import asyncio
 
-    import dotreact as dr
+    import nextpy as xt
 
-    class State(dr.State):
+    class State(xt.State):
         counter: int = 0
         _task_id: int = 0
         iterations: int = 10
 
-        @dr.background
+        @xt.background
         async def handle_event(self):
             async with self:
                 self._task_id += 1
@@ -28,7 +28,7 @@ def BackgroundTask():
                     self.counter += 1
                 await asyncio.sleep(0.005)
 
-        @dr.background
+        @xt.background
         async def handle_event_yield_only(self):
             async with self:
                 self._task_id += 1
@@ -42,7 +42,7 @@ def BackgroundTask():
         def increment(self):
             self.counter += 1
 
-        @dr.background
+        @xt.background
         async def increment_arbitrary(self, amount: int):
             async with self:
                 self.counter += int(amount)
@@ -53,49 +53,49 @@ def BackgroundTask():
         async def blocking_pause(self):
             await asyncio.sleep(0.02)
 
-        @dr.background
+        @xt.background
         async def non_blocking_pause(self):
             await asyncio.sleep(0.02)
 
-        @dr.cached_var
+        @xt.cached_var
         def token(self) -> str:
             return self.get_token()
 
-    def index() -> dr.Component:
-        return dr.vstack(
-            dr.input(id="token", value=State.token, is_read_only=True),
-            dr.heading(State.counter, id="counter"),
-            dr.input(
+    def index() -> xt.Component:
+        return xt.vstack(
+            xt.input(id="token", value=State.token, is_read_only=True),
+            xt.heading(State.counter, id="counter"),
+            xt.input(
                 id="iterations",
                 placeholder="Iterations",
                 value=State.iterations.to_string(),  # type: ignore
                 on_change=State.set_iterations,  # type: ignore
             ),
-            dr.button(
+            xt.button(
                 "Delayed Increment",
                 on_click=State.handle_event,
                 id="delayed-increment",
             ),
-            dr.button(
+            xt.button(
                 "Yield Increment",
                 on_click=State.handle_event_yield_only,
                 id="yield-increment",
             ),
-            dr.button("Increment 1", on_click=State.increment, id="increment"),
-            dr.button(
+            xt.button("Increment 1", on_click=State.increment, id="increment"),
+            xt.button(
                 "Blocking Pause",
                 on_click=State.blocking_pause,
                 id="blocking-pause",
             ),
-            dr.button(
+            xt.button(
                 "Non-Blocking Pause",
                 on_click=State.non_blocking_pause,
                 id="non-blocking-pause",
             ),
-            dr.button("Reset", on_click=State.reset_counter, id="reset"),
+            xt.button("Reset", on_click=State.reset_counter, id="reset"),
         )
 
-    app = dr.App(state=State)
+    app = xt.App(state=State)
     app.add_page(index)
     app.compile()
 

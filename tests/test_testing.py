@@ -1,6 +1,6 @@
 """Unit tests for the included testing tools."""
-from dotreact.constants import IS_WINDOWS
-from dotreact.testing import AppHarness
+from nextpy.constants import IS_WINDOWS
+from nextpy.testing import AppHarness
 
 
 def test_app_harness(tmp_path):
@@ -14,10 +14,10 @@ def test_app_harness(tmp_path):
         return
 
     def BasicApp():
-        import dotreact as dr
+        import nextpy as xt
 
-        app = dr.App()
-        app.add_page(lambda: dr.text("Basic App"), route="/", title="index")
+        app = xt.App()
+        app.add_page(lambda: xt.text("Basic App"), route="/", title="index")
         app.compile()
 
     with AppHarness.create(

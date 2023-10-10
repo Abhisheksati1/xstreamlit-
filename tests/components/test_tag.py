@@ -2,8 +2,8 @@ from typing import Dict, List
 
 import pytest
 
-from dotreact.components.tags import CondTag, Tag, tagless
-from dotreact.vars import BaseVar, Var
+from nextpy.components.tags import CondTag, Tag, tagless
+from nextpy.vars import BaseVar, Var
 
 
 @pytest.mark.parametrize(

@@ -9,14 +9,14 @@ pip install nextpy
 
 ## 🥳 Create your first app
 
-Installing `dotreact` also installs the `dotreact` command line tool.
+Installing `nextpy` also installs the `nextpy` command line tool.
 
 Test that the install was successful by creating a new project. (Replace `my_app_name` with your project name):
 
 ```bash
 mkdir my_app_name
 cd my_app_name
-dotreact init
+nextpy init
 ```
 
 This command initializes a template app in your new directory. 
@@ -24,12 +24,12 @@ This command initializes a template app in your new directory.
 You can run this app in development mode:
 
 ```bash
-dotreact run
+nextpy run
 ```
 
 You should see your app running at http://localhost:3000.
 
-Now you can modify the source code in `my_app_name/my_app_name.py`. Dotreact has fast refreshes so you can see your changes instantly when you save your code.
+Now you can modify the source code in `my_app_name/my_app_name.py`. Nextpy has fast refreshes so you can see your changes instantly when you save your code.
 
 
 ## 🫧 Example App
@@ -45,12 +45,12 @@ Let's go over an example: creating an image generation UI around DALL·E. For si
 Here is the complete code to create this. This is all done in one Python file!
 
 ```python
-import dotreact as dr
+import nextpy as xt
 import openai
 
 openai.api_key = "YOUR_API_KEY"
 
-class State(dr.State):
+class State(xt.State):
     """The app state."""
     prompt = ""
     image_url = ""
@@ -60,7 +60,7 @@ class State(dr.State):
     def get_image(self):
         """Get the image from the prompt."""
         if self.prompt == "":
-            return dr.window_alert("Prompt Empty")
+            return xt.window_alert("Prompt Empty")
 
         self.processing, self.complete = True, False
         yield
@@ -70,19 +70,19 @@ class State(dr.State):
         
 
 def index():
-    return dr.center(
-        dr.vstack(
-            dr.heading("DALL·E"),
-            dr.input(placeholder="Enter a prompt", on_blur=State.set_prompt),
-            dr.button(
+    return xt.center(
+        xt.vstack(
+            xt.heading("DALL·E"),
+            xt.input(placeholder="Enter a prompt", on_blur=State.set_prompt),
+            xt.button(
                 "Generate Image",
                 on_click=State.get_image,
                 is_loading=State.processing,
                 width="100%",
             ),
-            dr.cond(
+            xt.cond(
                 State.complete,
-                     dr.image(
+                     xt.image(
                          src=State.image_url,
                          height="25em",
                          width="25em",
@@ -97,20 +97,20 @@ def index():
     )
 
 # Add state and page to the app.
-app = dr.App()
-app.add_page(index, title="dotreact:DALL·E")
+app = xt.App()
+app.add_page(index, title="nextpy:DALL·E")
 app.compile()
 ```
 
 ## Let's break this down.
 
-### **Dotreact UI**
+### **Nextpy UI**
 
 Let's start with the UI.
 
 ```python
 def index():
-    return dr.center(
+    return xt.center(
         ...
     )
 ```
@@ -123,10 +123,10 @@ to create complex layouts. And you can use keyword args to style them with the f
 
 ### **State**
 
-Dotreact represents your UI as a function of your state.
+Nextpy represents your UI as a function of your state.
 
 ```python
-class State(dr.State):
+class State(xt.State):
     """The app state."""
     prompt = ""
     image_url = ""
@@ -144,7 +144,7 @@ Here the state is comprised of a `prompt` and `image_url`. There are also the bo
 def get_image(self):
     """Get the image from the prompt."""
     if self.prompt == "":
-        return dr.window_alert("Prompt Empty")
+        return xt.window_alert("Prompt Empty")
 
     self.processing, self.complete = True, False
     yield
@@ -153,7 +153,7 @@ def get_image(self):
     self.processing, self.complete = False, True
 ```
 
-Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Dotreact. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
+Within the state, we define functions called event handlers that change the state vars. Event handlers are the way that we can modify the state in Nextpy. They can be called in response to user actions, such as clicking a button or typing in a text box. These actions are called events.
 
 Our DALL·E. app has an event handler, `get_image` to which get this image from the OpenAI API. Using `yield` in the middle of an event handler will cause the UI to update. Otherwise the UI will update at the end of the event handler.
 
@@ -162,7 +162,7 @@ Our DALL·E. app has an event handler, `get_image` to which get this image from 
 Finally, we define our app.
 
 ```python
-app = dr.App()
+app = xt.App()
 ```
 
 We add a page from the root of the app to the index component. We also add a title that will show up in the page preview/browser tab.

@@ -1,7 +1,7 @@
 import pytest
 
-from dotreact import style
-from dotreact.vars import Var
+from nextpy import style
+from nextpy.vars import Var
 
 test_style = [
     ({"a": 1}, {"a": 1}),

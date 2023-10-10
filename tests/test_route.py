@@ -1,7 +1,7 @@
 import pytest
 
-from dotreact import constants
-from dotreact.route import catchall_in_route, get_route_args, verify_route_validity
+from nextpy import constants
+from nextpy.route import catchall_in_route, get_route_args, verify_route_validity
 
 
 @pytest.mark.parametrize(

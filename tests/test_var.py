@@ -5,9 +5,9 @@ from typing import Dict, List, Set, Tuple
 import pytest
 from pandas import DataFrame
 
-from dotreact.base import Base
-from dotreact.state import State
-from dotreact.vars import (
+from nextpy.base import Base
+from nextpy.state import State
+from nextpy.vars import (
     BaseVar,
     ComputedVar,
     ImportVar,

@@ -1,4 +1,4 @@
-name: dotreact-init-in-docker-test
+name: nextpy-init-in-docker-test
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 jobs:
   # TODO we can extend to various starting points (e.g. Ubuntu with node, without node, with unzip, without unzip, etc.)
   # Currently starting point is: Ubuntu + unzip, xz-utils, Python suite.  No node.
-  dotreact-install-and-init:
+  nextpy-install-and-init:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -22,8 +22,8 @@ jobs:
 
     - shell: bash
       run: |
-        # Run dotreact init in a docker container
+        # Run nextpy init in a docker container
  
         # cwd is repo root
-        docker build -f integration/init-test/Dockerfile -t dotreact-init-test integration/init-test
-        docker run --rm -v $(pwd):/dotreact-repo/ dotreact-init-test /dotreact-repo/integration/init-test/in_docker_test_script.sh
+        docker build -f integration/init-test/Dockerfile -t nextpy-init-test integration/init-test
+        docker run --rm -v $(pwd):/nextpy-repo/ nextpy-init-test /nextpy-repo/integration/init-test/in_docker_test_script.sh

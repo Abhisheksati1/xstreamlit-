@@ -6,51 +6,51 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from dotreact.testing import AppHarness
+from nextpy.testing import AppHarness
 
 
 def FormSubmit():
     """App with a form using on_submit."""
-    import dotreact as dr
+    import nextpy as xt
 
-    class FormState(dr.State):
+    class FormState(xt.State):
         form_data: dict = {}
 
         def form_submit(self, form_data: dict):
             self.form_data = form_data
 
-        @dr.var
+        @xt.var
         def token(self) -> str:
             return self.get_token()
 
-    app = dr.App(state=FormState)
+    app = xt.App(state=FormState)
 
     @app.add_page
     def index():
-        return dr.vstack(
-            dr.input(value=FormState.token, is_read_only=True, id="token"),
-            dr.form(
-                dr.vstack(
-                    dr.input(id="name_input"),
-                    dr.hstack(dr.pin_input(length=4, id="pin_input")),
-                    dr.number_input(id="number_input"),
-                    dr.checkbox(id="bool_input"),
-                    dr.switch(id="bool_input2"),
-                    dr.slider(id="slider_input"),
-                    dr.range_slider(id="range_input"),
-                    dr.radio_group(["option1", "option2"], id="radio_input"),
-                    dr.select(["option1", "option2"], id="select_input"),
-                    dr.text_area(id="text_area_input"),
-                    dr.input(
+        return xt.vstack(
+            xt.input(value=FormState.token, is_read_only=True, id="token"),
+            xt.form(
+                xt.vstack(
+                    xt.input(id="name_input"),
+                    xt.hstack(xt.pin_input(length=4, id="pin_input")),
+                    xt.number_input(id="number_input"),
+                    xt.checkbox(id="bool_input"),
+                    xt.switch(id="bool_input2"),
+                    xt.slider(id="slider_input"),
+                    xt.range_slider(id="range_input"),
+                    xt.radio_group(["option1", "option2"], id="radio_input"),
+                    xt.select(["option1", "option2"], id="select_input"),
+                    xt.text_area(id="text_area_input"),
+                    xt.input(
                         id="debounce_input",
                         debounce_timeout=0,
-                        on_change=dr.console_log,
+                        on_change=xt.console_log,
                     ),
-                    dr.button("Submit", type_="submit"),
+                    xt.button("Submit", type_="submit"),
                 ),
                 on_submit=FormState.form_submit,
             ),
-            dr.spacer(),
+            xt.spacer(),
             height="100vh",
         )
 

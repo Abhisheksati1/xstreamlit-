@@ -7,54 +7,54 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotreact.testing import AppHarness
+from nextpy.testing import AppHarness
 
 
 def UploadFile():
     """App for testing dynamic routes."""
-    import dotreact as dr
+    import nextpy as xt
 
-    class UploadState(dr.State):
+    class UploadState(xt.State):
         _file_data: dict[str, str] = {}
 
-        async def handle_upload(self, files: list[dr.UploadFile]):
+        async def handle_upload(self, files: list[xt.UploadFile]):
             for file in files:
                 upload_data = await file.read()
                 self._file_data[file.filename or ""] = upload_data.decode("utf-8")
 
-        @dr.var
+        @xt.var
         def token(self) -> str:
             return self.get_token()
 
     def index():
-        return dr.vstack(
-            dr.input(value=UploadState.token, is_read_only=True, id="token"),
-            dr.upload(
-                dr.vstack(
-                    dr.button("Select File"),
-                    dr.text("Drag and drop files here or click to select files"),
+        return xt.vstack(
+            xt.input(value=UploadState.token, is_read_only=True, id="token"),
+            xt.upload(
+                xt.vstack(
+                    xt.button("Select File"),
+                    xt.text("Drag and drop files here or click to select files"),
                 ),
             ),
-            dr.button(
+            xt.button(
                 "Upload",
-                on_click=lambda: UploadState.handle_upload(dr.upload_files()),  # type: ignore
+                on_click=lambda: UploadState.handle_upload(xt.upload_files()),  # type: ignore
                 id="upload_button",
             ),
-            dr.box(
-                dr.foreach(
-                    dr.selected_files,
-                    lambda f: dr.text(f),
+            xt.box(
+                xt.foreach(
+                    xt.selected_files,
+                    lambda f: xt.text(f),
                 ),
                 id="selected_files",
             ),
-            dr.button(
+            xt.button(
                 "Clear",
-                on_click=dr.clear_selected_files,
+                on_click=xt.clear_selected_files,
                 id="clear_button",
             ),
         )
 
-    app = dr.App(state=UploadState)
+    app = xt.App(state=UploadState)
     app.add_page(index)
     app.compile()
 
@@ -160,7 +160,7 @@ async def test_upload_file_multiple(tmp_path, upload_file: AppHarness, driver):
     exp_files = {
         "test1.txt": "test file contents!",
         "test2.txt": "this is test file number 2!",
-        "dotreact.txt": "dotreact is awesome!",
+        "nextpy.txt": "nextpy is awesome!",
     }
     for exp_name, exp_contents in exp_files.items():
         target_file = tmp_path / exp_name
@@ -209,7 +209,7 @@ def test_clear_files(tmp_path, upload_file: AppHarness, driver):
     exp_files = {
         "test1.txt": "test file contents!",
         "test2.txt": "this is test file number 2!",
-        "dotreact.txt": "dotreact is awesome!",
+        "nextpy.txt": "nextpy is awesome!",
     }
     for exp_name, exp_contents in exp_files.items():
         target_file = tmp_path / exp_name

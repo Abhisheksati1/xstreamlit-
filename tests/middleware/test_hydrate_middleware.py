@@ -2,10 +2,10 @@ from typing import Any, Dict
 
 import pytest
 
-from dotreact.app import App
-from dotreact.constants import CompileVars
-from dotreact.middleware.hydrate_middleware import HydrateMiddleware
-from dotreact.state import State, StateUpdate
+from nextpy.app import App
+from nextpy.constants import CompileVars
+from nextpy.middleware.hydrate_middleware import HydrateMiddleware
+from nextpy.state import State, StateUpdate
 
 
 def exp_is_hydrated(state: State) -> Dict[str, Any]:

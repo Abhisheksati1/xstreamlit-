@@ -1,6 +1,6 @@
 import pytest
 
-from dotreact.components.base.bare import Bare
+from nextpy.components.base.bare import Bare
 
 
 @pytest.mark.parametrize(

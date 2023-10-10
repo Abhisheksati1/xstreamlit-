@@ -5,16 +5,16 @@ from urllib.parse import urlsplit
 import pytest
 from selenium.webdriver.common.by import By
 
-from dotreact.testing import AppHarness, AppHarnessProd, WebDriver
+from nextpy.testing import AppHarness, AppHarnessProd, WebDriver
 
 from .utils import poll_for_navigation
 
 
 def DynamicRoute():
     """App for testing dynamic routes."""
-    import dotreact as dr
+    import nextpy as xt
 
-    class DynamicState(dr.State):
+    class DynamicState(xt.State):
         order: list[str] = []
         page_id: str = ""
 
@@ -26,39 +26,39 @@ def DynamicRoute():
         def on_load_redir(self):
             query_params = self.get_query_params()
             self.order.append(f"on_load_redir-{query_params}")
-            return dr.redirect(f"/page/{query_params['page_id']}")
+            return xt.redirect(f"/page/{query_params['page_id']}")
 
-        @dr.var
+        @xt.var
         def next_page(self) -> str:
             try:
                 return str(int(self.page_id) + 1)
             except ValueError:
                 return "0"
 
-        @dr.var
+        @xt.var
         def token(self) -> str:
             return self.get_token()
 
     def index():
-        return dr.fragment(
-            dr.input(value=DynamicState.token, is_read_only=True, id="token"),  # type: ignore
-            dr.input(value=DynamicState.page_id, is_read_only=True, id="page_id"),
-            dr.link("index", href="/", id="link_index"),
-            dr.link("page_X", href="/static/x", id="link_page_x"),
-            dr.link(
+        return xt.fragment(
+            xt.input(value=DynamicState.token, is_read_only=True, id="token"),  # type: ignore
+            xt.input(value=DynamicState.page_id, is_read_only=True, id="page_id"),
+            xt.link("index", href="/", id="link_index"),
+            xt.link("page_X", href="/static/x", id="link_page_x"),
+            xt.link(
                 "next", href="/page/" + DynamicState.next_page, id="link_page_next"  # type: ignore
             ),
-            dr.link("missing", href="/missing", id="link_missing"),
-            dr.list(
-                dr.foreach(DynamicState.order, lambda i: dr.list_item(dr.text(i))),  # type: ignore
+            xt.link("missing", href="/missing", id="link_missing"),
+            xt.list(
+                xt.foreach(DynamicState.order, lambda i: xt.list_item(xt.text(i))),  # type: ignore
             ),
         )
 
-    @dr.page(route="/redirect-page/[page_id]", on_load=DynamicState.on_load_redir)  # type: ignore
+    @xt.page(route="/redirect-page/[page_id]", on_load=DynamicState.on_load_redir)  # type: ignore
     def redirect_page():
-        return dr.fragment(dr.text("redirecting..."))
+        return xt.fragment(xt.text("redirecting..."))
 
-    app = dr.App(state=DynamicState)
+    app = xt.App(state=DynamicState)
     app.add_page(index)
     app.add_page(index, route="/page/[page_id]", on_load=DynamicState.on_load)  # type: ignore
     app.add_page(index, route="/static/x", on_load=DynamicState.on_load)  # type: ignore

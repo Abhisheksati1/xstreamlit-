@@ -8,9 +8,9 @@ from typing import Dict, Generator
 
 import pytest
 
-import dotreact as dr
-from dotreact.app import App
-from dotreact.event import EventSpec
+import nextpy as xt
+from nextpy.app import App
+from nextpy.event import EventSpec
 
 from .states import (
     DictMutationTestState,
@@ -134,9 +134,9 @@ def router_data_headers() -> Dict[str, str]:
         "accept-encoding": "gzip, deflate, br",
         "accept-language": "en-US,en;q=0.9",
         "cookie": "csrftoken=mocktoken; "
-        "name=dotreact;"
+        "name=nextpy;"
         " list_cookies=%5B%22some%22%2C%20%22random%22%2C%20%22cookies%22%5D;"
-        " dict_cookies=%7B%22name%22%3A%20%22dotreact%22%7D; val=true",
+        " dict_cookies=%7B%22name%22%3A%20%22nextpy%22%7D; val=true",
         "sec-websocket-key": "mock-websocket-key",
         "sec-websocket-extensions": "permessage-deflate; client_max_window_bits",
     }
@@ -235,7 +235,7 @@ def duplicate_substate():
         The test state.
     """
 
-    class TestState(dr.State):
+    class TestState(xt.State):
         pass
 
     class ChildTestState(TestState):  # type: ignore # noqa

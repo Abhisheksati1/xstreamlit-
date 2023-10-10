@@ -2,16 +2,16 @@ from typing import Any, Dict, List, Type
 
 import pytest
 
-import dotreact as dr
-from dotreact.base import Base
-from dotreact.components.component import Component, CustomComponent, custom_component
-from dotreact.components.layout.box import Box
-from dotreact.constants import EventTriggers
-from dotreact.event import EVENT_ARG, EventHandler
-from dotreact.state import State
-from dotreact.style import Style
-from dotreact.utils import imports
-from dotreact.vars import ImportVar, Var
+import nextpy as xt
+from nextpy.base import Base
+from nextpy.components.component import Component, CustomComponent, custom_component
+from nextpy.components.layout.box import Box
+from nextpy.constants import EventTriggers
+from nextpy.event import EVENT_ARG, EventHandler
+from nextpy.state import State
+from nextpy.style import Style
+from nextpy.utils import imports
+from nextpy.vars import ImportVar, Var
 
 
 @pytest.fixture
@@ -467,17 +467,17 @@ def test_custom_component_wrapper():
 
     @custom_component
     def my_component(width: Var[int], color: Var[str]):
-        return dr.box(
+        return xt.box(
             width=width,
             color=color,
         )
 
     ccomponent = my_component(
-        dr.text("child"), width=Var.create(1), color=Var.create("red")
+        xt.text("child"), width=Var.create(1), color=Var.create("red")
     )
     assert isinstance(ccomponent, CustomComponent)
     assert len(ccomponent.children) == 1
-    assert isinstance(ccomponent.children[0], dr.Text)
+    assert isinstance(ccomponent.children[0], xt.Text)
 
     component = ccomponent.get_component()
     assert isinstance(component, Box)
@@ -564,7 +564,7 @@ def test_unsupported_child_components(fixture, request):
     """
     component = request.getfixturevalue(fixture)
     with pytest.raises(ValueError) as err:
-        comp = component.create(dr.text("testing component"))
+        comp = component.create(xt.text("testing component"))
         comp.render()
     assert (
         err.value.args[0]
@@ -583,7 +583,7 @@ def test_component_with_only_valid_children(fixture, request):
     """
     component = request.getfixturevalue(fixture)
     with pytest.raises(ValueError) as err:
-        comp = component.create(dr.box("testing component"))
+        comp = component.create(xt.box("testing component"))
         comp.render()
     assert (
         err.value.args[0]
@@ -595,9 +595,9 @@ def test_component_with_only_valid_children(fixture, request):
 @pytest.mark.parametrize(
     "component,rendered",
     [
-        (dr.text("hi"), "<Text>\n  {`hi`}\n</Text>"),
+        (xt.text("hi"), "<Text>\n  {`hi`}\n</Text>"),
         (
-            dr.box(dr.heading("test", size="md")),
+            xt.box(xt.heading("test", size="md")),
             "<Box>\n  <Heading size={`md`}>\n  {`test`}\n</Heading>\n</Box>",
         ),
     ],

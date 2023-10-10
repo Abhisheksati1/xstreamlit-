@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
     # We don't just trigger on pyi_generator.py and the components dir, because
     # there are other things that can change the generator output
-    # e.g. black version, dotreact.Component, dotreact.Var.
+    # e.g. black version, nextpy.Component, nextpy.Var.
     paths-ignore:
       - '**/*.md'
   pull_request:

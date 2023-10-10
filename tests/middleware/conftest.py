@@ -1,6 +1,6 @@
 import pytest
 
-from dotreact.event import Event
+from nextpy.event import Event
 
 
 def create_event(name):

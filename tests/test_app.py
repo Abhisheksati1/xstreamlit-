@@ -18,8 +18,8 @@ from starlette_admin.auth import AuthProvider
 from starlette_admin.contrib.sqla.admin import Admin
 from starlette_admin.contrib.sqla.view import ModelView
 
-from dotreact import AdminDash, constants
-from dotreact.app import (
+from nextpy import AdminDash, constants
+from nextpy.app import (
     App,
     ComponentCallable,
     DefaultState,
@@ -27,14 +27,14 @@ from dotreact.app import (
     process,
     upload,
 )
-from dotreact.components import Box, Component, Cond, Fragment, Text
-from dotreact.event import Event, get_hydrate_event
-from dotreact.middleware import HydrateMiddleware
-from dotreact.model import Model
-from dotreact.state import State, StateManagerRedis, StateUpdate
-from dotreact.style import Style
-from dotreact.utils import format
-from dotreact.vars import ComputedVar
+from nextpy.components import Box, Component, Cond, Fragment, Text
+from nextpy.event import Event, get_hydrate_event
+from nextpy.middleware import HydrateMiddleware
+from nextpy.model import Model
+from nextpy.state import State, StateManagerRedis, StateUpdate
+from nextpy.style import Style
+from nextpy.utils import format
+from nextpy.vars import ComputedVar
 
 from .states import (
     ChildFileUploadState,
@@ -194,12 +194,12 @@ def test_default_app(app: App):
 
 
 def test_multiple_states_error(monkeypatch, test_state, redundant_test_state):
-    """Test that an error is thrown when multiple classes subclass dr.State.
+    """Test that an error is thrown when multiple classes subclass xt.State.
 
     Args:
         monkeypatch: Pytest monkeypatch object.
-        test_state: A test state subclassing dr.State.
-        redundant_test_state: Another test state subclassing dr.State.
+        test_state: A test state subclassing xt.State.
+        redundant_test_state: Another test state subclassing xt.State.
     """
     monkeypatch.delenv(constants.PYTEST_CURRENT_TEST)
     with pytest.raises(ValueError):
@@ -770,7 +770,7 @@ async def test_upload_file(tmp_path, state, delta, token: str):
     [FileUploadState, ChildFileUploadState, GrandChildFileUploadState],
 )
 async def test_upload_file_without_annotation(state, tmp_path, token):
-    """Test that an error is thrown when there's no param annotated with dr.UploadFile or List[UploadFile].
+    """Test that an error is thrown when there's no param annotated with xt.UploadFile or List[UploadFile].
 
     Args:
         state: The state class.
@@ -799,7 +799,7 @@ async def test_upload_file_without_annotation(state, tmp_path, token):
         await fn([file1, file2])
     assert (
         err.value.args[0]
-        == f"`{state.get_name()}.handle_upload2` handler should have a parameter annotated as List[dr.UploadFile]"
+        == f"`{state.get_name()}.handle_upload2` handler should have a parameter annotated as List[xt.UploadFile]"
     )
 
     if isinstance(app.state_manager, StateManagerRedis):

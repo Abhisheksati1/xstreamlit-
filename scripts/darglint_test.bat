@@ -3,10 +3,10 @@ cd ..
 
 echo "start darglint"
 
-echo "dotreact folder"
-for /R dotreact %%f in (*.py) do (
+echo "nextpy folder"
+for /R nextpy %%f in (*.py) do (
     echo %%f
-    echo %%f|findstr /r "^.*dotreact\\ds\.py$"
+    echo %%f|findstr /r "^.*nextpy\\ds\.py$"
     if errorlevel 1 (
         poetry run darglint %%f
     )
