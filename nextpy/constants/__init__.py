@@ -14,7 +14,7 @@ from .base import (
     Next,
     Ping,
     Nextpy,
-    Templates,
+    Boilerplate,
 )
 from .compiler import (
     SETTER_PREFIX,
@@ -87,6 +87,6 @@ __ALL__ = [
     SocketEvent,
     STYLES_DIR,
     Tailwind,
-    Templates,
+    Boilerplate,
     CompileVars,
 ]

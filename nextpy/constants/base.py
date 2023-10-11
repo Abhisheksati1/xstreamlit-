@@ -74,26 +74,26 @@ class Nextpy(SimpleNamespace):
     )
 
 
-class Templates(SimpleNamespace):
-    """Constants related to Templates."""
+class Boilerplate(SimpleNamespace):
+    """Constants related to Boilerplate."""
 
     class Kind(str, Enum):
-        """The templates to use for the app."""
+        """The boilerplate to use for the app."""
 
         DEFAULT = "default"
         COUNTER = "counter"
 
     class Dirs(SimpleNamespace):
-        """Folders used by the template system of Nextpy."""
+        """Folders used by the boilerplate system of Nextpy."""
 
-        # The template directory used during nextpy init.
-        BASE = os.path.join(Nextpy.ROOT_DIR, Nextpy.MODULE_NAME, ".templates")
-        # The web subdirectory of the template directory.
-        WEB_TEMPLATE = os.path.join(BASE, "web")
-        # The assets subdirectory of the template directory.
-        ASSETS_TEMPLATE = os.path.join(BASE, Dirs.APP_ASSETS)
-        # The jinja template directory.
-        JINJA_TEMPLATE = os.path.join(BASE, "jinja")
+        # The boilerplate directory used during nextpy init.
+        BASE = os.path.join(Nextpy.ROOT_DIR, Nextpy.MODULE_NAME, ".boilerplate")
+        # The web subdirectory of the boilerplate directory.
+        WEB_BOILERPLATE = os.path.join(BASE, "web")
+        # The assets subdirectory of the boilerplate directory.
+        ASSETS_BOILERPLATE = os.path.join(BASE, Dirs.APP_ASSETS)
+        # The jinja boilerplate directory.
+        JINJA_BOILERPLATE = os.path.join(BASE, "jinja")
 
 
 class Next(SimpleNamespace):

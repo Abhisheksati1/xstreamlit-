@@ -5,7 +5,7 @@ from nextpy.utils.prerequisites import update_next_config
 
 
 @pytest.mark.parametrize(
-    "template_next_config, nextpy_config, expected_next_config",
+    "boilerplate_next_config, nextpy_config, expected_next_config",
     [
         (
             """
@@ -97,7 +97,7 @@ from nextpy.utils.prerequisites import update_next_config
         ),
     ],
 )
-def test_update_next_config(template_next_config, nextpy_config, expected_next_config):
+def test_update_next_config(boilerplate_next_config, nextpy_config, expected_next_config):
     assert (
-        update_next_config(template_next_config, nextpy_config) == expected_next_config
+        update_next_config(boilerplate_next_config, nextpy_config) == expected_next_config
     )

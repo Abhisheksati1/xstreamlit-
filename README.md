@@ -19,7 +19,7 @@ cd my_app_name
 nextpy init
 ```
 
-This command initializes a template app in your new directory. 
+This command initializes a boilerplate app in your new directory. 
 
 You can run this app in development mode:
 

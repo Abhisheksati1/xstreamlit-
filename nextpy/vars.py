@@ -217,7 +217,7 @@ class Var(ABC):
         return hash((self.name, str(self.type_)))
 
     def __str__(self) -> str:
-        """Wrap the var so it can be used in templates.
+        """Wrap the var so it can be used in templates/boilerplate.
 
         Returns:
             The wrapped var, i.e. {state.var}.

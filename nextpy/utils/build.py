@@ -42,7 +42,7 @@ def generate_sitemap_config(deploy_url: str):
         deploy_url: The URL of the deployed app.
     """
     # Import here to avoid circular imports.
-    from nextpy.compiler import templates
+    from nextpy.compiler import boilerplate
 
     config = json.dumps(
         {
@@ -52,7 +52,7 @@ def generate_sitemap_config(deploy_url: str):
     )
 
     with open(constants.Next.SITEMAP_CONFIG_FILE, "w") as f:
-        f.write(templates.SITEMAP_CONFIG(config=config))
+        f.write(boilerplate.SITEMAP_CONFIG(config=config))
 
 
 def _zip(

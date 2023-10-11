@@ -484,7 +484,7 @@ class Component(Base, ABC):
         """Render the component.
 
         Returns:
-            The dictionary for template of component.
+            The dictionary for boilerplate of component.
         """
         tag = self._render()
         rendered_dict = dict(

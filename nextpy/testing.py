@@ -153,7 +153,7 @@ class AppHarness:
             with chdir(self.app_path):
                 nextpy.nextpy.init(
                     name=self.app_name,
-                    template=nextpy.constants.Templates.Kind.DEFAULT,
+                    boilerplate=nextpy.constants.Boilerplate.Kind.DEFAULT,
                     loglevel=nextpy.constants.LogLevel.INFO,
                 )
                 self.app_module_path.write_text(source_code)

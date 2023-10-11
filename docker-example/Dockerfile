@@ -16,7 +16,7 @@ RUN python3 -m venv $VIRTUAL_ENV
 # Install app requirements and nextpy inside virtualenv
 RUN pip install -r requirements.txt
 
-# Deploy templates and prepare app
+# Deploy boilerplate and prepare app
 RUN nextpy init
 
 # Export static copy of frontend to /app/.web/_static

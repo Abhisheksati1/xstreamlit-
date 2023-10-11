@@ -111,7 +111,7 @@ def compile_imports(imports: imports.ImportDict) -> list[dict]:
 
 
 def get_import_dict(lib: str, default: str = "", rest: set[str] | None = None) -> dict:
-    """Get dictionary for import template.
+    """Get dictionary for import boilerplate.
 
     Args:
         lib: The importing react library.
@@ -119,7 +119,7 @@ def get_import_dict(lib: str, default: str = "", rest: set[str] | None = None) -
         rest: The rest module to import.
 
     Returns:
-        A dictionary for import template.
+        A dictionary for import boilerplate.
     """
     return {
         "lib": lib,

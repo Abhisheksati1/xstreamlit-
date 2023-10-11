@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Type
 
 from nextpy import constants
-from nextpy.compiler import templates, utils
+from nextpy.compiler import boilerplate, utils
 from nextpy.components.component import Component, ComponentStyle, CustomComponent
 from nextpy.config import get_config
 from nextpy.state import State
@@ -58,7 +58,7 @@ def _compile_document_root(root: Component) -> str:
     Returns:
         The compiled document root.
     """
-    return templates.DOCUMENT_ROOT.render(
+    return boilerplate.DOCUMENT_ROOT.render(
         imports=utils.compile_imports(root.get_imports()),
         document=root.render(),
     )
@@ -73,7 +73,7 @@ def _compile_theme(theme: dict) -> str:
     Returns:
         The compiled theme.
     """
-    return templates.THEME.render(theme=theme)
+    return boilerplate.THEME.render(theme=theme)
 
 
 def _compile_contexts(state: Type[State]) -> str:
@@ -85,7 +85,7 @@ def _compile_contexts(state: Type[State]) -> str:
     Returns:
         The compiled context file.
     """
-    return templates.CONTEXT.render(
+    return boilerplate.CONTEXT.render(
         initial_state=utils.compile_state(state),
         state_name=state.get_name(),
         client_storage=utils.compile_client_storage(state),
@@ -111,7 +111,7 @@ def _compile_page(
     imports = utils.compile_imports(imports)
 
     # Compile the code to render the component.
-    return templates.PAGE.render(
+    return boilerplate.PAGE.render(
         imports=imports,
         dynamic_imports=component.get_dynamic_imports(),
         custom_codes=component.get_custom_code(),
@@ -167,7 +167,7 @@ def _compile_root_stylesheet(stylesheets: list[str]) -> str:
                 )
             stylesheet = f"@/{stylesheet.strip('/')}"
         sheets.append(stylesheet) if stylesheet not in sheets else None
-    return templates.STYLE.render(stylesheets=sheets)
+    return boilerplate.STYLE.render(stylesheets=sheets)
 
 
 def _compile_component(component: Component) -> str:
@@ -179,7 +179,7 @@ def _compile_component(component: Component) -> str:
     Returns:
         The compiled component.
     """
-    return templates.COMPONENT.render(component=component)
+    return boilerplate.COMPONENT.render(component=component)
 
 
 def _compile_components(components: set[CustomComponent]) -> str:
@@ -204,7 +204,7 @@ def _compile_components(components: set[CustomComponent]) -> str:
         imports = utils.merge_imports(imports, component_imports)
 
     # Compile the components page.
-    return templates.COMPONENTS.render(
+    return boilerplate.COMPONENTS.render(
         imports=utils.compile_imports(imports),
         components=component_renders,
     )
@@ -221,7 +221,7 @@ def _compile_tailwind(
     Returns:
         The compiled Tailwind config.
     """
-    return templates.TAILWIND_CONFIG.render(
+    return boilerplate.TAILWIND_CONFIG.render(
         **config,
     )
 

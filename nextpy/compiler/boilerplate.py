@@ -1,4 +1,4 @@
-"""Templates to use in the nextpy compiler."""
+"""Boilerplate to use in the nextpy compiler."""
 
 from jinja2 import Environment, FileSystemLoader, Template
 
@@ -7,7 +7,7 @@ from nextpy.utils.format import json_dumps
 
 
 class NextpyJinjaEnvironment(Environment):
-    """The template class for jinja environment."""
+    """The boilerplate class for jinja environment."""
 
     def __init__(self) -> None:
         """Set default environment."""
@@ -19,7 +19,7 @@ class NextpyJinjaEnvironment(Environment):
         )
         self.filters["json_dumps"] = json_dumps
         self.filters["react_setter"] = lambda state: f"set{state.capitalize()}"
-        self.loader = FileSystemLoader(constants.Templates.Dirs.JINJA_TEMPLATE)
+        self.loader = FileSystemLoader(constants.Boilerplate.Dirs.JINJA_BOILERPLATE)
         self.globals["const"] = {
             "socket": constants.CompileVars.SOCKET,
             "result": constants.CompileVars.RESULT,
@@ -40,49 +40,51 @@ class NextpyJinjaEnvironment(Environment):
             "use_color_mode": constants.ColorMode.USE,
             "hydrate": constants.CompileVars.HYDRATE,
         }
+    def get_boilerplate(self, name: str) -> Template:
+        return self.get_template(name)
 
 
-def get_template(name: str) -> Template:
-    """Get render function that work with a template.
+def get_boilerplate(name: str) -> Template:
+    """Get render function that work with a boilerplate.
 
     Args:
-        name: The template name. "/" is used as the path separator.
+        name: The boilerplate name. "/" is used as the path separator.
 
     Returns:
         A render function.
     """
-    return NextpyJinjaEnvironment().get_template(name=name)
+    return NextpyJinjaEnvironment().get_boilerplate(name=name)
 
 
-# Template for the Nextpy config file.
-XTCONFIG = get_template("app/xtconfig.py.jinja2")
+# Boilerplate for the Nextpy config file.
+XTCONFIG = get_boilerplate("app/xtconfig.py.jinja2")
 
 # Code to render a NextJS Document root.
-DOCUMENT_ROOT = get_template("web/pages/_document.js.jinja2")
+DOCUMENT_ROOT = get_boilerplate("web/pages/_document.js.jinja2")
 
-# Template for the theme file.
-THEME = get_template("web/utils/theme.js.jinja2")
+# Boilerplate for the theme file.
+THEME = get_boilerplate("web/utils/theme.js.jinja2")
 
-# Template for the context file.
-CONTEXT = get_template("web/utils/context.js.jinja2")
+# Boilerplate for the context file.
+CONTEXT = get_boilerplate("web/utils/context.js.jinja2")
 
-# Template for Tailwind config.
-TAILWIND_CONFIG = get_template("web/tailwind.config.js.jinja2")
+# Boilerplate for Tailwind config.
+TAILWIND_CONFIG = get_boilerplate("web/tailwind.config.js.jinja2")
 
-# Template to render a component tag.
-COMPONENT = get_template("web/pages/component.js.jinja2")
+# Boilerplate to render a component tag.
+COMPONENT = get_boilerplate("web/pages/component.js.jinja2")
 
 # Code to render a single NextJS page.
-PAGE = get_template("web/pages/index.js.jinja2")
+PAGE = get_boilerplate("web/pages/index.js.jinja2")
 
 # Code to render the custom components page.
-COMPONENTS = get_template("web/pages/custom_component.js.jinja2")
+COMPONENTS = get_boilerplate("web/pages/custom_component.js.jinja2")
 
 # Sitemap config file.
 SITEMAP_CONFIG = "module.exports = {config}".format
 
 # Code to render the root stylesheet.
-STYLE = get_template("web/styles/styles.css.jinja2")
+STYLE = get_boilerplate("web/styles/styles.css.jinja2")
 
 # Code that generate the package json file
-PACKAGE_JSON = get_template("web/package.json.jinja2")
+PACKAGE_JSON = get_boilerplate("web/package.json.jinja2")

@@ -24,7 +24,7 @@ from packaging import version
 from redis.asyncio import Redis
 
 from nextpy import constants, model
-from nextpy.compiler import templates
+from nextpy.compiler import boilerplate
 from nextpy.config import Config, get_config
 from nextpy.utils import console, path_ops, processes
 
@@ -176,16 +176,16 @@ def create_config(app_name: str):
         app_name: The name of the app.
     """
     # Import here to avoid circular imports.
-    from nextpy.compiler import templates
+    from nextpy.compiler import boilerplate
 
     config_name = f"{re.sub(r'[^a-zA-Z]', '', app_name).capitalize()}Config"
     with open(constants.Config.FILE, "w") as f:
         console.debug(f"Creating {constants.Config.FILE}")
-        f.write(templates.XTCONFIG.render(app_name=app_name, config_name=config_name))
+        f.write(boilerplate.XTCONFIG.render(app_name=app_name, config_name=config_name))
 
 
 def initialize_gitignore():
-    """Initialize the template .gitignore file."""
+    """Initialize the boilerplate .gitignore file."""
     # The files to add to the .gitignore file.
     files = constants.GitIgnore.DEFAULTS
 
@@ -200,29 +200,29 @@ def initialize_gitignore():
         f.write(f"{(path_ops.join(sorted(files))).lstrip()}")
 
 
-def initialize_app_directory(app_name: str, template: constants.Templates.Kind):
+def initialize_app_directory(app_name: str, boilerplate: constants.Boilerplate.Kind):
     """Initialize the app directory on nextpy init.
 
     Args:
         app_name: The name of the app.
-        template: The template to use.
+        boilerplate: The boilerplate to use.
     """
     console.log("Initializing the app directory.")
     path_ops.cp(
-        os.path.join(constants.Templates.Dirs.BASE, "apps", template.value), app_name
+        os.path.join(constants.Boilerplate.Dirs.BASE, "apps", boilerplate.value), app_name
     )
     path_ops.mv(
-        os.path.join(app_name, template.value + ".py"),
+        os.path.join(app_name, boilerplate.value + ".py"),
         os.path.join(app_name, app_name + constants.Ext.PY),
     )
-    path_ops.cp(constants.Templates.Dirs.ASSETS_TEMPLATE, constants.Dirs.APP_ASSETS)
+    path_ops.cp(constants.Boilerplate.Dirs.ASSETS_BOILERPLATE, constants.Dirs.APP_ASSETS)
 
 
 def initialize_web_directory():
     """Initialize the web directory on nextpy init."""
     console.log("Initializing the web directory.")
 
-    path_ops.cp(constants.Templates.Dirs.WEB_TEMPLATE, constants.Dirs.WEB)
+    path_ops.cp(constants.Boilerplate.Dirs.WEB_BOILERPLATE, constants.Dirs.WEB)
 
     initialize_package_json()
 
@@ -243,7 +243,7 @@ def initialize_web_directory():
 
 
 def _compile_package_json():
-    return templates.PACKAGE_JSON.render(
+    return boilerplate.PACKAGE_JSON.render(
         scripts={
             "dev": constants.PackageJson.Commands.DEV,
             "export": constants.PackageJson.Commands.EXPORT,
@@ -509,10 +509,10 @@ def check_initialized(frontend: bool = True):
         )
         raise typer.Exit(1)
 
-    # Check that the template is up to date.
-    if frontend and not is_latest_template():
+    # Check that the boilerplate is up to date.
+    if frontend and not is_latest_boilerplate():
         console.error(
-            "The base app template has updated. Run [bold]nextpy init[/bold] again."
+            "The base app boilerplate has updated. Run [bold]nextpy init[/bold] again."
         )
         raise typer.Exit(1)
 
@@ -523,11 +523,11 @@ def check_initialized(frontend: bool = True):
         )
 
 
-def is_latest_template() -> bool:
-    """Whether the app is using the latest template.
+def is_latest_boilerplate() -> bool:
+    """Whether the app is using the latest boilerplate.
 
     Returns:
-        Whether the app is using the latest template.
+        Whether the app is using the latest boilerplate.
     """
     if not os.path.exists(constants.Nextpy.JSON):
         return False

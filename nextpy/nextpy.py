@@ -53,9 +53,9 @@ def init(
     name: str = typer.Option(
         None, metavar="APP_NAME", help="The name of the app to initialize."
     ),
-    template: constants.Templates.Kind = typer.Option(
-        constants.Templates.Kind.DEFAULT,
-        help="The template to initialize the app with.",
+    boilerplate: constants.Boilerplate.Kind = typer.Option(
+        constants.Boilerplate.Kind.DEFAULT,
+        help="The boilerplate to initialize the app with.",
     ),
     loglevel: constants.LogLevel = typer.Option(
         config.loglevel, help="The log level to use."
@@ -81,7 +81,7 @@ def init(
     # Set up the app directory, only if the config doesn't exist.
     if not os.path.exists(constants.Config.FILE):
         prerequisites.create_config(app_name)
-        prerequisites.initialize_app_directory(app_name, template)
+        prerequisites.initialize_app_directory(app_name, boilerplate)
         telemetry.send("init")
     else:
         telemetry.send("reinit")

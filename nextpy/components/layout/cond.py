@@ -64,7 +64,7 @@ class Cond(Component):
         """Render the component.
 
         Returns:
-            The dictionary for template of component.
+            The dictionary for boilerplate of component.
         """
         tag = self._render()
         return dict(
