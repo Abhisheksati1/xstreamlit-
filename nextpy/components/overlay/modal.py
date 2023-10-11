@@ -6,7 +6,7 @@ from typing import Any, Optional, Union
 from nextpy.components.component import Component
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.components.media import Icon
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Modal(ChakraComponent):

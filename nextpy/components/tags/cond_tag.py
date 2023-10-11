@@ -3,7 +3,7 @@
 from typing import Any, Dict, Optional
 
 from nextpy.components.tags.tag import Tag
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class CondTag(Tag):

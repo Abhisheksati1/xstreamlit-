@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Optional, Union, get_args  # NOQA
 import black
 
 from nextpy.components.component import Component
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 ruff_dont_remove = [Var, Optional, Dict, List]
 
@@ -100,7 +100,7 @@ class PyiGenerator:
         return [
             f"from typing import {','.join(sorted(typing_imports))}",
             *[f"from {base.__module__} import {base.__name__}" for base in bases],
-            "from nextpy.vars import Var, BaseVar, ComputedVar",
+            "from nextpy.core.vars import Var, BaseVar, ComputedVar",
             "from nextpy.event import EventHandler, EventChain, EventSpec",
         ]
 

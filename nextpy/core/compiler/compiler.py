@@ -6,12 +6,12 @@ from pathlib import Path
 from typing import Type
 
 from nextpy import constants
-from nextpy.compiler import boilerplate, utils
+from nextpy.core.compiler import boilerplate, utils
 from nextpy.components.component import Component, ComponentStyle, CustomComponent
 from nextpy.config import get_config
 from nextpy.state import State
 from nextpy.utils import imports
-from nextpy.vars import ImportVar
+from nextpy.core.vars import ImportVar
 
 # Imports to be included in every Nextpy app.
 DEFAULT_IMPORTS: imports.ImportDict = {

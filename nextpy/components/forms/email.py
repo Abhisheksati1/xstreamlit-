@@ -1,7 +1,7 @@
 """An email input component."""
 
 from nextpy.components.forms.input import Input
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Email(Input):

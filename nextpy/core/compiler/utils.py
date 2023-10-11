@@ -25,7 +25,7 @@ from nextpy.components.component import Component, ComponentStyle, CustomCompone
 from nextpy.state import Cookie, LocalStorage, State
 from nextpy.style import Style
 from nextpy.utils import format, imports, path_ops
-from nextpy.vars import ImportVar
+from nextpy.core.vars import ImportVar
 
 # To re-export this function.
 merge_imports = imports.merge_imports

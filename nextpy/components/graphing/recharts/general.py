@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Union
 
 from nextpy.constants import EventTriggers
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 from .recharts import Recharts
 
@@ -13,6 +13,8 @@ class ResponsiveContainer(Recharts):
     """A base class for responsive containers in Recharts."""
 
     tag = "ResponsiveContainer"
+
+    alias = "RechartsResponsiveContainer"
 
     # The aspect ratio of the container. The final aspect ratio of the SVG element will be (width / height) * aspect. Number
     aspect: Var[int]
@@ -50,6 +52,8 @@ class Legend(Recharts):
     """A Legend component in Recharts."""
 
     tag = "Legend"
+
+    alias = "RechartsLegend"
 
     # The width of legend container. Number
     width: Var[int]
@@ -102,6 +106,8 @@ class GraphingTooltip(Recharts):
 
     tag = "Tooltip"
 
+    alias = "RechartsTooltip"
+
     # The separator between name and value.
     separator: Var[str]
 
@@ -132,6 +138,8 @@ class Label(Recharts):
 
     tag = "Label"
 
+    alias = "RechartsLabel"
+
     # The box of viewing area, which has the shape of {x: someVal, y: someVal, width: someVal, height: someVal}, usually calculated internally.
     view_box: Var[Dict[str, Any]]
 
@@ -149,6 +157,8 @@ class LabelList(Recharts):
     """A LabelList component in Recharts."""
 
     tag = "LabelList"
+
+    alias = "RechartsLabelList"
 
     # The key of a group of label values in data.
     data_key: Var[Union[str, int]]

@@ -42,7 +42,7 @@ def generate_sitemap_config(deploy_url: str):
         deploy_url: The URL of the deployed app.
     """
     # Import here to avoid circular imports.
-    from nextpy.compiler import boilerplate
+    from nextpy.core.compiler import boilerplate
 
     config = json.dumps(
         {

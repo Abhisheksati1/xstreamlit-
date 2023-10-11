@@ -5,7 +5,7 @@ from typing import Any
 
 from nextpy.components import Component
 from nextpy.components.tags import Tag
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class DebounceInput(Component):

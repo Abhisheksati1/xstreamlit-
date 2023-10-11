@@ -10,7 +10,7 @@ from nextpy.components.media import Icon
 from nextpy.event import set_clipboard
 from nextpy.style import Style
 from nextpy.utils import imports
-from nextpy.vars import ImportVar, Var
+from nextpy.core.vars import ImportVar, Var
 
 # Path to the prism styles.
 PRISM_STYLES_PATH: str = "/styles/code/prism"

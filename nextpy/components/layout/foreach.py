@@ -6,7 +6,7 @@ from typing import Any, Callable, Iterable
 from nextpy.components.component import Component
 from nextpy.components.layout.fragment import Fragment
 from nextpy.components.tags import IterTag
-from nextpy.vars import BaseVar, Var, get_unique_variable_name
+from nextpy.core.vars import BaseVar, Var, get_unique_variable_name
 
 
 class Foreach(Component):

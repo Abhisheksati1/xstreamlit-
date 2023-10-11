@@ -6,7 +6,7 @@ import types as builtin_types
 from datetime import date, datetime, time, timedelta
 from typing import Any, Callable, Dict, List, Set, Tuple, Type, Union, get_type_hints
 
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.utils import exceptions, format, types
 
 # Mapping from type to a serializer.
@@ -149,7 +149,7 @@ def serialize_list(value: Union[List, Tuple, Set]) -> str:
     Returns:
         The serialized list.
     """
-    from nextpy.vars import Var
+    from nextpy.core.vars import Var
 
     # Convert any var values to strings.
     fprop = format.json_dumps([str(v) if isinstance(v, Var) else v for v in value])
@@ -173,7 +173,7 @@ def serialize_dict(prop: Dict[str, Any]) -> str:
     """
     # Import here to avoid circular imports.
     from nextpy.event import EventHandler
-    from nextpy.vars import Var
+    from nextpy.core.vars import Var
 
     prop_dict = {}
 

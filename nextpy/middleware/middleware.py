@@ -4,7 +4,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import TYPE_CHECKING, Optional
 
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.event import Event
 from nextpy.state import State, StateUpdate
 

@@ -8,7 +8,7 @@ from typing import Any, Optional, Union
 from nextpy.components.component import Component
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.utils.serializers import serializer
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Image(ChakraComponent):

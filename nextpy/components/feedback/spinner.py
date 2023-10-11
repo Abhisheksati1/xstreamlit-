@@ -1,7 +1,7 @@
 """Container to stack elements with spacing."""
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Spinner(ChakraComponent):

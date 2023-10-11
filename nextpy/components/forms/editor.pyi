@@ -5,10 +5,10 @@
 
 import enum
 from typing import Any, Dict, List, Optional, Union, overload
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.components.component import Component
 from nextpy.components.component import NoSSRComponent
-from nextpy.vars import Var, BaseVar, ComputedVar
+from nextpy.core.vars import Var, BaseVar, ComputedVar
 from nextpy.event import EventHandler, EventChain, EventSpec
 
 class EditorButtonList(list, enum.Enum): ...

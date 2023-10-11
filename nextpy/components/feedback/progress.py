@@ -3,7 +3,7 @@
 from typing import Union
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Progress(ChakraComponent):

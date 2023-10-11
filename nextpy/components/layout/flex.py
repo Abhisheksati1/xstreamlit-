@@ -3,7 +3,7 @@
 from typing import List, Union
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Flex(ChakraComponent):

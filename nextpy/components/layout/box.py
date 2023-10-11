@@ -2,7 +2,7 @@
 
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.components.tags import Tag
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Box(ChakraComponent):

@@ -5,7 +5,7 @@ from typing import Any, Dict, List
 
 from nextpy.components.component import NoSSRComponent
 from nextpy.utils.serializers import serializer
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 try:
     from plotly.graph_objects import Figure

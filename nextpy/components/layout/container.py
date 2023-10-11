@@ -1,7 +1,7 @@
 """A flexbox container."""
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Container(ChakraComponent):

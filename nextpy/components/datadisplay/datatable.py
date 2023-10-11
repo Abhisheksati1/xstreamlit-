@@ -8,7 +8,7 @@ from nextpy.components.component import Component
 from nextpy.components.tags import Tag
 from nextpy.utils import imports, types
 from nextpy.utils.serializers import serialize, serializer
-from nextpy.vars import BaseVar, ComputedVar, ImportVar, Var
+from nextpy.core.vars import BaseVar, ComputedVar, ImportVar, Var
 
 
 class Gridjs(Component):

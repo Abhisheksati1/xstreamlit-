@@ -6,7 +6,7 @@ import contextlib
 import typing
 from typing import Any, Callable, Type, Union, _GenericAlias  # type: ignore
 
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.utils import serializers
 
 # Union of generic types.

@@ -4,11 +4,11 @@ from __future__ import annotations
 import enum
 from typing import Any, Dict, List, Optional, Union
 
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.components.component import Component, NoSSRComponent
 from nextpy.constants import EventTriggers
 from nextpy.utils.format import to_camel_case
-from nextpy.vars import ImportVar, Var
+from nextpy.core.vars import ImportVar, Var
 
 
 class EditorButtonList(list, enum.Enum):

@@ -5,7 +5,7 @@ import inspect
 from typing import TYPE_CHECKING, Callable, List
 
 from nextpy.components.tags.tag import Tag
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 if TYPE_CHECKING:
     from nextpy.components.component import Component

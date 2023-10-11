@@ -1,7 +1,7 @@
 """A link component."""
 
 from nextpy.components.component import Component
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class NextLink(Component):

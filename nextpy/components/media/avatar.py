@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, Union
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Avatar(ChakraComponent):

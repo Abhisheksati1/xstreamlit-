@@ -14,7 +14,7 @@ import pytest
 from plotly.graph_objects import Figure
 
 import nextpy as xt
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.constants import CompileVars, RouteVar, SocketEvent
 from nextpy.event import Event, EventHandler
 from nextpy.state import (
@@ -30,7 +30,7 @@ from nextpy.state import (
 )
 from nextpy.utils import prerequisites
 from nextpy.utils.format import json_dumps
-from nextpy.vars import BaseVar, ComputedVar
+from nextpy.core.vars import BaseVar, ComputedVar
 
 from .states import GenState
 

@@ -15,10 +15,10 @@ from typing import (
 )
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.utils import console, format
 from nextpy.utils.types import ArgsSpec
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 if TYPE_CHECKING:
     from nextpy.state import State
@@ -333,8 +333,8 @@ def set_cookie(key: str, value: str) -> EventSpec:
     console.deprecate(
         feature_name=f"xt.set_cookie",
         reason="and has been replaced by xt.Cookie, which can be used as a state var",
-        deprecation_version="0.3.0",
-        removal_version="0.3.1",
+        deprecation_version="0.2.9",
+        removal_version="0.3.0",
     )
     return server_side(
         "_set_cookie",
@@ -375,8 +375,8 @@ def set_local_storage(key: str, value: str) -> EventSpec:
     console.deprecate(
         feature_name=f"xt.set_local_storage",
         reason="and has been replaced by xt.LocalStorage, which can be used as a state var",
-        deprecation_version="0.3.0",
-        removal_version="0.3.1",
+        deprecation_version="0.2.9",
+        removal_version="0.3.0",
     )
     return server_side(
         "_set_local_storage",
@@ -537,7 +537,7 @@ def call_event_handler(
             feature_name="EVENT_ARG API for triggers",
             reason="Replaced by new API using lambda allow arbitrary number of args",
             deprecation_version="0.2.8",
-            removal_version="0.3.1",
+            removal_version="0.3.0",
         )
         if len(args) == 1:
             return event_handler()

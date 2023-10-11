@@ -8,7 +8,7 @@ import typer
 from packaging import version
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.event import EventHandler
 from nextpy.state import State
 from nextpy.utils import (
@@ -19,7 +19,7 @@ from nextpy.utils import (
 )
 from nextpy.utils import exec as utils_exec
 from nextpy.utils.serializers import serialize
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 def mock_event(arg):
@@ -206,7 +206,7 @@ def test_create_config(app_name, expected_config_name, mocker):
         mocker: Mocker object.
     """
     mocker.patch("builtins.open")
-    tmpl_mock = mocker.patch("nextpy.compiler.boilerplate.XTCONFIG")
+    tmpl_mock = mocker.patch("nextpy.core.compiler.boilerplate.XTCONFIG")
     prerequisites.create_config(app_name)
     tmpl_mock.render.assert_called_with(
         app_name=app_name, config_name=expected_config_name

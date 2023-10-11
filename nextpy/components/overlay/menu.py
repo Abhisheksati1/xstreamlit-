@@ -6,7 +6,7 @@ from typing import Any, List, Optional, Union
 from nextpy.components.component import Component
 from nextpy.components.forms.button import Button
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Menu(ChakraComponent):

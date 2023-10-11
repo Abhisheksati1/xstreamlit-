@@ -3,10 +3,10 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Set, Union
 
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.components.component import Component
 from nextpy.constants import EventTriggers
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Option(Base):

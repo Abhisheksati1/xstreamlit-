@@ -1,7 +1,7 @@
 """A line to divide parts of the layout."""
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Divider(ChakraComponent):

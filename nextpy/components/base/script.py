@@ -9,7 +9,7 @@ from typing import Any, Union
 from nextpy.components.component import Component
 from nextpy.event import EventChain
 from nextpy.utils import console
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 
 class Script(Component):
@@ -91,7 +91,7 @@ def client_side(javascript_code) -> Var[EventChain]:
     console.deprecate(
         feature_name="xt.client_side",
         reason="and has been replaced by xt.call_script, which can be used from backend EventHandler too",
-        deprecation_version="0.3.0",
-        removal_version="0.3.1",
+        deprecation_version="0.2.9",
+        removal_version="0.3.0",
     )
     return BaseVar(name=f"...args => {{{javascript_code}}}", type_=EventChain)

@@ -32,7 +32,7 @@ from typing import (
 import psutil
 import uvicorn
 
-import nextpy
+import nextpy as nextpy
 import nextpy.nextpy
 import nextpy.utils.build
 import nextpy.utils.exec

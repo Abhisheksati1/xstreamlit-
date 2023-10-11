@@ -11,7 +11,7 @@ import httpx
 import psutil
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.config import get_config
 
 

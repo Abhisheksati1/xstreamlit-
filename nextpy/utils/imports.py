@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Dict, Set
 
-from nextpy.vars import ImportVar
+from nextpy.core.vars import ImportVar
 
 ImportDict = Dict[str, Set[ImportVar]]
 

@@ -5,7 +5,7 @@ from nextpy.components.component import Component
 from nextpy.components.layout.foreach import Foreach
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.utils import types
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Table(ChakraComponent):

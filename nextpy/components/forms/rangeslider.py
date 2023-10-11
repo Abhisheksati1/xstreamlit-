@@ -7,7 +7,7 @@ from nextpy.components.component import Component
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.constants import EventTriggers
 from nextpy.utils import format
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class RangeSlider(ChakraComponent):

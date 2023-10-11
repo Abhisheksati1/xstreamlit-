@@ -2,10 +2,10 @@ import json
 
 import pytest
 
-from nextpy import event
+from nextpy.core import event
 from nextpy.event import Event, EventHandler, EventSpec, fix_events
 from nextpy.utils import format
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 def make_var(value) -> Var:

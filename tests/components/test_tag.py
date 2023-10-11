@@ -3,7 +3,7 @@ from typing import Dict, List
 import pytest
 
 from nextpy.components.tags import CondTag, Tag, tagless
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 
 @pytest.mark.parametrize(

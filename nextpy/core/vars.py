@@ -26,7 +26,7 @@ from typing import (
 from pydantic.fields import ModelField
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.utils import console, format, serializers, types
 
 if TYPE_CHECKING:
@@ -1464,8 +1464,8 @@ def get_local_storage(key: Var | str | None = None) -> BaseVar:
     console.deprecate(
         feature_name=f"xt.get_local_storage",
         reason="and has been replaced by xt.LocalStorage, which can be used as a state var",
-        deprecation_version="0.3.0",
-        removal_version="0.3.1",
+        deprecation_version="0.2.9",
+        removal_version="0.3.0",
     )
     if key is not None:
         if not (isinstance(key, Var) and key.type_ == str) and not isinstance(key, str):

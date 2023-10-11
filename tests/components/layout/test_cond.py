@@ -15,7 +15,7 @@ from nextpy.components.layout.responsive import (
     tablet_only,
 )
 from nextpy.components.typography.text import Text
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 @pytest.fixture

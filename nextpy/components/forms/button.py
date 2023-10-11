@@ -2,7 +2,7 @@
 from typing import List
 
 from nextpy.components.libs.chakra import ChakraComponent
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Button(ChakraComponent):

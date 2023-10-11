@@ -18,7 +18,7 @@ import sqlalchemy
 import sqlmodel
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.config import get_config
 from nextpy.utils import console
 

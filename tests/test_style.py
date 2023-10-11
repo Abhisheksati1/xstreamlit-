@@ -1,7 +1,7 @@
 import pytest
 
-from nextpy import style
-from nextpy.vars import Var
+from nextpy.core import style
+from nextpy.core.vars import Var
 
 test_style = [
     ({"a": 1}, {"a": 1}),

@@ -7,7 +7,7 @@ from nextpy.components.component import Component
 from nextpy.components.layout.fragment import Fragment
 from nextpy.components.tags import CondTag, Tag
 from nextpy.utils import format
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Cond(Component):
@@ -96,7 +96,7 @@ def cond(condition: Any, c1: Any, c2: Any = None):
         ValueError: If the arguments are invalid.
     """
     # Import here to avoid circular imports.
-    from nextpy.vars import BaseVar, Var
+    from nextpy.core.vars import BaseVar, Var
 
     # Convert the condition to a Var.
     cond_var = Var.create(condition)

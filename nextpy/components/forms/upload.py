@@ -8,7 +8,7 @@ from nextpy.components.forms.input import Input
 from nextpy.components.layout.box import Box
 from nextpy.constants import EventTriggers
 from nextpy.event import EventChain
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 files_state: str = "const [files, setFiles] = useState([]);"
 upload_file: BaseVar = BaseVar(name="e => setFiles((files) => e)", type_=EventChain)

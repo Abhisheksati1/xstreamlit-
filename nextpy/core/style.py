@@ -5,7 +5,7 @@ from __future__ import annotations
 from nextpy import constants
 from nextpy.event import EventChain
 from nextpy.utils import format
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 color_mode = BaseVar(name=constants.ColorMode.NAME, type_="str")
 toggle_color_mode = BaseVar(name=constants.ColorMode.TOGGLE, type_=EventChain)

@@ -5,7 +5,7 @@
 
 from typing import Any, Optional, Union, overload
 from nextpy.components.component import Component
-from nextpy.vars import Var, BaseVar, ComputedVar
+from nextpy.core.vars import Var, BaseVar, ComputedVar
 from nextpy.event import EventHandler, EventChain, EventSpec
 
 def client_side(javascript_code) -> Var[EventChain]: ...

@@ -5,7 +5,7 @@
 
 from typing import Optional, Union, overload
 from nextpy.components.component import Component
-from nextpy.vars import Var, BaseVar, ComputedVar
+from nextpy.core.vars import Var, BaseVar, ComputedVar
 from nextpy.event import EventHandler, EventChain, EventSpec
 
 class NextLink(Component):

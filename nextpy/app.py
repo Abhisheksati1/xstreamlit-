@@ -27,10 +27,10 @@ from starlette_admin.contrib.sqla.admin import Admin
 from starlette_admin.contrib.sqla.view import ModelView
 
 from nextpy import constants
-from nextpy.admin import AdminDash
-from nextpy.base import Base
-from nextpy.compiler import compiler
-from nextpy.compiler import utils as compiler_utils
+from nextpy.core.admin import AdminDash
+from nextpy.core.base import Base
+from nextpy.core.compiler import compiler
+from nextpy.core.compiler import utils as compiler_utils
 from nextpy.components import connection_modal
 from nextpy.components.component import Component, ComponentStyle
 from nextpy.components.layout.fragment import Fragment
@@ -59,7 +59,7 @@ from nextpy.state import (
     StateUpdate,
 )
 from nextpy.utils import console, format, prerequisites, types
-from nextpy.vars import ImportVar
+from nextpy.core.vars import ImportVar
 
 # Define custom types.
 ComponentCallable = Callable[[], Component]
@@ -407,8 +407,8 @@ class App(Base):
             console.deprecate(
                 feature_name="Passing script tags to add_page",
                 reason="Add script components as children to the page component instead",
-                deprecation_version="0.3.0",
-                removal_version="0.3.2",
+                deprecation_version="0.2.9",
+                removal_version="0.3.1",
             )
             component.children.extend(script_tags)
 

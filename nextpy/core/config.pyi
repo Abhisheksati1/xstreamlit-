@@ -1,7 +1,7 @@
 """ Generated with stubgen from mypy, then manually edited, do not regen."""
 
 from nextpy import constants as constants
-from nextpy.base import Base as Base
+from nextpy.core.base import Base as Base
 from nextpy.utils import console as console
 from typing import Any, Dict, List, Optional, overload
 

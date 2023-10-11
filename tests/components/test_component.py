@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Type
 import pytest
 
 import nextpy as xt
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.components.component import Component, CustomComponent, custom_component
 from nextpy.components.layout.box import Box
 from nextpy.constants import EventTriggers
@@ -11,7 +11,7 @@ from nextpy.event import EVENT_ARG, EventHandler
 from nextpy.state import State
 from nextpy.style import Style
 from nextpy.utils import imports
-from nextpy.vars import ImportVar, Var
+from nextpy.core.vars import ImportVar, Var
 
 
 @pytest.fixture

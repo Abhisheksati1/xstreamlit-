@@ -1,7 +1,7 @@
 """An icon button component."""
 
 from nextpy.components.typography.text import Text
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class IconButton(Text):

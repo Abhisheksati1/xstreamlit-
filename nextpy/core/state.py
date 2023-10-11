@@ -32,7 +32,7 @@ import wrapt
 from redis.asyncio import Redis
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.event import (
     Event,
     EventHandler,
@@ -43,7 +43,7 @@ from nextpy.event import (
 )
 from nextpy.utils import format, prerequisites, types
 from nextpy.utils.exceptions import ImmutableStateError, LockExpiredError
-from nextpy.vars import BaseVar, ComputedVar, Var
+from nextpy.core.vars import BaseVar, ComputedVar, Var
 
 Delta = Dict[str, Any]
 

@@ -9,7 +9,7 @@ from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.components.typography.text import Text
 from nextpy.constants import EventTriggers
 from nextpy.utils.types import _issubclass
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class RadioGroup(ChakraComponent):

@@ -9,7 +9,7 @@ import urllib.parse
 from typing import Any, Dict, List, Optional
 
 from nextpy import constants
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.utils import console
 
 

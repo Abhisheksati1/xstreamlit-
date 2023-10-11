@@ -5,7 +5,7 @@ from typing import Any, Union
 
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.constants import EventTriggers
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Editable(ChakraComponent):

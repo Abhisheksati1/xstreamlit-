@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, Union
 from nextpy import constants
 from nextpy.utils import exceptions, serializers, types
 from nextpy.utils.serializers import serialize
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 if TYPE_CHECKING:
     from nextpy.components.component import ComponentStyle
@@ -252,7 +252,7 @@ def format_cond(
         The formatted conditional expression.
     """
     # Import here to avoid circular imports.
-    from nextpy.vars import Var
+    from nextpy.core.vars import Var
 
     # Use Python truthiness.
     cond = f"isTrue({cond})"

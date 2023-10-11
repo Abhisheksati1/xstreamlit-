@@ -2,7 +2,7 @@
 from typing import Union
 
 from nextpy.el.element import Element
-from nextpy.vars import Var as Var_
+from nextpy.core.vars import Var as Var_
 
 
 class A(Element):  # noqa: E742

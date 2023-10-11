@@ -3,7 +3,7 @@
 import pytest
 
 import nextpy as xt
-from nextpy.vars import BaseVar
+from nextpy.core.vars import BaseVar
 
 
 def test_render_no_child():

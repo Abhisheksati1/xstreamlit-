@@ -7,7 +7,7 @@ from abc import ABC
 from functools import wraps
 from typing import Any, Callable, Dict, List, Optional, Set, Type, Union
 
-from nextpy.base import Base
+from nextpy.core.base import Base
 from nextpy.components.tags import Tag
 from nextpy.constants import Dirs, EventTriggers
 from nextpy.event import (
@@ -20,7 +20,7 @@ from nextpy.event import (
 )
 from nextpy.style import Style
 from nextpy.utils import console, format, imports, types
-from nextpy.vars import BaseVar, ImportVar, Var
+from nextpy.core.vars import BaseVar, ImportVar, Var
 
 
 class Component(Base, ABC):
@@ -241,7 +241,7 @@ class Component(Base, ABC):
                     feature_name="EventChain",
                     reason="to avoid confusion, only use yield API",
                     deprecation_version="0.2.8",
-                    removal_version="0.3.1",
+                    removal_version="0.3.0",
                 )
             events = []
             for v in value:
@@ -310,7 +310,7 @@ class Component(Base, ABC):
                 feature_name=f"get_controlled_triggers ({self.__class__.__name__})",
                 reason="replaced by get_event_triggers",
                 deprecation_version="0.2.8",
-                removal_version="0.3.1",
+                removal_version="0.3.0",
             )
 
         return {
@@ -363,7 +363,7 @@ class Component(Base, ABC):
         Returns:
             The code to render the component.
         """
-        from nextpy.compiler.compiler import _compile_component
+        from nextpy.core.compiler.compiler import _compile_component
 
         return _compile_component(self)
 
@@ -943,7 +943,7 @@ class NoSSRComponent(Component):
             import_name_parts[0] if import_name_parts[0] != "@" else self.library
         )
 
-        library_import = f"const {self.tag} = dynamic(() => import('{import_name}')"
+        library_import = f"const {self.alias if self.alias else self.tag} = dynamic(() => import('{import_name}')"
         mod_import = (
             # https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading#with-named-exports
             f".then((mod) => mod.{self.tag})"

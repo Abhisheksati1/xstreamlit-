@@ -23,9 +23,10 @@ from alembic.util.exc import CommandError
 from packaging import version
 from redis.asyncio import Redis
 
-from nextpy import constants, model
-from nextpy.compiler import boilerplate
+from nextpy import constants
+from nextpy.core.compiler import boilerplate
 from nextpy.config import Config, get_config
+from nextpy.core import model
 from nextpy.utils import console, path_ops, processes
 
 
@@ -176,7 +177,7 @@ def create_config(app_name: str):
         app_name: The name of the app.
     """
     # Import here to avoid circular imports.
-    from nextpy.compiler import boilerplate
+    from nextpy.core.compiler import boilerplate
 
     config_name = f"{re.sub(r'[^a-zA-Z]', '', app_name).capitalize()}Config"
     with open(constants.Config.FILE, "w") as f:

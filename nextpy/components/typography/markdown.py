@@ -5,7 +5,7 @@ from __future__ import annotations
 import textwrap
 from typing import Any, Callable, Dict, Union
 
-from nextpy.compiler import utils
+from nextpy.core.compiler import utils
 from nextpy.components.component import Component
 from nextpy.components.datadisplay.list import ListItem, OrderedList, UnorderedList
 from nextpy.components.navigation import Link
@@ -14,7 +14,7 @@ from nextpy.components.typography.heading import Heading
 from nextpy.components.typography.text import Text
 from nextpy.style import Style
 from nextpy.utils import console, imports, types
-from nextpy.vars import ImportVar, Var
+from nextpy.core.vars import ImportVar, Var
 
 # Special vars used in the component map.
 _CHILDREN = Var.create_safe("children", is_local=False)
@@ -105,8 +105,8 @@ class Markdown(Component):
             console.deprecate(
                 "xt.markdown custom_styles",
                 "Use the component_map prop instead.",
-                "0.3.0",
-                "0.3.2",
+                "0.2.9",
+                "0.3.1",
             )
 
         # Update the base component map with the custom component map.

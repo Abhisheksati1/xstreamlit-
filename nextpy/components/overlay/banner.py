@@ -7,7 +7,7 @@ from nextpy.components.component import Component
 from nextpy.components.layout import Box, Cond
 from nextpy.components.overlay.modal import Modal
 from nextpy.components.typography import Text
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 connection_error: Var = Var.create_safe(
     value="(connectError !== null) ? connectError.message : ''",

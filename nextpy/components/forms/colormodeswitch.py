@@ -22,7 +22,7 @@ from nextpy.components.component import Component
 from nextpy.components.layout.cond import Cond, cond
 from nextpy.components.media.icon import Icon
 from nextpy.style import color_mode, toggle_color_mode
-from nextpy.vars import BaseVar
+from nextpy.core.vars import BaseVar
 
 from .button import Button
 from .switch import Switch

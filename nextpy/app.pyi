@@ -4,9 +4,9 @@ import asyncio
 from fastapi import FastAPI
 from fastapi import UploadFile as UploadFile
 from nextpy import constants as constants
-from nextpy.admin import AdminDash as AdminDash
-from nextpy.base import Base as Base
-from nextpy.compiler import compiler as compiler
+from nextpy.core.admin import AdminDash as AdminDash
+from nextpy.core.base import Base as Base
+from nextpy.core.compiler import compiler as compiler
 from nextpy.components import connection_modal as connection_modal
 from nextpy.components.component import (
     Component as Component,

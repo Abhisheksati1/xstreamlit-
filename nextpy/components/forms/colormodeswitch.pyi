@@ -9,7 +9,7 @@ from nextpy.components.component import Component
 from nextpy.components.layout.cond import Cond
 from nextpy.components.media.icon import Icon
 from nextpy.components.forms.switch import Switch
-from nextpy.vars import Var, BaseVar, ComputedVar
+from nextpy.core.vars import Var, BaseVar, ComputedVar
 from nextpy.event import EventHandler, EventChain, EventSpec
 
 DEFAULT_COLOR_MODE: str

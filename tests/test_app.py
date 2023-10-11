@@ -6,6 +6,8 @@ import sys
 import uuid
 from typing import List, Tuple, Type
 
+from nextpy import AdminDash
+
 if sys.version_info.major >= 3 and sys.version_info.minor > 7:
     from unittest.mock import AsyncMock  # type: ignore
 else:
@@ -18,7 +20,7 @@ from starlette_admin.auth import AuthProvider
 from starlette_admin.contrib.sqla.admin import Admin
 from starlette_admin.contrib.sqla.view import ModelView
 
-from nextpy import AdminDash, constants
+from nextpy import constants
 from nextpy.app import (
     App,
     ComponentCallable,
@@ -34,7 +36,7 @@ from nextpy.model import Model
 from nextpy.state import State, StateManagerRedis, StateUpdate
 from nextpy.style import Style
 from nextpy.utils import format
-from nextpy.vars import ComputedVar
+from nextpy.core.vars import ComputedVar
 
 from .states import (
     ChildFileUploadState,

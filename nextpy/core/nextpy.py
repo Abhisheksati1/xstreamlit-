@@ -8,8 +8,9 @@ import httpx
 import typer
 from alembic.util.exc import CommandError
 
-from nextpy import constants, model
+from nextpy import constants
 from nextpy.config import get_config
+from nextpy.core import model
 from nextpy.utils import build, console, exec, prerequisites, processes, telemetry
 
 # Create the app.

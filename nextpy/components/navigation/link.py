@@ -5,7 +5,7 @@ from nextpy.components.component import Component
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.components.navigation.nextlink import NextLink
 from nextpy.utils import imports
-from nextpy.vars import BaseVar, Var
+from nextpy.core.vars import BaseVar, Var
 
 
 class Link(ChakraComponent):

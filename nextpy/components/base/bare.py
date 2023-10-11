@@ -6,7 +6,7 @@ from typing import Any
 from nextpy.components.component import Component
 from nextpy.components.tags import Tag
 from nextpy.components.tags.tagless import Tagless
-from nextpy.vars import Var
+from nextpy.core.vars import Var
 
 
 class Bare(Component):
