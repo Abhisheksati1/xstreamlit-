@@ -21,7 +21,7 @@ from nextpy.utils.types import ArgsSpec
 from nextpy.core.vars import BaseVar, Var
 
 if TYPE_CHECKING:
-    from nextpy.state import State
+    from nextpy.core.state import State
 
 
 class Event(Base):
@@ -587,7 +587,7 @@ def call_event_fn(fn: Callable, arg: Union[Var, ArgsSpec]) -> list[EventSpec]:
         ValueError: If the lambda has an invalid signature.
     """
     # Import here to avoid circular imports.
-    from nextpy.event import EventHandler, EventSpec
+    from nextpy.core.event import EventHandler, EventSpec
 
     # Get the args of the lambda.
     args = inspect.getfullargspec(fn).args

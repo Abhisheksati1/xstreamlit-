@@ -7,7 +7,7 @@ from typing import Dict, Optional, Union, overload
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.components.component import Component
 from nextpy.core.vars import Var, BaseVar, ComputedVar
-from nextpy.event import EventHandler, EventChain, EventSpec
+from nextpy.core.event import EventHandler, EventChain, EventSpec
 
 PRISM_STYLES_PATH: str
 

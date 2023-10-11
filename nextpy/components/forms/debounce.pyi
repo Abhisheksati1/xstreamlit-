@@ -6,7 +6,7 @@
 from typing import Any, Optional, Union, overload
 from nextpy.components.component import Component
 from nextpy.core.vars import Var, BaseVar, ComputedVar
-from nextpy.event import EventHandler, EventChain, EventSpec
+from nextpy.core.event import EventHandler, EventChain, EventSpec
 
 def props_not_none(c: Component) -> dict[str, Any]: ...
 def _collect_first_child_and_props(

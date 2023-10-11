@@ -27,7 +27,7 @@ def default_connection_error() -> list[str | Var]:
     Returns:
         The default connection error message.
     """
-    from nextpy.config import get_config
+    from nextpy.core.config import get_config
 
     return [
         "Cannot connect to server: ",

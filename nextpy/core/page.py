@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from nextpy.components.component import Component
-from nextpy.event import EventHandler
+from nextpy.core.event import EventHandler
 
 DECORATED_PAGES = []
 

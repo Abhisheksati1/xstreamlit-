@@ -1,6 +1,6 @@
 import pytest
 
-from nextpy.config import Config
+from nextpy.core.config import Config
 from nextpy.utils.prerequisites import update_next_config
 
 

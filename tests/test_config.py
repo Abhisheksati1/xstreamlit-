@@ -4,7 +4,7 @@ from typing import Any, Dict
 import pytest
 
 import nextpy as xt
-import nextpy.config
+import nextpy.core.config
 from nextpy.constants import Endpoint
 
 
@@ -103,8 +103,8 @@ def test_event_namespace(mocker, kwargs, expected):
         expected: Expected namespace
     """
     conf = xt.Config(**kwargs)
-    mocker.patch("nextpy.config.get_config", return_value=conf)
+    mocker.patch("nextpy.core.config.get_config", return_value=conf)
 
-    config = nextpy.config.get_config()
+    config = nextpy.core.config.get_config()
     assert conf == config
     assert config.get_event_namespace() == expected

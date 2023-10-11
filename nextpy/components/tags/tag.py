@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 from nextpy.core.base import Base
-from nextpy.event import EventChain
+from nextpy.core.event import EventChain
 from nextpy.utils import format, types
 from nextpy.core.vars import Var
 

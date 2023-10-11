@@ -4,7 +4,7 @@ from _typeshed import Incomplete
 from abc import ABC
 from nextpy import constants as constants
 from nextpy.core.base import Base as Base
-from nextpy.state import State as State
+from nextpy.core.state import State as State
 from nextpy.utils import console as console, format as format, types as types
 from types import FunctionType
 from typing import (

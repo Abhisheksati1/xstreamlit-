@@ -1,6 +1,6 @@
 import pytest
 
-from nextpy.event import Event
+from nextpy.core.event import Event
 
 
 def create_event(name):

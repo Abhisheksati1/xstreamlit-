@@ -3,7 +3,7 @@ import json
 import pytest
 
 from nextpy.core import event
-from nextpy.event import Event, EventHandler, EventSpec, fix_events
+from nextpy.core.event import Event, EventHandler, EventSpec, fix_events
 from nextpy.utils import format
 from nextpy.core.vars import Var
 

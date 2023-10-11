@@ -9,8 +9,8 @@ from packaging import version
 
 from nextpy import constants
 from nextpy.core.base import Base
-from nextpy.event import EventHandler
-from nextpy.state import State
+from nextpy.core.event import EventHandler
+from nextpy.core.state import State
 from nextpy.utils import (
     build,
     imports,

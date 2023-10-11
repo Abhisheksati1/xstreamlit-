@@ -7,8 +7,8 @@ from nextpy.components.forms import Button
 from nextpy.components.layout import Box
 from nextpy.components.libs.chakra import ChakraComponent
 from nextpy.components.media import Icon
-from nextpy.event import set_clipboard
-from nextpy.style import Style
+from nextpy.core.event import set_clipboard
+from nextpy.core.style import Style
 from nextpy.utils import imports
 from nextpy.core.vars import ImportVar, Var
 

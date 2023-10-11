@@ -12,7 +12,7 @@ from nextpy.components.navigation import Link
 from nextpy.components.tags.tag import Tag
 from nextpy.components.typography.heading import Heading
 from nextpy.components.typography.text import Text
-from nextpy.style import Style
+from nextpy.core.style import Style
 from nextpy.utils import console, imports, types
 from nextpy.core.vars import ImportVar, Var
 

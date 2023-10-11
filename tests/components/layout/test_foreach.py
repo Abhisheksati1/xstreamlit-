@@ -4,7 +4,7 @@ import pytest
 
 from nextpy.components import box, foreach, text
 from nextpy.components.layout import Foreach
-from nextpy.state import State
+from nextpy.core.state import State
 
 
 class ForEachState(State):

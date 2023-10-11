@@ -3,7 +3,7 @@
 from typing import Any, Dict, List, Optional, Union
 
 from nextpy.components.component import Component
-from nextpy.style import Style
+from nextpy.core.style import Style
 from nextpy.utils import console
 from nextpy.core.vars import Var
 

@@ -30,11 +30,11 @@ from nextpy.app import (
     upload,
 )
 from nextpy.components import Box, Component, Cond, Fragment, Text
-from nextpy.event import Event, get_hydrate_event
+from nextpy.core.event import Event, get_hydrate_event
 from nextpy.middleware import HydrateMiddleware
-from nextpy.model import Model
-from nextpy.state import State, StateManagerRedis, StateUpdate
-from nextpy.style import Style
+from nextpy.core.model import Model
+from nextpy.core.state import State, StateManagerRedis, StateUpdate
+from nextpy.core.style import Style
 from nextpy.utils import format
 from nextpy.core.vars import ComputedVar
 

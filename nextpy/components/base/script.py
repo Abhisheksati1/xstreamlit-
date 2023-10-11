@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import Any, Union
 
 from nextpy.components.component import Component
-from nextpy.event import EventChain
+from nextpy.core.event import EventChain
 from nextpy.utils import console
 from nextpy.core.vars import BaseVar, Var
 

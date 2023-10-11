@@ -10,7 +10,7 @@ from typing import Any, Callable, Dict, List, Optional, Set, Type, Union
 from nextpy.core.base import Base
 from nextpy.components.tags import Tag
 from nextpy.constants import Dirs, EventTriggers
-from nextpy.event import (
+from nextpy.core.event import (
     EventChain,
     EventHandler,
     EventSpec,
@@ -18,7 +18,7 @@ from nextpy.event import (
     call_event_handler,
     get_handler_args,
 )
-from nextpy.style import Style
+from nextpy.core.style import Style
 from nextpy.utils import console, format, imports, types
 from nextpy.core.vars import BaseVar, ImportVar, Var
 

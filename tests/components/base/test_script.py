@@ -2,7 +2,7 @@
 import pytest
 
 from nextpy.components.base.script import Script
-from nextpy.state import State
+from nextpy.core.state import State
 
 
 def test_script_inline():

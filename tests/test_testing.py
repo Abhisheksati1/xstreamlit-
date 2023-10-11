@@ -1,6 +1,6 @@
 """Unit tests for the included testing tools."""
 from nextpy.constants import IS_WINDOWS
-from nextpy.testing import AppHarness
+from nextpy.core.testing import AppHarness
 
 
 def test_app_harness(tmp_path):

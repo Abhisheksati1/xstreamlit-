@@ -19,7 +19,7 @@ import sqlmodel
 
 from nextpy import constants
 from nextpy.core.base import Base
-from nextpy.config import get_config
+from nextpy.core.config import get_config
 from nextpy.utils import console
 
 

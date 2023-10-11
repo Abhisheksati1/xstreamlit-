@@ -30,7 +30,7 @@ from nextpy.core.base import Base
 from nextpy.utils import console, format, serializers, types
 
 if TYPE_CHECKING:
-    from nextpy.state import State
+    from nextpy.core.state import State
 
 # Set of unique variable names.
 USED_VARIABLES = set()

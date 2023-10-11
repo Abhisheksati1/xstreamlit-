@@ -38,20 +38,20 @@ from nextpy.components.navigation.client_side_routing import (
     Default404Page,
     wait_for_client_redirect,
 )
-from nextpy.config import get_config
-from nextpy.event import Event, EventHandler, EventSpec
+from nextpy.core.config import get_config
+from nextpy.core.event import Event, EventHandler, EventSpec
 from nextpy.middleware import HydrateMiddleware, Middleware
-from nextpy.model import Model
-from nextpy.page import (
+from nextpy.core.model import Model
+from nextpy.core.page import (
     DECORATED_PAGES,
 )
-from nextpy.route import (
+from nextpy.core.route import (
     catchall_in_route,
     catchall_prefix,
     get_route_args,
     verify_route_validity,
 )
-from nextpy.state import (
+from nextpy.core.state import (
     DefaultState,
     State,
     StateManager,

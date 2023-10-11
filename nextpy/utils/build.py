@@ -11,7 +11,7 @@ from pathlib import Path
 from rich.progress import MofNCompleteColumn, Progress, TimeElapsedColumn
 
 from nextpy import constants
-from nextpy.config import get_config
+from nextpy.core.config import get_config
 from nextpy.utils import console, path_ops, prerequisites, processes
 
 

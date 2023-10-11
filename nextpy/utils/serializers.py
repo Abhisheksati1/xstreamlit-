@@ -172,7 +172,7 @@ def serialize_dict(prop: Dict[str, Any]) -> str:
         InvalidStylePropError: If the style prop is invalid.
     """
     # Import here to avoid circular imports.
-    from nextpy.event import EventHandler
+    from nextpy.core.event import EventHandler
     from nextpy.core.vars import Var
 
     prop_dict = {}

@@ -15,7 +15,7 @@ import psutil
 import uvicorn
 
 from nextpy import constants
-from nextpy.config import get_config
+from nextpy.core.config import get_config
 from nextpy.utils import console, path_ops, prerequisites, processes
 from nextpy.utils.watch import AssetFolderWatch
 

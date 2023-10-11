@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from nextpy import constants
 
-from ...vars import Var
+from ...core.vars import Var
 from ..component import Component
 from ..layout.cond import Cond
 

@@ -22,8 +22,8 @@ from nextpy.components.base import (
     Title,
 )
 from nextpy.components.component import Component, ComponentStyle, CustomComponent
-from nextpy.state import Cookie, LocalStorage, State
-from nextpy.style import Style
+from nextpy.core.state import Cookie, LocalStorage, State
+from nextpy.core.style import Style
 from nextpy.utils import format, imports, path_ops
 from nextpy.core.vars import ImportVar
 

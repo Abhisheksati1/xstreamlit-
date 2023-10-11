@@ -6,7 +6,7 @@
 from typing import Any, Dict, List, Optional, Union, overload
 from nextpy.components.component import Component
 from nextpy.core.vars import Var, BaseVar, ComputedVar
-from nextpy.event import EventHandler, EventChain, EventSpec
+from nextpy.core.event import EventHandler, EventChain, EventSpec
 
 def format_xy(x: List, y: List) -> List: ...
 def format_line(x: List, y: List) -> List: ...

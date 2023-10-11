@@ -16,7 +16,7 @@ from nextpy.core.vars import Var
 
 if TYPE_CHECKING:
     from nextpy.components.component import ComponentStyle
-    from nextpy.event import EventChain, EventHandler, EventSpec
+    from nextpy.core.event import EventChain, EventHandler, EventSpec
 
 WRAP_MAP = {
     "{": "}",
@@ -287,7 +287,7 @@ def format_prop(
         TypeError: If the prop is not valid.
     """
     # import here to avoid circular import.
-    from nextpy.event import EVENT_ARG, EventChain
+    from nextpy.core.event import EVENT_ARG, EventChain
 
     try:
         # Handle var props.
@@ -446,7 +446,7 @@ def format_event_chain(
         ValueError: When the given event chain is not a valid event chain.
     """
     if isinstance(event_chain, Var):
-        from nextpy.event import EventChain
+        from nextpy.core.event import EventChain
 
         if event_chain.type_ is not EventChain:
             raise ValueError(f"Invalid event chain: {event_chain}")

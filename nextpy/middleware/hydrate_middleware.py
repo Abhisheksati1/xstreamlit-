@@ -4,9 +4,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
 from nextpy import constants
-from nextpy.event import Event, fix_events, get_hydrate_event
+from nextpy.core.event import Event, fix_events, get_hydrate_event
 from nextpy.middleware.middleware import Middleware
-from nextpy.state import State, StateUpdate
+from nextpy.core.state import State, StateUpdate
 from nextpy.utils import format
 
 if TYPE_CHECKING:

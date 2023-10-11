@@ -8,8 +8,8 @@ from typing import Type
 from nextpy import constants
 from nextpy.core.compiler import boilerplate, utils
 from nextpy.components.component import Component, ComponentStyle, CustomComponent
-from nextpy.config import get_config
-from nextpy.state import State
+from nextpy.core.config import get_config
+from nextpy.core.state import State
 from nextpy.utils import imports
 from nextpy.core.vars import ImportVar
 

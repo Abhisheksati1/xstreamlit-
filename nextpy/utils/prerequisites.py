@@ -25,7 +25,7 @@ from redis.asyncio import Redis
 
 from nextpy import constants
 from nextpy.core.compiler import boilerplate
-from nextpy.config import Config, get_config
+from nextpy.core.config import Config, get_config
 from nextpy.core import model
 from nextpy.utils import console, path_ops, processes
 

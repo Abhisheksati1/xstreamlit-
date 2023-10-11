@@ -10,7 +10,7 @@ from nextpy.components.layout.cond import Cond
 from nextpy.components.media.icon import Icon
 from nextpy.components.forms.switch import Switch
 from nextpy.core.vars import Var, BaseVar, ComputedVar
-from nextpy.event import EventHandler, EventChain, EventSpec
+from nextpy.core.event import EventHandler, EventChain, EventSpec
 
 DEFAULT_COLOR_MODE: str
 DEFAULT_LIGHT_ICON: Icon

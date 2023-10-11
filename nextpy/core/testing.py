@@ -38,7 +38,7 @@ import nextpy.utils.build
 import nextpy.utils.exec
 import nextpy.utils.prerequisites
 import nextpy.utils.processes
-from nextpy.state import State, StateManagerMemory, StateManagerRedis
+from nextpy.core.state import State, StateManagerMemory, StateManagerRedis
 
 try:
     from selenium import webdriver  # pyright: ignore [reportMissingImports]
@@ -159,7 +159,7 @@ class AppHarness:
                 self.app_module_path.write_text(source_code)
         with chdir(self.app_path):
             # ensure config and app are reloaded when testing different app
-            nextpy.config.get_config(reload=True)
+            nextpy.core.config.get_config(reload=True)
             self.app_module = nextpy.utils.prerequisites.get_app(reload=True)
         self.app_instance = self.app_module.app
         if isinstance(self.app_instance.state_manager, StateManagerRedis):
@@ -201,7 +201,7 @@ class AppHarness:
     def _start_frontend(self):
         # Set up the frontend.
         with chdir(self.app_path):
-            config = nextpy.config.get_config()
+            config = nextpy.core.config.get_config()
             config.api_url = "http://{0}:{1}".format(
                 *self._poll_for_servers().getsockname(),
             )
@@ -664,7 +664,7 @@ class AppHarnessProd(AppHarness):
     def _start_frontend(self):
         # Set up the frontend.
         with chdir(self.app_path):
-            config = nextpy.config.get_config()
+            config = nextpy.core.config.get_config()
             config.api_url = "http://{0}:{1}".format(
                 *self._poll_for_servers().getsockname(),
             )

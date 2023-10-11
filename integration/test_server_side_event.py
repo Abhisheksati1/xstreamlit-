@@ -5,7 +5,7 @@ from typing import Generator
 import pytest
 from selenium.webdriver.common.by import By
 
-from nextpy.testing import AppHarness
+from nextpy.core.testing import AppHarness
 
 
 def ServerSideEvent():

@@ -33,7 +33,7 @@ from redis.asyncio import Redis
 
 from nextpy import constants
 from nextpy.core.base import Base
-from nextpy.event import (
+from nextpy.core.event import (
     Event,
     EventHandler,
     EventSpec,

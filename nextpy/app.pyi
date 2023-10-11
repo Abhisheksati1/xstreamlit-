@@ -13,8 +13,8 @@ from nextpy.components.component import (
     ComponentStyle as ComponentStyle,
 )
 from nextpy.components.layout.fragment import Fragment as Fragment
-from nextpy.config import get_config as get_config
-from nextpy.event import (
+from nextpy.core.config import get_config as get_config
+from nextpy.core.event import (
     Event as Event,
     EventHandler as EventHandler,
     EventSpec as EventSpec,
@@ -23,15 +23,15 @@ from nextpy.middleware import (
     HydrateMiddleware as HydrateMiddleware,
     Middleware as Middleware,
 )
-from nextpy.model import Model as Model
+from nextpy.core.model import Model as Model
 from nextpy.page import DECORATED_PAGES as DECORATED_PAGES
-from nextpy.route import (
+from nextpy.core.route import (
     catchall_in_route as catchall_in_route,
     catchall_prefix as catchall_prefix,
     get_route_args as get_route_args,
     verify_route_validity as verify_route_validity,
 )
-from nextpy.state import (
+from nextpy.core.state import (
     DefaultState as DefaultState,
     State as State,
     StateManager as StateManager,

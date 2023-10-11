@@ -3,8 +3,8 @@ from typing import Any
 import pytest
 
 from nextpy.components.tags.tag import Tag
-from nextpy.event import EVENT_ARG, EventChain, EventHandler, EventSpec
-from nextpy.style import Style
+from nextpy.core.event import EVENT_ARG, EventChain, EventHandler, EventSpec
+from nextpy.core.style import Style
 from nextpy.utils import format
 from nextpy.core.vars import BaseVar, Var
 from tests.test_state import ChildState, DateTimeState, GrandchildState, TestState

@@ -7,7 +7,7 @@ from nextpy.components.component import Component
 from nextpy.components.forms.input import Input
 from nextpy.components.layout.box import Box
 from nextpy.constants import EventTriggers
-from nextpy.event import EventChain
+from nextpy.core.event import EventChain
 from nextpy.core.vars import BaseVar, Var
 
 files_state: str = "const [files, setFiles] = useState([]);"

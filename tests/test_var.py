@@ -6,7 +6,7 @@ import pytest
 from pandas import DataFrame
 
 from nextpy.core.base import Base
-from nextpy.state import State
+from nextpy.core.state import State
 from nextpy.core.vars import (
     BaseVar,
     ComputedVar,

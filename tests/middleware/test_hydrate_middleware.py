@@ -5,7 +5,7 @@ import pytest
 from nextpy.app import App
 from nextpy.constants import CompileVars
 from nextpy.middleware.hydrate_middleware import HydrateMiddleware
-from nextpy.state import State, StateUpdate
+from nextpy.core.state import State, StateUpdate
 
 
 def exp_is_hydrated(state: State) -> Dict[str, Any]:

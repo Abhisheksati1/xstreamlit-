@@ -2,6 +2,7 @@
 **/*.pyc
 dist/*
 examples/
+myapp/*
 .idea
 .vscode
 .coverage

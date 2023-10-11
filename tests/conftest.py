@@ -10,7 +10,7 @@ import pytest
 
 import nextpy as xt
 from nextpy.app import App
-from nextpy.event import EventSpec
+from nextpy.core.event import EventSpec
 
 from .states import (
     DictMutationTestState,

@@ -6,7 +6,7 @@ import pytest
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-from nextpy.testing import AppHarness, WebDriver
+from nextpy.core.testing import AppHarness, WebDriver
 
 
 def ConnectionBanner():

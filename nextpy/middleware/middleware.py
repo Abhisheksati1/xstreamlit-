@@ -5,8 +5,8 @@ from abc import ABC
 from typing import TYPE_CHECKING, Optional
 
 from nextpy.core.base import Base
-from nextpy.event import Event
-from nextpy.state import State, StateUpdate
+from nextpy.core.event import Event
+from nextpy.core.state import State, StateUpdate
 
 if TYPE_CHECKING:
     from nextpy.app import App

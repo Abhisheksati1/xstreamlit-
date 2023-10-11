@@ -5,7 +5,7 @@ from urllib.parse import urlsplit
 import pytest
 from selenium.webdriver.common.by import By
 
-from nextpy.testing import AppHarness, AppHarnessProd, WebDriver
+from nextpy.core.testing import AppHarness, AppHarnessProd, WebDriver
 
 from .utils import poll_for_navigation
 

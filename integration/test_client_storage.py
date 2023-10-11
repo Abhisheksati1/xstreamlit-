@@ -8,7 +8,7 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from nextpy.testing import AppHarness
+from nextpy.core.testing import AppHarness
 
 from . import utils
 

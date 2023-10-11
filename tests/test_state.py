@@ -16,8 +16,8 @@ from plotly.graph_objects import Figure
 import nextpy as xt
 from nextpy.core.base import Base
 from nextpy.constants import CompileVars, RouteVar, SocketEvent
-from nextpy.event import Event, EventHandler
-from nextpy.state import (
+from nextpy.core.event import Event, EventHandler
+from nextpy.core.state import (
     ImmutableStateError,
     LockExpiredError,
     MutableProxy,
@@ -1353,7 +1353,7 @@ def test_state_with_invalid_yield():
     with pytest.raises(TypeError) as err:
         invalid_state._check_valid(
             invalid_state.event_handlers["invalid_handler"],
-            xt.event.Event(token="fake_token", name="invalid_handler"),
+            xt.core.event.Event(token="fake_token", name="invalid_handler"),
         )
     assert (
         "must only return/yield: None, Events or other EventHandlers"

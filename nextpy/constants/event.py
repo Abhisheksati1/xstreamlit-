@@ -25,7 +25,7 @@ class Endpoint(Enum):
             The full URL for the endpoint.
         """
         # Import here to avoid circular imports.
-        from nextpy.config import get_config
+        from nextpy.core.config import get_config
 
         # Get the API URL from the config.
         config = get_config()

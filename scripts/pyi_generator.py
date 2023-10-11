@@ -101,7 +101,7 @@ class PyiGenerator:
             f"from typing import {','.join(sorted(typing_imports))}",
             *[f"from {base.__module__} import {base.__name__}" for base in bases],
             "from nextpy.core.vars import Var, BaseVar, ComputedVar",
-            "from nextpy.event import EventHandler, EventChain, EventSpec",
+            "from nextpy.core.event import EventHandler, EventChain, EventSpec",
         ]
 
     def _generate_pyi_class(self, _class: type[Component]):

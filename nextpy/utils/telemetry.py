@@ -12,7 +12,7 @@ import psutil
 
 from nextpy import constants
 from nextpy.core.base import Base
-from nextpy.config import get_config
+from nextpy.core.config import get_config
 
 
 def get_os() -> str:
