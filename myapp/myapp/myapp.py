@@ -18,7 +18,7 @@ def index() -> xt.Component:
         xt.color_mode_button(xt.color_mode_icon(), float="right"),
         xt.vstack(
             xt.heading("Welcome to Nextpy!", font_size="2em"),
-            xt.box("Get started by editing ", xt.code(filename, font_size="1em")),
+            xt.box("Get started", xt.code(filename, font_size="1em")),
             xt.link(
                 "Check out our docs!",
                 href=docs_url,
