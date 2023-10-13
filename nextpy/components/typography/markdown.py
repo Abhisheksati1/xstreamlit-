@@ -6,7 +6,7 @@ import textwrap
 from typing import Any, Callable, Dict, Union
 
 from nextpy.core.compiler import utils
-from nextpy.components.component import Component
+from nextpy.components.component import Component, CustomComponent
 from nextpy.components.datadisplay.list import ListItem, OrderedList, UnorderedList
 from nextpy.components.navigation import Link
 from nextpy.components.tags.tag import Tag
@@ -19,6 +19,7 @@ from nextpy.core.vars import ImportVar, Var
 # Special vars used in the component map.
 _CHILDREN = Var.create_safe("children", is_local=False)
 _PROPS = Var.create_safe("...props", is_local=False)
+_MOCK_ARG = Var.create_safe("")
 
 # Special remark plugins.
 _REMARK_MATH = Var.create_safe("remarkMath", is_local=False)
@@ -121,6 +122,23 @@ class Markdown(Component):
 
         # Create the component.
         return super().create(src, component_map=component_map, **props)
+    
+    def get_custom_components(
+        self, seen: set[str] | None = None
+    ) -> set[CustomComponent]:
+        """Get all the custom components used by the component.
+        Args:
+            seen: The tags of the components that have already been seen.
+        Returns:
+            The set of custom components.
+        """
+        custom_components = super().get_custom_components(seen=seen)
+
+        # Get the custom components for each tag.
+        for component in self.component_map.values():
+            custom_components |= component(_MOCK_ARG).get_custom_components(seen=seen)
+
+        return custom_components
 
     def _get_imports(self) -> imports.ImportDict:
         # Import here to avoid circular imports.
@@ -145,9 +163,7 @@ class Markdown(Component):
 
         # Get the imports for each component.
         for component in self.component_map.values():
-            imports = utils.merge_imports(
-                imports, component(Var.create("")).get_imports()
-            )
+            imports = utils.merge_imports(imports, component(_MOCK_ARG).get_imports())
 
         # Get the imports for the code components.
         imports = utils.merge_imports(
