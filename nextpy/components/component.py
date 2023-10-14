@@ -723,7 +723,7 @@ class Component(Base, ABC):
         return refs
 
     def get_custom_components(
-        self, seen: set[str] | None
+        self, seen: set[str] | None = None
     ) -> Set[CustomComponent]:
         """Get all the custom components used by the component.
 
@@ -846,7 +846,7 @@ class CustomComponent(Component):
         return set()
 
     def get_custom_components(
-        self, seen: set[str] | None
+        self, seen: set[str] | None = None
     ) -> Set[CustomComponent]:
         """Get all the custom components used by the component.
 

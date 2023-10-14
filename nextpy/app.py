@@ -332,7 +332,7 @@ class App(Base):
                 raise TypeError(
                     "You may be trying to use an invalid Python function on a state var. "
                     "When referencing a var inside your render code, only limited var operations are supported. "
-                    "See the var operation docs here: https://dotagent.dev/docs/state/vars/#var-operations"
+                    "See the var operation docs here: https://docs.dotagent.dev/nextpy/state/vars/#var-operations"
                 ) from e
             raise e
 
