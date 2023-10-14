@@ -3,11 +3,13 @@ from __future__ import annotations
 
 from typing import Optional
 
+from nextpy.components.base.bare import Bare
 from nextpy.components.component import Component
 from nextpy.components.layout import Box, Cond
 from nextpy.components.overlay.modal import Modal
 from nextpy.components.typography import Text
-from nextpy.core.vars import Var
+from nextpy.utils import imports
+from nextpy.core.vars import ImportVar, Var
 
 connection_error: Var = Var.create_safe(
     value="(connectError !== null) ? connectError.message : ''",
@@ -21,7 +23,24 @@ has_connection_error: Var = Var.create_safe(
 has_connection_error.type_ = bool
 
 
-def default_connection_error() -> list[str | Var]:
+class WebsocketTargetURL(Bare):
+    """A component that renders the websocket target URL."""
+
+    def _get_imports(self) -> imports.ImportDict:
+        return {
+            "/utils/state.js": {ImportVar(tag="getEventURL")},
+        }
+
+    @classmethod
+    def create(cls) -> Component:
+        """Create a websocket target URL component.
+        Returns:
+            The websocket target URL component.
+        """
+        return super().create(contents="{getEventURL().href}")
+
+
+def default_connection_error() -> list[str | Var | Component]:
     """Get the default connection error message.
 
     Returns:
@@ -33,7 +52,7 @@ def default_connection_error() -> list[str | Var]:
         "Cannot connect to server: ",
         connection_error,
         ". Check if server is reachable at ",
-        get_config().api_url or "<API_URL not set>",
+        WebsocketTargetURL.create(),
     ]
 
 
