@@ -10,7 +10,6 @@ from pydantic.fields import ModelField
 from nextpy import constants
 from nextpy.components.base import (
     Body,
-    ColorModeScript,
     Description,
     DocumentHead,
     Head,
@@ -24,7 +23,7 @@ from nextpy.components.base import (
 from nextpy.components.component import Component, ComponentStyle, CustomComponent
 from nextpy.core.state import Cookie, LocalStorage, State
 from nextpy.core.style import Style
-from nextpy.utils import format, imports, path_ops
+from nextpy.utils import console, format, imports, path_ops
 from nextpy.core.vars import ImportVar
 
 # To re-export this function.
@@ -111,7 +110,7 @@ def compile_imports(imports: imports.ImportDict) -> list[dict]:
 
 
 def get_import_dict(lib: str, default: str = "", rest: set[str] | None = None) -> dict:
-    """Get dictionary for import boilerplate.
+    """Get dictionary for import template.
 
     Args:
         lib: The importing react library.
@@ -119,7 +118,7 @@ def get_import_dict(lib: str, default: str = "", rest: set[str] | None = None) -
         rest: The rest module to import.
 
     Returns:
-        A dictionary for import boilerplate.
+        A dictionary for import template.
     """
     return {
         "lib": lib,
@@ -139,7 +138,10 @@ def compile_state(state: Type[State]) -> dict:
     """
     try:
         initial_state = state().dict()
-    except Exception:
+    except Exception as e:
+        console.warn(
+            f"Failed to compile initial state with computed vars, excluding them: {e}"
+        )
         initial_state = state().dict(include_computed=False)
     return format.format_state(initial_state)
 
@@ -243,7 +245,7 @@ def compile_custom_component(
     }
 
     # Concatenate the props.
-    props = [prop.name for prop in component.get_prop_vars()]
+    props = [prop._var_name for prop in component.get_prop_vars()]
 
     # Compile the component.
     return (
@@ -269,7 +271,6 @@ def create_document_root(head_components: list[Component] | None = None) -> Comp
     return Html.create(
         DocumentHead.create(*head_components),
         Body.create(
-            ColorModeScript.create(),
             Main.create(),
             NextScript.create(),
         ),

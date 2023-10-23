@@ -5,7 +5,7 @@ from typing import Any, Union
 
 from nextpy.components.component import Component
 from nextpy.components.forms.debounce import DebounceInput
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralInputVariant
 from nextpy.constants import EventTriggers
 from nextpy.core.vars import Var
 
@@ -43,7 +43,7 @@ class TextArea(ChakraComponent):
     is_required: Var[bool]
 
     # "outline" | "filled" | "flushed" | "unstyled"
-    variant: Var[str]
+    variant: Var[LiteralInputVariant]
 
     def get_event_triggers(self) -> dict[str, Union[Var, Any]]:
         """Get the event triggers that pass the component's value to the handler.

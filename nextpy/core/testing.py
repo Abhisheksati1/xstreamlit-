@@ -33,7 +33,7 @@ import psutil
 import uvicorn
 
 import nextpy
-import nextpy.nextpy
+import nextpy.cli
 import nextpy.utils.build
 import nextpy.utils.exec
 import nextpy.utils.prerequisites
@@ -106,6 +106,7 @@ class AppHarness:
     app_instance: Optional[nextpy.App] = None
     frontend_process: Optional[subprocess.Popen] = None
     frontend_url: Optional[str] = None
+    frontend_output_thread: Optional[threading.Thread] = None
     backend_thread: Optional[threading.Thread] = None
     backend: Optional[uvicorn.Server] = None
     state_manager: Optional[StateManagerMemory | StateManagerRedis] = None
@@ -151,9 +152,9 @@ class AppHarness:
                 "".join(inspect.getsource(self.app_source).splitlines(True)[1:]),
             )
             with chdir(self.app_path):
-                nextpy.nextpy.init(
+                nextpy.cli.init(
                     name=self.app_name,
-                    boilerplate=nextpy.constants.Boilerplate.Kind.DEFAULT,
+                    template=nextpy.constants.Boilerplate.Kind.DEFAULT,
                     loglevel=nextpy.constants.LogLevel.INFO,
                 )
                 self.app_module_path.write_text(source_code)
@@ -230,6 +231,18 @@ class AppHarness:
         if self.frontend_url is None:
             raise RuntimeError("Frontend did not start")
 
+        def consume_frontend_output():
+            while True:
+                line = (
+                    self.frontend_process.stdout.readline()  # pyright: ignore [reportOptionalMemberAccess]
+                )
+                if not line:
+                    break
+                print(line)
+
+        self.frontend_output_thread = threading.Thread(target=consume_frontend_output)
+        self.frontend_output_thread.start()
+
     def start(self) -> "AppHarness":
         """Start the backend in a new thread and dev frontend as a separate process.
 
@@ -278,6 +291,8 @@ class AppHarness:
             self.frontend_process.communicate()
         if self.backend_thread is not None:
             self.backend_thread.join()
+        if self.frontend_output_thread is not None:
+            self.frontend_output_thread.join()
         for driver in self._frontends:
             driver.quit()
 
@@ -480,13 +495,13 @@ class AppHarness:
         if isinstance(self.state_manager, StateManagerRedis):
             # Temporarily replace the app's state manager with our own, since
             # the redis connection is on the backend_thread event loop
-            self.app_instance.state_manager = self.state_manager
+            self.app_instance._state_manager = self.state_manager
         try:
             async with self.app_instance.modify_state(token) as state:
                 yield state
         finally:
             if isinstance(self.state_manager, StateManagerRedis):
-                self.app_instance.state_manager = app_state_manager
+                self.app_instance._state_manager = app_state_manager
                 await self.state_manager.redis.close()
 
     def poll_for_content(
@@ -684,7 +699,7 @@ class AppHarnessProd(AppHarness):
             config.api_url = "http://{0}:{1}".format(
                 *self._poll_for_servers().getsockname(),
             )
-            nextpy.nextpy.export(
+            nextpy.cli.export(
                 zipping=False,
                 frontend=True,
                 backend=False,

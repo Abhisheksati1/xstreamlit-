@@ -4,6 +4,7 @@ import nextpy as xt
 from .mutation import DictMutationTestState, ListMutationTestState, MutableTestState
 from .upload import (
     ChildFileUploadState,
+    FileStateBase1,
     FileUploadState,
     GrandChildFileUploadState,
     SubUploadState,

@@ -1,6 +1,6 @@
 # Nextpy Contributing Guidelines
 
-For an extensive guide on the different ways to contribute to Nextpy see our [Contributing Guide on Notion](https://www.notion.so/dotagent-dev/2107ab2bc166497db951b8d742748284?v=f0eaff78fa984b5ab15d204af58907d7).
+For an extensive guide on the different ways to contribute to Nextpy see our [Contributing Guide on Notion]
 
 
 

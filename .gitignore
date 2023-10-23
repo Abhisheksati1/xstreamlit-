@@ -8,3 +8,4 @@ myapp/*
 .coverage
 .coverage.*
 venv
+new-app

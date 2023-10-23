@@ -29,16 +29,16 @@ def VarOperations():
         dict1: dict = {1: 2}
         dict2: dict = {3: 4}
 
-        @xt.var
-        def token(self) -> str:
-            return self.get_token()
-
     app = xt.App(state=VarOperationState)
 
     @app.add_page
     def index():
         return xt.vstack(
-            xt.input(id="token", value=VarOperationState.token, is_read_only=True),
+            xt.input(
+                id="token",
+                value=VarOperationState.router.session.client_token,
+                is_read_only=True,
+            ),
             # INT INT
             xt.text(
                 VarOperationState.int_var1 + VarOperationState.int_var2,

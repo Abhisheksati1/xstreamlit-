@@ -19,16 +19,16 @@ def FormSubmit():
         def form_submit(self, form_data: dict):
             self.form_data = form_data
 
-        @xt.var
-        def token(self) -> str:
-            return self.get_token()
-
     app = xt.App(state=FormState)
 
     @app.add_page
     def index():
         return xt.vstack(
-            xt.input(value=FormState.token, is_read_only=True, id="token"),
+            xt.input(
+                value=FormState.router.session.client_token,
+                is_read_only=True,
+                id="token",
+            ),
             xt.form(
                 xt.vstack(
                     xt.input(id="name_input"),

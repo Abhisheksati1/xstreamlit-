@@ -19,12 +19,12 @@ from nextpy.core.event import (
     EventHandler as EventHandler,
     EventSpec as EventSpec,
 )
-from nextpy.middleware import (
+from nextpy.core.middleware import (
     HydrateMiddleware as HydrateMiddleware,
     Middleware as Middleware,
 )
 from nextpy.core.model import Model as Model
-from nextpy.page import DECORATED_PAGES as DECORATED_PAGES
+from nextpy.core.page import DECORATED_PAGES as DECORATED_PAGES
 from nextpy.core.route import (
     catchall_in_route as catchall_in_route,
     catchall_prefix as catchall_prefix,
@@ -32,7 +32,6 @@ from nextpy.core.route import (
     verify_route_validity as verify_route_validity,
 )
 from nextpy.core.state import (
-    DefaultState as DefaultState,
     State as State,
     StateManager as StateManager,
     StateUpdate as StateUpdate,

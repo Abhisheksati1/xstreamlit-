@@ -16,7 +16,10 @@ def test_app_harness(tmp_path):
     def BasicApp():
         import nextpy as xt
 
-        app = xt.App()
+        class State(xt.State):
+            pass
+
+        app = xt.App(state=State)
         app.add_page(lambda: xt.text("Basic App"), route="/", title="index")
         app.compile()
 

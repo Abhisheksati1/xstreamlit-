@@ -110,7 +110,6 @@ def test_event_namespace(mocker, kwargs, expected):
     assert config.get_event_namespace() == expected
 
 
-
 DEFAULT_CONFIG = xt.Config(app_name="a")
 
 
@@ -186,6 +185,7 @@ def test_replace_defaults(
     exp_config_values,
 ):
     """Test that the config replaces defaults with values from the environment.
+
     Args:
         monkeypatch: The pytest monkeypatch object.
         config_kwargs: The config kwargs.

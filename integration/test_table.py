@@ -26,16 +26,16 @@ def Table():
 
         caption: str = "random caption"
 
-        @xt.var
-        def token(self) -> str:
-            return self.get_token()
-
     app = xt.App(state=TableState)
 
     @app.add_page
     def index():
         return xt.center(
-            xt.input(id="token", value=TableState.token, is_read_only=True),
+            xt.input(
+                id="token",
+                value=TableState.router.session.client_token,
+                is_read_only=True,
+            ),
             xt.table_container(
                 xt.table(
                     headers=TableState.headers,

@@ -33,16 +33,14 @@ def ServerSideEvent():
         def set_value_return_c(self):
             return xt.set_value("c", "")
 
-        @xt.var
-        def token(self) -> str:
-            return self.get_token()
-
     app = xt.App(state=SSState)
 
     @app.add_page
     def index():
         return xt.fragment(
-            xt.input(id="token", value=SSState.token, is_read_only=True),
+            xt.input(
+                id="token", value=SSState.router.session.client_token, is_read_only=True
+            ),
             xt.input(default_value="a", id="a"),
             xt.input(default_value="b", id="b"),
             xt.input(default_value="c", id="c"),

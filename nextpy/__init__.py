@@ -5,21 +5,19 @@ To signal to typecheckers that something should be reexported,
 we use the Flask "import name as name" syntax.
 """
 
-from . import el as el
+from .core import el as el
 from .core.admin import AdminDash as AdminDash
 from .app import App as App
 from .app import UploadFile as UploadFile
 from .core.base import Base as Base
 from .core.compiler.utils import get_asset_path
 from .components import *
-from .components.base.script import client_side
 from .components.component import custom_component as memo
 from .components.graphing import recharts as recharts
 from .components.graphing.victory import data as data
 from .core.config import Config as Config
 from .core.config import DBConfig as DBConfig
 from .constants import Env as Env
-from .core.event import EVENT_ARG as EVENT_ARG
 from .core.event import EventChain as EventChain
 from .core.event import FileUpload as upload_files
 from .core.event import background as background
@@ -31,12 +29,10 @@ from .core.event import redirect as redirect
 from .core.event import remove_cookie as remove_cookie
 from .core.event import remove_local_storage as remove_local_storage
 from .core.event import set_clipboard as set_clipboard
-from .core.event import set_cookie as set_cookie
 from .core.event import set_focus as set_focus
-from .core.event import set_local_storage as set_local_storage
 from .core.event import set_value as set_value
 from .core.event import window_alert as window_alert
-from .middleware import Middleware as Middleware
+from .core.middleware import Middleware as Middleware
 from .core.model import Model as Model
 from .core.model import session as session
 from .core.page import page as page
@@ -48,4 +44,3 @@ from .core.style import color_mode as color_mode
 from .core.style import toggle_color_mode as toggle_color_mode
 from .core.vars import Var as Var
 from .core.vars import cached_var as cached_var
-from .core.vars import get_local_storage as get_local_storage

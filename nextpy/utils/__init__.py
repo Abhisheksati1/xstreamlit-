@@ -1,1 +1,1 @@
-"""Nextpy utiiities."""
+"""Nextpy utilities."""

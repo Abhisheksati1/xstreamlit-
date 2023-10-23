@@ -113,7 +113,7 @@ input_left_addon = InputLeftAddon.create
 input_right_addon = InputRightAddon.create
 input_left_element = InputLeftElement.create
 input_right_element = InputRightElement.create
-multi_select = MultiSelect
+multi_select = MultiSelect.create
 multi_select_option = MultiSelectOption
 number_decrement_stepper = NumberDecrementStepper.create
 number_increment_stepper = NumberIncrementStepper.create
@@ -246,5 +246,3 @@ kbd = KeyboardKey.create
 color_mode_button = ColorModeButton.create
 color_mode_icon = ColorModeIcon.create
 color_mode_switch = ColorModeSwitch.create
-
-plotly = Plotly.create

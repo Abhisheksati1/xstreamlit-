@@ -2,7 +2,7 @@
 # to publicly accessible domain where app will be hosted
 services:
   app:
-    image: local/nextpy-app
+    image: local/extpy-app
     build:
       context: .
       args:

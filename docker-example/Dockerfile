@@ -13,10 +13,10 @@ ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python3 -m venv $VIRTUAL_ENV
 
-# Install app requirements and nextpy inside virtualenv
+# Install app requirements and extpy inside virtualenv
 RUN pip install -r requirements.txt
 
-# Deploy boilerplate and prepare app
+# Deploy templates and prepare app
 RUN nextpy init
 
 # Export static copy of frontend to /app/.web/_static
@@ -32,7 +32,7 @@ FROM python:3.11-slim
 ARG API_URL
 WORKDIR /app
 RUN adduser --disabled-password --home /app nextpy
-COPY --chown=nextpy --from=init /app /app
+COPY --chown=extpy --from=init /app /app
 USER nextpy
 ENV PATH="/app/.venv/bin:$PATH" API_URL=$API_URL
 

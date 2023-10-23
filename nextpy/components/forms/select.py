@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Union
 
 from nextpy.components.component import Component
 from nextpy.components.layout.foreach import Foreach
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralInputVariant
 from nextpy.components.typography.text import Text
 from nextpy.constants import EventTriggers
 from nextpy.utils.types import _issubclass
@@ -41,7 +41,7 @@ class Select(ChakraComponent):
     is_required: Var[bool]
 
     # "outline" | "filled" | "flushed" | "unstyled"
-    variant: Var[str]
+    variant: Var[LiteralInputVariant]
 
     # The size of the select.
     size: Var[str]

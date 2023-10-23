@@ -153,7 +153,7 @@ class EventHandler(Base):
 
             # Otherwise, convert to JSON.
             try:
-                values.append(Var.create(arg, is_string=type(arg) is str))
+                values.append(Var.create(arg, _var_is_string=type(arg) is str))
             except TypeError as e:
                 raise TypeError(
                     f"Arguments to event handlers must be Vars or JSON-serializable. Got {arg} of type {type(arg)}."
@@ -210,10 +210,6 @@ class FrontendEvent(Base):
     value: Any = None
 
 
-# The default event argument.
-EVENT_ARG = BaseVar(name="_e", type_=FrontendEvent, is_local=True)
-
-
 class FileUpload(Base):
     """Class to represent a file upload."""
 
@@ -241,7 +237,7 @@ def server_side(name: str, sig: inspect.Signature, **kwargs) -> EventSpec:
     return EventSpec(
         handler=EventHandler(fn=fn),
         args=tuple(
-            (Var.create_safe(k), Var.create_safe(v, is_string=type(v) is str))
+            (Var.create_safe(k), Var.create_safe(v, _var_is_string=type(v) is str))
             for k, v in kwargs.items()
         ),
     )
@@ -320,31 +316,7 @@ def set_value(ref: str, value: Any) -> EventSpec:
     )
 
 
-def set_cookie(key: str, value: str) -> EventSpec:
-    """Set a cookie on the frontend.
-
-    Args:
-        key: The key identifying the cookie.
-        value: The value contained in the cookie.
-
-    Returns:
-        EventSpec: An event to set a cookie.
-    """
-    console.deprecate(
-        feature_name=f"xt.set_cookie",
-        reason="and has been replaced by xt.Cookie, which can be used as a state var",
-        deprecation_version="0.2.9",
-        removal_version="0.3.0",
-    )
-    return server_side(
-        "_set_cookie",
-        get_fn_signature(set_cookie),
-        key=key,
-        value=value,
-    )
-
-
-def remove_cookie(key: str, options: dict[str, Any] = {}) -> EventSpec:  # noqa: B006
+def remove_cookie(key: str, options: dict[str, Any] | None = None) -> EventSpec:
     """Remove a cookie on the frontend.
 
     Args:
@@ -354,35 +326,13 @@ def remove_cookie(key: str, options: dict[str, Any] = {}) -> EventSpec:  # noqa:
     Returns:
         EventSpec: An event to remove a cookie.
     """
+    options = options or {}
+    options["path"] = options.get("path", "/")
     return server_side(
         "_remove_cookie",
         get_fn_signature(remove_cookie),
         key=key,
         options=options,
-    )
-
-
-def set_local_storage(key: str, value: str) -> EventSpec:
-    """Set a value in the local storage on the frontend.
-
-    Args:
-        key: The key identifying the variable in the local storage.
-        value: The value contained in the local storage.
-
-    Returns:
-        EventSpec: An event to set a key-value in local storage.
-    """
-    console.deprecate(
-        feature_name=f"xt.set_local_storage",
-        reason="and has been replaced by xt.LocalStorage, which can be used as a state var",
-        deprecation_version="0.2.9",
-        removal_version="0.3.0",
-    )
-    return server_side(
-        "_set_local_storage",
-        get_fn_signature(set_local_storage),
-        key=key,
-        value=value,
     )
 
 
@@ -409,7 +359,7 @@ def remove_local_storage(key: str) -> EventSpec:
     """
     return server_side(
         "_remove_local_storage",
-        get_fn_signature(clear_local_storage),
+        get_fn_signature(remove_local_storage),
         key=key,
     )
 
@@ -560,9 +510,9 @@ def parse_args_spec(arg_spec: ArgsSpec):
     return arg_spec(
         *[
             BaseVar(
-                name=f"_{l_arg}",
-                type_=spec.annotations.get(l_arg, FrontendEvent),
-                is_local=True,
+                _var_name=f"_{l_arg}",
+                _var_type=spec.annotations.get(l_arg, FrontendEvent),
+                _var_is_local=True,
             )
             for l_arg in spec.args
         ]
@@ -675,7 +625,7 @@ def fix_events(
             e = e()
         assert isinstance(e, EventSpec), f"Unexpected event type, {type(e)}."
         name = format.format_event_handler(e.handler)
-        payload = {k.name: v._decode() for k, v in e.args}  # type: ignore
+        payload = {k._var_name: v._decode() for k, v in e.args}  # type: ignore
 
         # Create an event and append it to the list.
         out.append(

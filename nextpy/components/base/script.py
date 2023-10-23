@@ -7,9 +7,7 @@ from __future__ import annotations
 from typing import Any, Union
 
 from nextpy.components.component import Component
-from nextpy.core.event import EventChain
-from nextpy.utils import console
-from nextpy.core.vars import BaseVar, Var
+from nextpy.core.vars import Var
 
 
 class Script(Component):
@@ -72,26 +70,3 @@ class Script(Component):
             "on_ready": lambda: [],
             "on_error": lambda: [],
         }
-
-
-def client_side(javascript_code) -> Var[EventChain]:
-    """Create an event handler that executes arbitrary javascript code.
-
-    The provided code will have access to `args`, which come from the event itself.
-    The code may call functions or reference variables defined in a previously
-    included xt.script function.
-
-    Args:
-        javascript_code: The code to execute.
-
-    Returns:
-        An EventChain, passable to any component, that will execute the client side javascript
-        when triggered.
-    """
-    console.deprecate(
-        feature_name="xt.client_side",
-        reason="and has been replaced by xt.call_script, which can be used from backend EventHandler too",
-        deprecation_version="0.2.9",
-        removal_version="0.3.0",
-    )
-    return BaseVar(name=f"...args => {{{javascript_code}}}", type_=EventChain)

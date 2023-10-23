@@ -5,7 +5,7 @@ from typing import Any, Optional, Union
 
 from nextpy.components.component import Component
 from nextpy.components.layout import Foreach
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralInputVariant
 from nextpy.constants import EventTriggers
 from nextpy.utils import format
 from nextpy.core.vars import Var
@@ -56,7 +56,7 @@ class PinInput(ChakraComponent):
     type_: Var[str]
 
     # "outline" | "flushed" | "filled" | "unstyled"
-    variant: Var[str]
+    variant: Var[LiteralInputVariant]
 
     def get_event_triggers(self) -> dict[str, Union[Var, Any]]:
         """Get the event triggers that pass the component's value to the handler.

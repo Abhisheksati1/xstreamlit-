@@ -1,6 +1,7 @@
 """A heading component."""
 
-from nextpy.components.libs.chakra import ChakraComponent
+
+from nextpy.components.libs.chakra import ChakraComponent, LiteralHeadingSize
 from nextpy.core.vars import Var
 
 
@@ -13,4 +14,4 @@ class Heading(ChakraComponent):
     as_: Var[str]
 
     # "4xl" | "3xl" | "2xl" | "xl" | "lg" | "md" | "sm" | "xs"
-    size: Var[str]
+    size: Var[LiteralHeadingSize]
