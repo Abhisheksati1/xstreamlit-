@@ -4,7 +4,7 @@ import pytest
 
 from nextpy.app import App
 from nextpy.constants import CompileVars
-from nextpy.middleware.hydrate_middleware import HydrateMiddleware
+from nextpy.core.middleware.hydrate_middleware import HydrateMiddleware
 from nextpy.core.state import State, StateUpdate
 
 

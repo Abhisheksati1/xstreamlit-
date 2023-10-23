@@ -7,6 +7,7 @@ import os
 import sys
 import urllib.parse
 from typing import Any, Dict, List, Optional, Set
+
 import pydantic
 
 from nextpy import constants
@@ -161,7 +162,7 @@ class Config(Base):
     redis_url: Optional[str] = None
 
     # Telemetry opt-in.
-    telemetry_enabled: bool = False
+    telemetry_enabled: bool = True
 
     # The bun path
     bun_path: str = constants.Bun.DEFAULT_PATH
@@ -191,7 +192,8 @@ class Config(Base):
 
     # The username.
     username: Optional[str] = None
-        # Attributes that were explicitly set by the user.
+
+    # Attributes that were explicitly set by the user.
     _non_default_attributes: Set[str] = pydantic.PrivateAttr(set())
 
     def __init__(self, *args, **kwargs):
@@ -291,6 +293,7 @@ class Config(Base):
 
     def _replace_defaults(self, **kwargs):
         """Replace formatted defaults when the caller provides updates.
+
         Args:
             **kwargs: The kwargs passed to the config or from the env.
         """
@@ -305,6 +308,7 @@ class Config(Base):
 
     def _set_persistent(self, **kwargs):
         """Set values in this config and in the environment so they persist into subprocess.
+
         Args:
             **kwargs: The kwargs passed to the config.
         """
@@ -314,7 +318,8 @@ class Config(Base):
             setattr(self, key, value)
         self._non_default_attributes.update(kwargs)
         self._replace_defaults(**kwargs)
-        
+
+
 def get_config(reload: bool = False) -> Config:
     """Get the app config.
 

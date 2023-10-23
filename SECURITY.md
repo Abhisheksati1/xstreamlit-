@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-Please report any security vulnerabilities to contact@dotagent.dev
+Please report any security vulnerabilities to contact@dotagent.ai

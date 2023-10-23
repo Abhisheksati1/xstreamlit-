@@ -3,7 +3,7 @@
 from typing import List, Optional, Tuple
 
 from nextpy.components.component import Component
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralColorScheme
 from nextpy.core.vars import Var
 
 
@@ -13,7 +13,7 @@ class Stepper(ChakraComponent):
     tag = "Stepper"
 
     # The color scheme to use for the stepper; default is blue.
-    colorScheme: Var[str]
+    colorScheme: Var[LiteralColorScheme]
 
     # Chakra provides a useSteps hook to control the stepper.
     # Instead, use an integer state value to set progress in the stepper.

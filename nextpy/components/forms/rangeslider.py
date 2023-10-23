@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any, List, Optional, Union
 
 from nextpy.components.component import Component
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralChakraDirection
 from nextpy.constants import EventTriggers
 from nextpy.utils import format
 from nextpy.core.vars import Var
@@ -22,7 +22,7 @@ class RangeSlider(ChakraComponent):
     default_value: Var[List[int]]
 
     # The writing mode ("ltr" | "rtl")
-    direction: Var[str]
+    direction: Var[LiteralChakraDirection]
 
     # If false, the slider handle will not capture focus when value changes.
     focus_thumb_on_change: Var[bool]

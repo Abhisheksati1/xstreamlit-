@@ -6,7 +6,7 @@ echo "start darglint"
 echo "nextpy folder"
 for /R nextpy %%f in (*.py) do (
     echo %%f
-    echo %%f|findstr /r "^.*nextpy\\ds\.py$"
+    echo %%f|findstr /r "^.*nextpy\\xt\.py$"
     if errorlevel 1 (
         poetry run darglint %%f
     )

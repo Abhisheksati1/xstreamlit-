@@ -90,11 +90,11 @@ def send(event: str, telemetry_enabled: bool | None = None) -> bool:
 
     try:
         telemetry = Telemetry()
-        with open(constants.NEXTPY_JSON) as f:  # type: ignore
+        with open(constants.Dirs.NEXTPY_JSON) as f:
             nextpy_json = json.load(f)
             distinct_id = nextpy_json["project_hash"]
         post_hog = {
-            "api_key": "api_key",
+            "api_key": "",
             "event": event,
             "properties": {
                 "distinct_id": distinct_id,

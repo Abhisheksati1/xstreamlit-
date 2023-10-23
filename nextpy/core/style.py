@@ -7,8 +7,8 @@ from nextpy.core.event import EventChain
 from nextpy.utils import format
 from nextpy.core.vars import BaseVar, Var
 
-color_mode = BaseVar(name=constants.ColorMode.NAME, type_="str")
-toggle_color_mode = BaseVar(name=constants.ColorMode.TOGGLE, type_=EventChain)
+color_mode = BaseVar(_var_name=constants.ColorMode.NAME, _var_type="str")
+toggle_color_mode = BaseVar(_var_name=constants.ColorMode.TOGGLE, _var_type=EventChain)
 
 
 def convert(style_dict):

@@ -1,7 +1,11 @@
 """Alert components."""
 
 from nextpy.components.component import Component
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import (
+    ChakraComponent,
+    LiteralAlertVariant,
+    LiteralStatus,
+)
 from nextpy.core.vars import Var
 
 
@@ -11,10 +15,10 @@ class Alert(ChakraComponent):
     tag = "Alert"
 
     # The status of the alert ("success" | "info" | "warning" | "error")
-    status: Var[str]
+    status: Var[LiteralStatus]
 
     # "subtle" | "left-accent" | "top-accent" | "solid"
-    variant: Var[str]
+    variant: Var[LiteralAlertVariant]
 
     @classmethod
     def create(

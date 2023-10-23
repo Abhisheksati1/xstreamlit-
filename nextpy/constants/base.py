@@ -5,16 +5,10 @@ from __future__ import annotations
 import os
 import platform
 from enum import Enum
+from importlib import metadata
 from types import SimpleNamespace
 
 from platformdirs import PlatformDirs
-
-# importlib is only available for Python 3.8+ so we need the backport for Python 3.7
-try:
-    from importlib import metadata
-except ImportError:
-    import importlib_metadata as metadata  # pyright: ignore[reportMissingImports]
-
 
 IS_WINDOWS = platform.system() == "Windows"
 
@@ -45,6 +39,8 @@ class Dirs(SimpleNamespace):
     WEB_ASSETS = os.path.join(WEB, "public")
     # The env json file.
     ENV_JSON = os.path.join(WEB, "env.json")
+    # The nextpy json file.
+    NEXTPY_JSON = os.path.join(WEB, "nextpy.json")
 
 
 class Nextpy(SimpleNamespace):
@@ -77,23 +73,22 @@ class Nextpy(SimpleNamespace):
 class Boilerplate(SimpleNamespace):
     """Constants related to Boilerplate."""
 
-    class Kind(str, Enum):
-        """The boilerplate to use for the app."""
+    # Dynamically get the enum values from the .templates folder
+    template_dir = os.path.join(Nextpy.ROOT_DIR, Nextpy.MODULE_NAME, ".templates/apps")
+    template_dirs = next(os.walk(template_dir))[1]
 
-        DEFAULT = "default"
-        COUNTER = "counter"
+    # Create an enum value for each directory in the .templates folder
+    Kind = Enum("Kind", {template.upper(): template for template in template_dirs})
 
     class Dirs(SimpleNamespace):
-        """Folders used by the boilerplate system of Nextpy."""
+        """Folders used by the template system of Nextpy."""
 
-        # The boilerplate directory used during nextpy init.
-        BASE = os.path.join(Nextpy.ROOT_DIR, Nextpy.MODULE_NAME, ".boilerplate")
-        # The web subdirectory of the boilerplate directory.
-        WEB_BOILERPLATE = os.path.join(BASE, "web")
-        # The assets subdirectory of the boilerplate directory.
-        ASSETS_BOILERPLATE = os.path.join(BASE, Dirs.APP_ASSETS)
-        # The jinja boilerplate directory.
-        JINJA_BOILERPLATE = os.path.join(BASE, "jinja")
+        # The template directory used during nextpy init.
+        BASE = os.path.join(Nextpy.ROOT_DIR, Nextpy.MODULE_NAME, ".templates")
+        # The web subdirectory of the template directory.
+        WEB_TEMPLATE = os.path.join(BASE, "web")
+        # The jinja template directory.
+        JINJA_TEMPLATE = os.path.join(BASE, "jinja")
 
 
 class Next(SimpleNamespace):

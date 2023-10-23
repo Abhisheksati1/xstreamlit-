@@ -14,6 +14,7 @@ import pytest
 from plotly.graph_objects import Figure
 
 import nextpy as xt
+from nextpy.app import App
 from nextpy.core.base import Base
 from nextpy.constants import CompileVars, RouteVar, SocketEvent
 from nextpy.core.event import Event, EventHandler
@@ -21,6 +22,7 @@ from nextpy.core.state import (
     ImmutableStateError,
     LockExpiredError,
     MutableProxy,
+    RouterData,
     State,
     StateManager,
     StateManagerMemory,
@@ -37,6 +39,33 @@ from .states import GenState
 CI = bool(os.environ.get("CI", False))
 LOCK_EXPIRATION = 2000 if CI else 100
 LOCK_EXPIRE_SLEEP = 2.5 if CI else 0.2
+
+
+formatted_router = {
+    "session": {"client_token": "", "client_ip": "", "session_id": ""},
+    "headers": {
+        "host": "",
+        "origin": "",
+        "upgrade": "",
+        "connection": "",
+        "pragma": "",
+        "cache_control": "",
+        "user_agent": "",
+        "sec_websocket_version": "",
+        "sec_websocket_key": "",
+        "sec_websocket_extensions": "",
+        "accept_encoding": "",
+        "accept_language": "",
+    },
+    "page": {
+        "host": "",
+        "path": "",
+        "raw_path": "",
+        "full_path": "",
+        "full_raw_path": "",
+        "params": {},
+    },
+}
 
 
 class Object(Base):
@@ -197,11 +226,11 @@ def test_base_class_vars(test_state):
             continue
         prop = getattr(cls, field)
         assert isinstance(prop, BaseVar)
-        assert prop.name == field
+        assert prop._var_name == field
 
-    assert cls.num1.type_ == int
-    assert cls.num2.type_ == float
-    assert cls.key.type_ == str
+    assert cls.num1._var_type == int
+    assert cls.num2._var_type == float
+    assert cls.key._var_type == str
 
 
 def test_computed_class_var(test_state):
@@ -211,7 +240,7 @@ def test_computed_class_var(test_state):
         test_state: A state.
     """
     cls = type(test_state)
-    vars = [(prop.name, prop.type_) for prop in cls.computed_vars.values()]
+    vars = [(prop._var_name, prop._var_type) for prop in cls.computed_vars.values()]
     assert ("sum", float) in vars
     assert ("upper", str) in vars
 
@@ -225,6 +254,7 @@ def test_class_vars(test_state):
     cls = type(test_state)
     assert set(cls.vars.keys()) == {
         CompileVars.IS_HYDRATED,  # added by hydrate_middleware to all State
+        "router",
         "num1",
         "num2",
         "key",
@@ -416,11 +446,13 @@ def test_set_class_var():
     """Test setting the var of a class."""
     with pytest.raises(AttributeError):
         TestState.num3  # type: ignore
-    TestState._set_var(BaseVar(name="num3", type_=int).set_state(TestState))
+    TestState._set_var(
+        BaseVar(_var_name="num3", _var_type=int)._var_set_state(TestState)
+    )
     var = TestState.num3  # type: ignore
-    assert var.name == "num3"
-    assert var.type_ == int
-    assert var.state == TestState.get_full_name()
+    assert var._var_name == "num3"
+    assert var._var_type == int
+    assert var._var_state == TestState.get_full_name()
 
 
 def test_set_parent_and_substates(test_state, child_state, grandchild_state):
@@ -784,7 +816,7 @@ def test_get_current_page(test_state):
     assert test_state.get_current_page() == ""
 
     route = "mypage/subpage"
-    test_state.router_data = {RouteVar.PATH: route}
+    test_state.router = RouterData({RouteVar.PATH: route})
 
     assert test_state.get_current_page() == route
 
@@ -984,7 +1016,7 @@ def test_conditional_computed_vars():
     assert ms._dirty_computed_vars(from_vars={"flag"}) == {"rendered_var"}
     assert ms._dirty_computed_vars(from_vars={"t2"}) == {"rendered_var"}
     assert ms._dirty_computed_vars(from_vars={"t1"}) == {"rendered_var"}
-    assert ms.computed_vars["rendered_var"].deps(objclass=MainState) == {
+    assert ms.computed_vars["rendered_var"]._deps(objclass=MainState) == {
         "flag",
         "t1",
         "t2",
@@ -1128,16 +1160,19 @@ def test_computed_var_depends_on_parent_non_cached():
         cs.get_name(): {"dep_v": 2},
         "no_cache_v": 1,
         CompileVars.IS_HYDRATED: False,
+        "router": formatted_router,
     }
     assert ps.dict() == {
         cs.get_name(): {"dep_v": 4},
         "no_cache_v": 3,
         CompileVars.IS_HYDRATED: False,
+        "router": formatted_router,
     }
     assert ps.dict() == {
         cs.get_name(): {"dep_v": 6},
         "no_cache_v": 5,
         CompileVars.IS_HYDRATED: False,
+        "router": formatted_router,
     }
     assert counter == 6
 
@@ -1526,23 +1561,24 @@ async def test_state_manager_lock_expire_contend(
 
 
 @pytest.fixture(scope="function")
-def mock_app(monkeypatch, app: xt.App, state_manager: StateManager) -> xt.App:
+def mock_app(monkeypatch, state_manager: StateManager) -> xt.App:
     """Mock app fixture.
 
     Args:
         monkeypatch: Pytest monkeypatch object.
-        app: An app.
         state_manager: A state manager.
 
     Returns:
         The app, after mocking out prerequisites.get_app()
     """
+    app = App(state=TestState)
+
     app_module = Mock()
+
     setattr(app_module, CompileVars.APP, app)
     app.state = TestState
     app.state_manager = state_manager
-    assert app.event_namespace is not None
-    app.event_namespace.emit = AsyncMock()
+    app.event_namespace.emit = AsyncMock()  # type: ignore
     monkeypatch.setattr(prerequisites, "get_app", lambda: app_module)
     return app
 
@@ -2110,7 +2146,12 @@ def test_json_dumps_with_mutables():
     dict_val = MutableContainsBase().dict()
     assert isinstance(dict_val["items"][0], dict)
     val = json_dumps(dict_val)
-    assert val == '{"is_hydrated": false, "items": [{"tags": ["123", "456"]}]}'
+    f_items = '[{"tags": ["123", "456"]}]'
+    f_formatted_router = str(formatted_router).replace("'", '"')
+    assert (
+        val
+        == f'{{"is_hydrated": false, "items": {f_items}, "router": {f_formatted_router}}}'
+    )
 
 
 def test_reset_with_mutables():

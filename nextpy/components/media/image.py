@@ -6,7 +6,7 @@ import io
 from typing import Any, Optional, Union
 
 from nextpy.components.component import Component
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralImageLoading
 from nextpy.utils.serializers import serializer
 from nextpy.core.vars import Var
 
@@ -38,7 +38,7 @@ class Image(ChakraComponent):
     ignore_fallback: Var[bool]
 
     # "eager" | "lazy"
-    loading: Var[str]
+    loading: Var[LiteralImageLoading]
 
     # The path/url to the image or PIL image object.
     src: Var[Any]
@@ -77,7 +77,7 @@ class Image(ChakraComponent):
         """
         src = props.get("src", None)
         if src is not None and not isinstance(src, (Var)):
-            props["src"] = Var.create(value=src, is_string=True)
+            props["src"] = Var.create(value=src, _var_is_string=True)
         return super().create(*children, **props)
 
 

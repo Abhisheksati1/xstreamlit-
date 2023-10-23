@@ -1,7 +1,7 @@
 import os
 import typing
 from pathlib import Path
-from typing import Any, List, Union
+from typing import Any, List, Literal, Union
 
 import pytest
 import typer
@@ -182,10 +182,20 @@ def test_is_backend_variable(input, output):
         (int, Any, True),
         (Any, Any, True),
         (Union[int, float], Any, True),
+        (str, Union[Literal["test", "value"], int], True),
+        (int, Union[Literal["test", "value"], int], True),
+        (str, Literal["test", "value"], True),
+        (int, Literal["test", "value"], False),
     ],
 )
 def test_issubclass(cls: type, cls_check: type, expected: bool):
     assert types._issubclass(cls, cls_check) == expected
+
+
+@pytest.mark.parametrize("cls", [Literal["test", 1], Literal[1, "test"]])
+def test_unsupported_literals(cls: type):
+    with pytest.raises(TypeError):
+        types.get_base_class(cls)
 
 
 @pytest.mark.parametrize(
@@ -198,7 +208,7 @@ def test_issubclass(cls: type, cls_check: type, expected: bool):
     ],
 )
 def test_create_config(app_name, expected_config_name, mocker):
-    """Test boilerplate.XTCONFIG is formatted with correct app name and config class name.
+    """Test templates.XTCONFIG is formatted with correct app name and config class name.
 
     Args:
         app_name: App name.
@@ -206,7 +216,7 @@ def test_create_config(app_name, expected_config_name, mocker):
         mocker: Mocker object.
     """
     mocker.patch("builtins.open")
-    tmpl_mock = mocker.patch("nextpy.core.compiler.boilerplate.XTCONFIG")
+    tmpl_mock = mocker.patch("nextpy.core.compiler.templates.XTCONFIG")
     prerequisites.create_config(app_name)
     tmpl_mock.render.assert_called_with(
         app_name=app_name, config_name=expected_config_name

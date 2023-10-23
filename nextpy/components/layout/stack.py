@@ -1,6 +1,8 @@
 """Container to stack elements with spacing."""
 
-from nextpy.components.libs.chakra import ChakraComponent
+from typing import List, Union
+
+from nextpy.components.libs.chakra import ChakraComponent, LiteralStackDirection
 from nextpy.core.vars import Var
 
 
@@ -13,7 +15,7 @@ class Stack(ChakraComponent):
     align_items: Var[str]
 
     # The direction to stack the items.
-    direction: Var[str]
+    direction: Var[Union[LiteralStackDirection, List[str]]]
 
     # If true the items will be stacked horizontally.
     is_inline: Var[bool]

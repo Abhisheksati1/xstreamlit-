@@ -1,6 +1,6 @@
 """Container to stack elements with spacing."""
 
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import ChakraComponent, LiteralSpinnerSize
 from nextpy.core.vars import Var
 
 
@@ -22,4 +22,4 @@ class Spinner(ChakraComponent):
     thickness: Var[int]
 
     # "xs" | "sm" | "md" | "lg" | "xl"
-    size: Var[str]
+    size: Var[LiteralSpinnerSize]

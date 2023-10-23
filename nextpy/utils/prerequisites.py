@@ -24,9 +24,9 @@ from packaging import version
 from redis.asyncio import Redis
 
 from nextpy import constants
-from nextpy.core.compiler import boilerplate
-from nextpy.core.config import Config, get_config
 from nextpy.core import model
+from nextpy.core.compiler import templates
+from nextpy.core.config import Config, get_config
 from nextpy.utils import console, path_ops, processes
 
 
@@ -177,16 +177,16 @@ def create_config(app_name: str):
         app_name: The name of the app.
     """
     # Import here to avoid circular imports.
-    from nextpy.core.compiler import boilerplate
+    from nextpy.core.compiler import templates
 
     config_name = f"{re.sub(r'[^a-zA-Z]', '', app_name).capitalize()}Config"
     with open(constants.Config.FILE, "w") as f:
         console.debug(f"Creating {constants.Config.FILE}")
-        f.write(boilerplate.XTCONFIG.render(app_name=app_name, config_name=config_name))
+        f.write(templates.XTCONFIG.render(app_name=app_name, config_name=config_name))
 
 
 def initialize_gitignore():
-    """Initialize the boilerplate .gitignore file."""
+    """Initialize the template .gitignore file."""
     # The files to add to the .gitignore file.
     files = constants.GitIgnore.DEFAULTS
 
@@ -201,35 +201,63 @@ def initialize_gitignore():
         f.write(f"{(path_ops.join(sorted(files))).lstrip()}")
 
 
-def initialize_app_directory(app_name: str, boilerplate: constants.Boilerplate.Kind):
+def initialize_requirements_txt():
+    """Initialize the requirements.txt file.
+    If absent, generate one for the user.
+    If the requirements.txt does not have nextpy as dependency,
+    generate a requirement pinning current version and append to
+    the requirements.txt file.
+    """
+    fp = Path(constants.RequirementsTxt.FILE)
+    fp.touch(exist_ok=True)
+
+    try:
+        with open(fp, "r") as f:
+            for req in f.readlines():
+                # Check if we have a package name that is nextpy                if re.match(r"^nextpy[^a-zA-Z0-9]", req):
+                    console.debug(f"{fp} already has nextpy as dependency.")
+                    return
+        with open(fp, "a") as f:
+            f.write(
+                f"\n{constants.RequirementsTxt.DEFAULTS_STUB}{constants.Nextpy.VERSION}\n"
+            )
+    except Exception:
+        console.info(f"Unable to check {fp} for nextpy dependency.")
+
+
+def initialize_app_directory(app_name: str, template: constants.Boilerplate.Kind):
     """Initialize the app directory on nextpy init.
 
     Args:
         app_name: The name of the app.
-        boilerplate: The boilerplate to use.
+        template: The template to use.
     """
     console.log("Initializing the app directory.")
     path_ops.cp(
-        os.path.join(constants.Boilerplate.Dirs.BASE, "apps", boilerplate.value), app_name
+        os.path.join(constants.Boilerplate.Dirs.BASE, "apps", template.value, "code"),
+        app_name,
     )
     path_ops.mv(
-        os.path.join(app_name, boilerplate.value + ".py"),
+        os.path.join(app_name, template.value + ".py"),
         os.path.join(app_name, app_name + constants.Ext.PY),
     )
-    path_ops.cp(constants.Boilerplate.Dirs.ASSETS_BOILERPLATE, constants.Dirs.APP_ASSETS)
+    path_ops.cp(
+        os.path.join(constants.Boilerplate.Dirs.BASE, "apps", template.value, "assets"),
+        constants.Dirs.APP_ASSETS,
+    )
 
 
 def initialize_web_directory():
     """Initialize the web directory on nextpy init."""
     console.log("Initializing the web directory.")
 
-    path_ops.cp(constants.Boilerplate.Dirs.WEB_BOILERPLATE, constants.Dirs.WEB)
+    path_ops.cp(constants.Boilerplate.Dirs.WEB_TEMPLATE, constants.Dirs.WEB)
 
     initialize_package_json()
 
     path_ops.mkdir(constants.Dirs.WEB_ASSETS)
 
-    # update nextJS config based on Config
+    # update nextJS config based on xtConfig
     next_config_file = os.path.join(constants.Dirs.WEB, constants.Next.CONFIG_FILE)
 
     with open(next_config_file, "r") as file:
@@ -244,7 +272,7 @@ def initialize_web_directory():
 
 
 def _compile_package_json():
-    return boilerplate.PACKAGE_JSON.render(
+    return templates.PACKAGE_JSON.render(
         scripts={
             "dev": constants.PackageJson.Commands.DEV,
             "export": constants.PackageJson.Commands.EXPORT,
@@ -510,10 +538,10 @@ def check_initialized(frontend: bool = True):
         )
         raise typer.Exit(1)
 
-    # Check that the boilerplate is up to date.
-    if frontend and not is_latest_boilerplate():
+    # Check that the template is up to date.
+    if frontend and not is_latest_template():
         console.error(
-            "The base app boilerplate has updated. Run [bold]nextpy init[/bold] again."
+            "The base app template has updated. Run [bold]nextpy init[/bold] again."
         )
         raise typer.Exit(1)
 
@@ -524,11 +552,11 @@ def check_initialized(frontend: bool = True):
         )
 
 
-def is_latest_boilerplate() -> bool:
-    """Whether the app is using the latest boilerplate.
+def is_latest_template() -> bool:
+    """Whether the app is using the latest template.
 
     Returns:
-        Whether the app is using the latest boilerplate.
+        Whether the app is using the latest template.
     """
     if not os.path.exists(constants.Nextpy.JSON):
         return False
@@ -642,47 +670,3 @@ def check_schema_up_to_date():
                 console.error(
                     f"{command_error} Run [bold]nextpy db migrate[/bold] to update database."
                 )
-
-
-def migrate_to_nextpy():
-    """Migration from Pynecone to Nextpy."""
-    # Check if the old config file exists.
-    if not os.path.exists(constants.Config.PREVIOUS_FILE):
-        return
-
-    # Ask the user if they want to migrate.
-    action = console.ask(
-        "Pynecone project detected. Automatically upgrade to Nextpy?",
-        choices=["y", "n"],
-    )
-    if action == "n":
-        return
-
-    # Rename pcconfig to xtconfig.
-    console.log(
-        f"[bold]Renaming {constants.Config.PREVIOUS_FILE} to {constants.Config.FILE}"
-    )
-    os.rename(constants.Config.PREVIOUS_FILE, constants.Config.FILE)
-
-    # Find all python files in the app directory.
-    file_pattern = os.path.join(get_config().app_name, "**/*.py")
-    file_list = glob.glob(file_pattern, recursive=True)
-
-    # Add the config file to the list of files to be migrated.
-    file_list.append(constants.Config.FILE)
-
-    # Migrate all files.
-    updates = {
-        "Pynecone": "Nextpy",
-        "pynecone as pc": "nextpy as xt",
-        "pynecone.io": "nextpy.dev",
-        "pynecone": "nextpy",
-        "pc.": "xt.",
-        "pcconfig": "xtconfig",
-    }
-    for file_path in file_list:
-        with FileInput(file_path, inplace=True) as file:
-            for line in file:
-                for old, new in updates.items():
-                    line = line.replace(old, new)
-                print(line, end="")

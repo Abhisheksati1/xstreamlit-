@@ -4,7 +4,10 @@ from numbers import Number
 from typing import Any, Dict
 
 from nextpy.components.component import Component
-from nextpy.components.libs.chakra import ChakraComponent
+from nextpy.components.libs.chakra import (
+    ChakraComponent,
+    LiteralInputVariant,
+)
 from nextpy.constants import EventTriggers
 from nextpy.core.vars import Var
 
@@ -36,7 +39,7 @@ class NumberInput(ChakraComponent):
     focus_input_on_change: Var[bool]
 
     # Hints at the type of data that might be entered by the user. It also determines the type of keyboard shown to the user on mobile devices ("text" | "search" | "none" | "tel" | "url" | "email" | "numeric" | "decimal")
-    input_mode: Var[str]
+    # input_mode: Var[LiteralInputNumberMode]
 
     # Whether the input should be disabled.
     is_disabled: Var[bool]
@@ -63,7 +66,7 @@ class NumberInput(ChakraComponent):
     min_: Var[Number]
 
     # "outline" | "filled" | "flushed" | "unstyled"
-    variant: Var[str]
+    variant: Var[LiteralInputVariant]
 
     def get_event_triggers(self) -> Dict[str, Any]:
         """Get the event triggers that pass the component's value to the handler.

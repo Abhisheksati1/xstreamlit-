@@ -16,22 +16,20 @@ def FullyControlledInput():
     class State(xt.State):
         text: str = "initial"
 
-        @xt.var
-        def token(self) -> str:
-            return self.get_token()
-
     app = xt.App(state=State)
 
     @app.add_page
     def index():
         return xt.fragment(
-            xt.input(value=State.token, is_read_only=True, id="token"),
+            xt.input(
+                value=State.router.session.client_token, is_read_only=True, id="token"
+            ),
             xt.input(
                 id="debounce_input_input",
                 on_change=State.set_text,  # type: ignore
                 value=State.text,
             ),
-            xt.input(value=State.text, id="value_input"),
+            xt.input(value=State.text, id="value_input", is_read_only=True),
             xt.input(on_change=State.set_text, id="on_change_input"),  # type: ignore
             xt.button("CLEAR", on_click=xt.set_value("on_change_input", "")),
         )
