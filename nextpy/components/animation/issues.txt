@@ -1,0 +1,8 @@
+1. Find a way to style the motion components, the default style prop provided by
+   nextPy does not work because when you pass it to the
+   motion component, with some styles(like width and height for example)
+   "nextpy" renames that style prop to "sx" in the index.js file
+   where that component is created.
+
+2. Try to find a way to pass void functions as props
+   add these functions: "https://www.framer.com/motion/component/##animation-events"
