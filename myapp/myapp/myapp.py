@@ -1,43 +1,50 @@
 """Welcome to Nextpy! This file outlines the steps to create a basic app."""
+import numpy as np
+import pandas as pd
+
+import random
+
+import nextpy as xt 
 from xtconfig import config
+from .state import State
+from nextpy.theme import xstreamlit as st
+from nextpy.core.vars import Var
+from typing import Dict, Union, List, Any
 
-import nextpy as xt
-
-docs_url = "https://dotagent.dev/docs/getting-started/introduction"
-filename = f"{config.app_name}/{config.app_name}.py"
 
 
-class State(xt.State):
-    """The app state."""
 
-    pass
+class MotionComponent(xt.Component):
+    library = "framer-motion"
+    tag = "motion" + ".div"
+    is_default = False
+    
+    whileHover: Var[Dict[str, Any]]
+    whileTap: Var[Dict[str, Any]]
+
+    
+
+motion_component = MotionComponent.create
+
 
 
 def index() -> xt.Component:
-    return xt.fragment(
-        xt.color_mode_button(xt.color_mode_icon(), float="right"),
-        xt.vstack(
-            xt.heading("Welcome to Nextpy!", font_size="2em"),
-            xt.box("Get started", xt.code(filename, font_size="1em")),
-            xt.link(
-                "Check out our docs!",
-                href=docs_url,
-                border="0.1em solid",
-                padding="0.5em",
-                border_radius="0.5em",
-                _hover={
-                    "color": xt.color_mode_cond(
-                        light="rgb(107,99,246)",
-                        dark="rgb(179, 175, 255)",
-                    )
-                },
-            ),
+    return xt.container(
+            st.header("Hii") ,
+             xt.text("Color: ",State.color),
+             motion_component(
+                 xt.box(
+                        width="100px",
+                        height="100px", 
+                        background_color = "blue"
+                    ),
+                    whileHover = {"scale": 1.2},
+                    whileTap = {"scale": 0.8},
+                ),
             spacing="1.5em",
             font_size="2em",
-            padding_top="10%",
-        ),
-    )
-
+            padding_top="10%",  
+        )
 
 # Add state and page to the app.
 app = xt.App()
