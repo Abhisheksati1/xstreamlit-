@@ -6,8 +6,6 @@ import random
 
 import nextpy as xt 
 from xtconfig import config
-from .state import State
-from nextpy.theme import xstreamlit as st
 from nextpy.core.vars import Var
 from typing import Dict, Union, List, Any
 
@@ -30,8 +28,6 @@ motion_component = MotionComponent.create
 
 def index() -> xt.Component:
     return xt.container(
-            st.header("Hii") ,
-             xt.text("Color: ",State.color),
              motion_component(
                  xt.box(
                         width="100px",
