@@ -65,6 +65,8 @@ class RadixThemesComponent(Component):
             (45, "RadixThemesColorModeProvider"): RadixThemesColorModeProvider.create(),
         }
 
+    def _get_style(self) -> dict:
+        return {"style": self.style}
 
 class Theme(RadixThemesComponent):
     """A theme provider for radix components.
