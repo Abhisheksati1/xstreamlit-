@@ -3,13 +3,15 @@ import { useRouter } from "next/router"
 import { Event, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, spreadArraysOrObjects, uploadFiles, useEventLoop } from "/utils/state"
 import { ColorModeContext, EventLoopContext, initialEvents, StateContext } from "/utils/context.js"
 import "focus-visible/dist/focus-visible"
-import { Container } from "@chakra-ui/react"
+import { Container, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
+import { getEventURL } from "/utils/state.js"
 import { motion } from "framer-motion"
 import NextHead from "next/head"
 
 
 
 export default function Component() {
+  const state = useContext(StateContext)
   const router = useRouter()
   const [ colorMode, toggleColorMode ] = useContext(ColorModeContext)
   const focusRef = useRef();
@@ -36,8 +38,33 @@ export default function Component() {
 
   return (
     <Fragment>
-  <Container sx={{"spacing": "1.5em", "fontSize": "2em", "paddingTop": "10%"}}>
-  <motion.div className={`w-28 h-28 bg-white`} whileHover={{"scale": 1.2}} whileTap={{"scale": 0.8}}/>
+  <Fragment>
+  {isTrue(connectError !== null) ? (
+  <Fragment>
+  <Modal isOpen={connectError !== null}>
+  <ModalOverlay>
+  <ModalContent>
+  <ModalHeader>
+  {`Connection Error`}
+</ModalHeader>
+  <ModalBody>
+  <Text>
+  {`Cannot connect to server: `}
+  {(connectError !== null) ? connectError.message : ''}
+  {`. Check if server is reachable at `}
+  {getEventURL().href}
+</Text>
+</ModalBody>
+</ModalContent>
+</ModalOverlay>
+</Modal>
+</Fragment>
+) : (
+  <Fragment/>
+)}
+</Fragment>
+  <Container>
+  <motion.div animate={{"opacity": 1, "scale": 1}} className={`w-28 h-28 bg-white rounded-xl mt-28`} drag={`x`} dragConstraints={{"left": -100, "right": 100}} initial={{"opacity": 0, "scale": 0.5}} transition={{"duration": 0.1}} whileHover={{"scale": 1.2}} whileTap={{"scale": 0.8}}/>
 </Container>
   <NextHead>
   <title>
