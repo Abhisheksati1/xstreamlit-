@@ -1,9 +1,9 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
-import { Event, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, spreadArraysOrObjects, uploadFiles, useEventLoop } from "/utils/state"
+import { Event, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, set_val, spreadArraysOrObjects, uploadFiles, useEventLoop } from "/utils/state"
 import { ColorModeContext, EventLoopContext, initialEvents, StateContext } from "/utils/context.js"
 import "focus-visible/dist/focus-visible"
-import { Container, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
 import { getEventURL } from "/utils/state.js"
 import { motion } from "framer-motion"
 import NextHead from "next/head"
@@ -63,12 +63,24 @@ export default function Component() {
   <Fragment/>
 )}
 </Fragment>
-  <Container>
-  <motion.div animate={{"opacity": 1, "scale": 1}} className={`w-28 h-28 bg-white rounded-xl mt-28`} drag={`x`} dragConstraints={{"left": -100, "right": 100}} initial={{"opacity": 0, "scale": 0.5}} transition={{"duration": 0.1}} whileHover={{"scale": 1.2}} whileTap={{"scale": 0.8}}/>
-</Container>
+  <Center sx={{"width": "100%", "height": "100vh"}}>
+  <Box sx={{"padding": "2em", "shadow": "lg", "borderRadius": "lg"}}>
+  <Heading>
+  {`ChatGPT`}
+</Heading>
+  <Input onChange={(_e0) => addEvents([Event("state.set_user_input", {value:_e0.target.value})], (_e0))} placeholder={`Ask a question...`} sx={{"width": "100%"}} type={`text`}/>
+  <motion.div className={`w-28 h-28 bg-blue-200 rounded-full`} whileHover={{"scale": 1.2}} whileTap={{"scale": 0.8}}/>
+  <Button isLoading={state.processing} onClick={(_e) => addEvents([Event("state.get_response", {})], (_e))} sx={{"width": "100%"}}>
+  {`Get Answer`}
+</Button>
+  <Text sx={{"color": "blue"}}>
+  {state.assistant_response}
+</Text>
+</Box>
+</Center>
   <NextHead>
   <title>
-  {`Nextpy App`}
+  {`ChatGPT App`}
 </title>
   <meta content={`A Nextpy app.`} name={`description`}/>
   <meta content={`favicon.ico`} property={`og:image`}/>

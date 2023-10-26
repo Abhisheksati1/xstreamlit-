@@ -1,155 +1,61 @@
-"""Welcome to Nextpy! This file outlines the steps to create a basic app."""
-# import numpy as np
-import pandas as pd
-from typing import Dict, Any
+import nextpy as rx
+import openai
 
-import nextpy as xt
-from nextpy.components.component import Component
-from nextpy.core.vars import Var
-from xtconfig import config
-from .state import State
-# from nextpy.theme import xstreamlit as st
+openai.api_key = "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"
 
-# class FramerMotion(Component):
-#     """A component that wraps all the framer motion components."""
+class State(rx.State):
+    """The app state."""
+    user_input = ""
+    assistant_response = ""
+    processing = False
 
-#     library = "framer-motion"
-#     tag = "motion.div"
-#     animate: Var[Dict[str, Any]] = None
-#     initial: Var[Dict[str, Any]] = None
-#     transition: Var[Dict[str, Any]] = None
+    def set_user_input(self, value):
+        self.user_input = value
 
-#     def get_event_triggers(self) -> dict[str, Any]:
-#         return {
-#             **super().get_event_triggers(),
-#     }
+    def get_response(self):
+        if not self.user_input:
+            return rx.window_alert("Please ask a question.")
 
-# motion = FramerMotion.create
-
-def index() -> xt.Component:
-    
-    return xt.container(
-
-        # xt.motion(
-        #         State.initial,
-        #         State.animate,
-        #         State.transition,
-        #         # initial={ "opacity": 0, "scale": 0.5 },
-        #         # animate={ "opacity": 1, "scale": 1 },
-        #         # transition={ "duration": 0.5 },
-        #         class_name="w-28 h-28 bg-white",
-        # ),
-
-        xt.framer_motion.motion_div(
-                initial={ "opacity": 0, "scale": 0.5 },
-                animate={ "opacity": 1, "scale": 1 },
-                transition={ "duration": 0.1 },
-                whileHover={ "scale": 1.2 },
-                whileTap={ "scale": 0.8 },
-                drag="x",
-                dragConstraints={ "left": -100, "right": 100 },
-                class_name="w-28 h-28 bg-white rounded-xl mt-28",
+        self.processing = True
+        yield
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=self.user_input,
+            max_tokens=100,
         )
-        
-        # st.highlight(
-        #     "St.table",
-        #     query=["st", "table"],
-        #     styles={
-        #         "px": "2",
-        #         "py": "1",
-        #         "rounded": "full",
-        #         "bg": "grey",
-        #     },
-        # ),   
-        # st.table(
-        #     st.thead(
-        #     st.tr(
-        #         st.th("Name"),
-        #         st.th("Age"),
-        #         st.th("Location"),
-        #     )
-        # ),
-        # st.tbody(
-        #     st.tr(
-        #         st.td("John"),
-        #         st.td(30),
-        #         st.td("New York"),
-        #     ),
-        #     st.tr(
-        #         st.td("Jane"),
-        #         st.td(31),
-        #         st.td("San Francisco"),
-        #     ),
-        #     st.tr(
-        #         st.td("Joe"),
-        #         st.td(32),
-        #         st.td("Los Angeles"),
-        #     ),
-        # ),
-        # variant="striped",
-        # color_scheme="teal",
-        # ),
-        # st.highlight(
-        #     "St.latex",
-        #     query=["st", "latex"],
-        #     styles={
-        #         "px": "2",
-        #         "py": "1",
-        #         "rounded": "full",
-        #         "bg": "grey",
-        #     },
-        # ),
-        # st.latex(State.eq),
-        # st.highlight(
-        #     "St.dataframe",
-        #     query=["st", "dataframe"],
-        #     styles={
-        #         "px": "2",
-        #         "py": "1",
-        #         "rounded": "full",
-        #         "bg": "grey",
-        #     },
-        # ),        
-        # st.dataframe(
-        #     data=State.data,
-        #     #columns=State.columns,
-        #     pagination=True,
-        #     search=True,
-        #     sort=False,
-        # ),
-        # st.highlight(
-        #     "St.areachart",
-        #     query=["st", "chart"],
-        #     styles={
-        #         "px": "2",
-        #         "py": "1",
-        #         "rounded": "full",
-        #         "bg": "grey",
-        #     },
-        # ),
-        # st.area_chart(data=State.data_list),
-        # st.header("Hiii") ,
-        # st.write("Hello"),
-        # st.highlight(
-        #     "St.colorpicker",
-        #     query=["st", "colorpicker"],
-        #     styles={
-        #         "px": "2",
-        #         "py": "1",
-        #         "rounded": "full",
-        #         "bg": "grey",
-        #     },
-        # ),
-        # st.text("Color: ",State.color),
-        # st.color_picker(
-        #          on_change = State.set_color
-        # ),
-        #     spacing="1.5em",
-        #     font_size="2em",
-        #     padding_top="10%",  
+        self.assistant_response = response["choices"][0]["text"]
+        self.processing = False
+
+def index():
+    return rx.center(
+        rx.box(
+            rx.heading("ChatGPT"),
+            rx.input(
+                placeholder="Ask a question...",
+                on_change=State.set_user_input,
+                width="100%",
+            ),
+            rx.framer_motion.motion_div(
+                class_name = "w-28 h-28 bg-blue-200 rounded-full",
+                whileHover = {"scale": 1.2},
+                whileTap = {"scale": 0.8},
+            ),
+            rx.button(
+                "Get Answer",
+                on_click=State.get_response,
+                is_loading=State.processing,
+                width="100%",
+            ),
+            rx.text(State.assistant_response, color="blue"),
+            padding="2em",
+            shadow="lg",
+            border_radius="lg",
+        ),
+        width="100%",
+        height="100vh",
     )
 
 # Add state and page to the app.
-app = xt.App()
-app.add_page(index)
+app = rx.App()
+app.add_page(index, title="ChatGPT App")
 app.compile()
