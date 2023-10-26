@@ -468,6 +468,13 @@ class Component(Base, ABC):
         """
         return {"sx": self.style}
 
+    def _get_style(self) -> dict:
+        """Get the style for the component.
+        Returns:
+            The dictionary of the component style as value and the style notation as key.
+        """
+        return {"sx": self.style}
+    
     def render(self) -> Dict:
         """Render the component.
 
