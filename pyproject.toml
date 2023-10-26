@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nextpy"
-version = "0.1.0b2"
+version = "0.1.0b4"
 description = "Web apps in pure Python with all the flexibility and speed of nextjs."
 license = "Apache-2.0"
 authors = [
