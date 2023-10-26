@@ -14,6 +14,8 @@ from .media import *
 from .navigation import *
 from .overlay import *
 from .typography import *
+from .animation import *
+from .animation.framer import *
 
 # Add the convenience methods for all the components.
 # locals().update(
