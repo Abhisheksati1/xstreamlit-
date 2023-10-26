@@ -479,7 +479,6 @@ class Component(Base, ABC):
             tag.add_props(
                 **self.event_triggers,
                 key=self.key,
-                sx=self.style,
                 id=self.id,
                 class_name=self.class_name,
                 **self._get_style(),
