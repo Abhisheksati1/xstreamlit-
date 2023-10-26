@@ -1,7 +1,7 @@
 import pytest
 
 from nextpy.core.vars import Var
-from nextpy.components.animation.framer_motion.motion import (
+from nextpy.components.animation.framer.motion import (
     MotionBase,
     MotionA,
     MotionArticle,
