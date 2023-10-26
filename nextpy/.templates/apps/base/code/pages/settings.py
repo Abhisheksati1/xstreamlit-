@@ -14,7 +14,7 @@ def settings_page() -> xt.Component:
         xt.vstack(
             xt.heading(
                 "Settings",
-                size="3em",
+                font_size="3em",
             ),
             xt.text(
                 "Welcome to Nextpy!",

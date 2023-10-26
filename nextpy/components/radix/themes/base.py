@@ -64,6 +64,8 @@ class RadixThemesComponent(Component):
             **super()._get_app_wrap_components(),
             (45, "RadixThemesColorModeProvider"): RadixThemesColorModeProvider.create(),
         }
+    def _get_style(self) -> dict:
+        return {"style": self.style}
 
 
 class Theme(RadixThemesComponent):

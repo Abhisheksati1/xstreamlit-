@@ -14,7 +14,7 @@ def dashboard_page() -> xt.Component:
         xt.vstack(
             xt.heading(
                 "Dashboard",
-                size="3em",
+                font_size="3em",
             ),
             xt.text(
                 "Welcome to Nextpy!",
