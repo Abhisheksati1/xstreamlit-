@@ -8,3 +8,7 @@ myapp/*
 .coverage
 .coverage.*
 venv
+.pytest_cache
+.ruff_cache
+.chat
+
