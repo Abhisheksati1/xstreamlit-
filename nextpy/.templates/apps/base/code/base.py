@@ -5,8 +5,15 @@ import nextpy as xt
 
 from .pages import dashboard_page, home_page, settings_page
 from .sidebar import sidebar
+from .state import State
 from .styles import *
 
+meta = [
+    {
+        "name": "viewport",
+        "content": "width=device-width, shrink-to-fit=no, initial-scale=1",
+    },
+]
 
 def template(main_content: Callable[[], xt.Component]) -> xt.Component:
     """The template for each page of the app.
@@ -49,10 +56,13 @@ def template(main_content: Callable[[], xt.Component]) -> xt.Component:
         xt.spacer(),
         menu_button,
         align_items="flex-start",
+        transition="left 0.5s, width 0.5s",
+        position="relative",
+        left=xt.cond(State.sidebar_displayed, "0px", f"-{sidebar_width}"),
     )
 
 
-@xt.page("/")
+@xt.page("/", meta=meta)
 @template
 def home() -> xt.Component:
     """Home page.
@@ -63,7 +73,7 @@ def home() -> xt.Component:
     return home_page()
 
 
-@xt.page("/settings")
+@xt.page("/settings", meta=meta)
 @template
 def settings() -> xt.Component:
     """Settings page.
@@ -74,7 +84,7 @@ def settings() -> xt.Component:
     return settings_page()
 
 
-@xt.page("/dashboard")
+@xt.page("/dashboard", meta=meta)
 @template
 def dashboard() -> xt.Component:
     """Dashboard page.

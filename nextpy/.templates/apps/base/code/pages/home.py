@@ -14,7 +14,7 @@ def home_page() -> xt.Component:
         xt.vstack(
             xt.heading(
                 "Home",
-                size="3em",
+                font_size="3em",
             ),
             xt.text(
                 "Welcome to Nextpy!",
