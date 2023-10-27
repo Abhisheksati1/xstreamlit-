@@ -29,19 +29,21 @@ def FormSubmit():
                 is_read_only=True,
                 id="token",
             ),
-            xt.form(
-                xt.vstack(
-                    xt.input(id="name_input"),
-                    xt.hstack(xt.pin_input(length=4, id="pin_input")),
-                    xt.number_input(id="number_input"),
-                    xt.checkbox(id="bool_input"),
-                    xt.switch(id="bool_input2"),
-                    xt.slider(id="slider_input"),
-                    xt.range_slider(id="range_input"),
-                    xt.radio_group(["option1", "option2"], id="radio_input"),
-                    xt.select(["option1", "option2"], id="select_input"),
-                    xt.text_area(id="text_area_input"),
-                    xt.input(
+            rx.form(
+                rx.vstack(
+                    rx.input(id="name_input"),
+                    rx.hstack(rx.pin_input(length=4, id="pin_input")),
+                    rx.number_input(id="number_input"),
+                    rx.checkbox(id="bool_input"),
+                    rx.switch(id="bool_input2"),
+                    rx.slider(id="slider_input"),
+                    rx.range_slider(id="range_input"),
+                    rx.radio_group(["option1", "option2"], id="radio_input"),
+                    rx.radio_group(FormState.var_options, id="radio_input_var"),
+                    rx.select(["option1", "option2"], id="select_input"),
+                    rx.select(FormState.var_options, id="select_input_var"),
+                    rx.text_area(id="text_area_input"),
+                    rx.input(
                         id="debounce_input",
                         debounce_timeout=0,
                         on_change=xt.console_log,

@@ -34,6 +34,7 @@ code = Code.create
 code_block = CodeBlock.create
 connection_banner = ConnectionBanner.create
 connection_modal = ConnectionModal.create
+data_editor = DataEditor.create
 data_table = DataTable.create
 divider = Divider.create
 list = List.create

@@ -63,7 +63,6 @@ def setup_env_authentication(mocker):
     mocker.patch("nextpy.utils.prerequisites.check_initialized")
     mocker.patch("nextpy.utils.hosting.authenticated_token", return_value="fake-token")
     mocker.patch("time.sleep")
-    mocker.patch("nextpy.utils.hosting.check_requirements_txt_exist")
 
 
 def test_deploy_non_interactive_prepare_failed(
@@ -151,8 +150,8 @@ def test_deploy_non_interactive_success(
         app_prefix=app_prefix,
         cpus=None,
         memory_mb=None,
-        auto_start=True,
-        auto_stop=True,
+        auto_start=None,
+        auto_stop=None,
         frontend_hostname=None,
         envs=None,
         with_metrics=None,
@@ -375,8 +374,8 @@ def test_deploy_interactive(
         app_prefix=app_prefix,
         cpus=None,
         memory_mb=None,
-        auto_start=True,
-        auto_stop=True,
+        auto_start=None,
+        auto_stop=None,
         frontend_hostname=None,
         envs=None,
         with_metrics=None,

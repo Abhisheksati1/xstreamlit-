@@ -625,3 +625,41 @@ def unwrap_vars(value: str) -> str:
         string=value,
         flags=re.VERBOSE,
     )
+
+def format_data_editor_column(col: str | dict):
+    """Format a given column into the proper format.
+    Args:
+        col: The column.
+    Raises:
+        ValueError: invalid type provided for column.
+    Returns:
+        The formatted column.
+    """
+    if isinstance(col, str):
+        return {"title": col, "id": col.lower(), "type": "str"}
+
+    if isinstance(col, (dict,)):
+        if "id" not in col:
+            col["id"] = col["title"].lower()
+        if "type" not in col:
+            col["type"] = "str"
+        if "overlayIcon" not in col:
+            col["overlayIcon"] = None
+        return col
+
+    if isinstance(col, BaseVar):
+        return col
+
+    raise ValueError(
+        f"unexpected type ({(type(col).__name__)}: {col}) for column header in data_editor"
+    )
+
+
+def format_data_editor_cell(cell: Any):
+    """Format a given data into a renderable cell for data_editor.
+    Args:
+        cell: The data to format.
+    Returns:
+        The formatted cell.
+    """
+    return {"kind": Var.create(value="GridCellKind.Text"), "data": cell}
