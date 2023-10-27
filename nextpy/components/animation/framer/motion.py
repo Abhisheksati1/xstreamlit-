@@ -25,47 +25,90 @@ class FramerMotion(Component):
             EventTriggers.ON_MOUSE_LEAVE: lambda: [],
         }
 
-#The class that defines all the class attributes
-class MotionAttributes:
-    animate: Var[Any]
-    initial: Var[Any]
-    transformTemplate: Var[str]
-    exit: Var[Dict[str, Any]]
-    transition: Var[Dict[str, Any]]
-    variant: Var[Dict[Any, Any]]
-    layout: Var[Any]
-    layoutId: Var[str]
-    layoutDependency: Var[Any]
-    layoutScroll: Var[bool]
-    inherit: Var[bool]
-    whileHover: Var[Dict[str, Any]]
-    whileTap: Var[Dict[str, Any]]
-    whileFocus: Var[Dict[str, Any]]
-    drag: Var[bool | str]
-    whileDrag: Var[Any]
-    dragConstraints: Var[Any]
-    dragSnapToOrigin: Var[bool]
-    dragElastic: Var[int]
-    dragMomentum: Var[bool]
-    dragTransition: Var[Dict[str, Any]]
-    dragPropagation: Var[bool]
-    dragControls: Var[Any]
-    dragListener: Var[bool]
-    whileInView: Var[Any]
-
 #The base class that inherits the FramerMotion class
 class MotionBase(FramerMotion):
-    """A component that wraps Framer Motion"""
+    """A component that wraps Framer Motion."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.tag = None
         self.is_default = False
-        self.motion_attributes = MotionAttributes()
 
-    # rest of the properties...
+        # Animation target values.
+        animate: Var[Any]
 
-    # rest of the code...
+        # Initial animation values.
+        initial: Var[Any]
+
+        # Function for manual control of the transform string.
+        transformTemplate: Var[str]
+
+        # Animation when component exits the React tree.
+        exit: Var[Dict[str, Any]]
+
+        # Controls animation transitions.
+        transition: Var[Dict[str, Any]]
+
+        # Named animation variants.
+        variant: Var[Dict[Any, Any]]
+
+        # Whether layout should animate.
+        layout: Var[Any]
+
+        # Unique ID for shared layout animations.
+        layoutId: Var[str]
+
+        # Dependency values causing component re-layout.
+        layoutDependency: Var[Any]
+
+        # Scroll component into view on layout change.
+        layoutScroll: Var[bool]
+
+        # Inherit animations from parent.
+        inherit: Var[bool]
+
+        # Animation on hover.
+        whileHover: Var[Dict[str, Any]]
+
+        # Animation on tap or click.
+        whileTap: Var[Dict[str, Any]]
+
+        # Animation on focus.
+        whileFocus: Var[Dict[str, Any]]
+
+        # Enable drag and its direction (x, y, or both).
+        drag: Var[bool | str]
+
+        # Animation during drag.
+        whileDrag: Var[Any]
+
+        # Constraints for drag motion.
+        dragConstraints: Var[Any]
+
+        # Snap back to origin post drag.
+        dragSnapToOrigin: Var[bool]
+
+        # Elasticity of drag motion.
+        dragElastic: Var[int]
+
+        # Maintain momentum post drag.
+        dragMomentum: Var[bool]
+
+        # Transition of drag motion.
+        dragTransition: Var[Dict[str, Any]]
+
+        # Propagate drag motion through children.
+        dragPropagation: Var[bool]
+
+        # Reference to manual drag controls.
+        dragControls: Var[Any]
+
+        # Listen to drag events.
+        dragListener: Var[bool]
+
+        # Animation when component is in view.
+        whileInView: Var[Any]
+
 
 
 # The classes that inherits the MotionBase class and each of these classes denote a html element used with "motion." suffix to use as a motion component

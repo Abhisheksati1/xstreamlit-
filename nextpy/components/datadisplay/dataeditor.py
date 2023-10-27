@@ -289,7 +289,7 @@ class DataEditor(NoSSRComponent):
         Returns:
             The DataEditor component.&
         """
-        from nextpy.el.elements import Div
+        from nextpy.core.el.elements import Div
 
         columns = props.get("columns", [])
         data = props.get("data", [])
