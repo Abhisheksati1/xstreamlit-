@@ -23,6 +23,7 @@ from nextpy.core.config import get_config
 from nextpy.utils import (
     build,
     console,
+    dependency,
     exec,
     hosting,
     prerequisites,
@@ -66,20 +67,12 @@ def main(
     pass
 
 
-@cli.command()
-def init(
-    name: str = typer.Option(
-        None, metavar="APP_NAME", help="The name of the app to initialize."
-    ),
-    template: constants.Boilerplate.Kind = typer.Option(
-        constants.Boilerplate.Kind.DEFAULT.value,
-        help="The template to initialize the app with.",
-    ),
-    loglevel: constants.LogLevel = typer.Option(
-        config.loglevel, help="The log level to use."
-    ),
+def _init(
+    name: str,
+    template: constants.Templates.Kind,
+    loglevel: constants.LogLevel,
 ):
-    """Initialize a new Nextpy app in the current directory."""
+    """Initialize a new Nextpy app in the given directory."""
     # Set the log level.
     console.set_log_level(loglevel)
 
@@ -113,29 +106,33 @@ def init(
 
 
 @cli.command()
-def run(
-    env: constants.Env = typer.Option(
-        constants.Env.DEV, help="The environment to run the app in."
+def init(
+    name: str = typer.Option(
+        None, metavar="APP_NAME", help="The name of the app to initialize."
     ),
-    frontend: bool = typer.Option(
-        False, "--frontend-only", help="Execute only frontend."
-    ),
-    backend: bool = typer.Option(False, "--backend-only", help="Execute only backend."),
-    frontend_port: str = typer.Option(
-        config.frontend_port, help="Specify a different frontend port."
-    ),
-    backend_port: str = typer.Option(
-        config.backend_port, help="Specify a different backend port."
-    ),
-    backend_host: str = typer.Option(
-        config.backend_host, help="Specify the backend host."
+    template: constants.Templates.Kind = typer.Option(
+        constants.Templates.Kind.BASE.value,
+        help="The template to initialize the app with.",
     ),
     loglevel: constants.LogLevel = typer.Option(
         config.loglevel, help="The log level to use."
     ),
 ):
-    """Run the app in the current directory."""
-    # Set the log level.
+    """Initialize a new Nextpy app in the current directory."""
+    _init(name, template, loglevel)
+
+
+def _run(
+    env: constants.Env = constants.Env.DEV,
+    frontend: bool = True,
+    backend: bool = True,
+    frontend_port: str = str(get_config().frontend_port),
+    backend_port: str = str(get_config().backend_port),
+    backend_host: str = config.backend_host,
+    loglevel: constants.LogLevel = config.loglevel,
+):
+    """Run the app in the given directory."""
+   # Set the log level.
     console.set_log_level(loglevel)
 
     # Set env mode in the environment
@@ -167,6 +164,9 @@ def run(
         config._set_persistent(frontend_port=frontend_port)
     if backend_port != str(config.backend_port):
         config._set_persistent(backend_port=backend_port)
+
+    # Reload the config to make sure the env vars are persistent.
+    get_config(reload=True)
 
     console.rule("[bold]Starting Nextpy App")
 
@@ -216,6 +216,32 @@ def run(
         # In dev mode, run the backend on the main thread.
         if backend and env == constants.Env.DEV:
             backend_cmd(backend_host, int(backend_port))
+
+
+@cli.command()
+def run(
+    env: constants.Env = typer.Option(
+        constants.Env.DEV, help="The environment to run the app in."
+    ),
+    frontend: bool = typer.Option(
+        False, "--frontend-only", help="Execute only frontend."
+    ),
+    backend: bool = typer.Option(False, "--backend-only", help="Execute only backend."),
+    frontend_port: str = typer.Option(
+        config.frontend_port, help="Specify a different frontend port."
+    ),
+    backend_port: str = typer.Option(
+        config.backend_port, help="Specify a different backend port."
+    ),
+    backend_host: str = typer.Option(
+        config.backend_host, help="Specify the backend host."
+    ),
+    loglevel: constants.LogLevel = typer.Option(
+        config.loglevel, help="The log level to use."
+    ),
+):
+    """Run the app in the current directory."""
+    _run(env, frontend, backend, frontend_port, backend_port, backend_host, loglevel)
 
 
 @cli.command()
@@ -275,10 +301,10 @@ def export(
         help="The directory to export the zip files to.",
         show_default=False,
     ),
-    backend_exclude_sqlite_db_files: bool = typer.Option(
-        True,
+    upload_db_file: bool = typer.Option(
+        False,
         help="Whether to exclude sqlite db files when exporting backend.",
-        show_default=False,
+        hidden=True,
     ),
     loglevel: constants.LogLevel = typer.Option(
         console._LOG_LEVEL, help="The log level to use."
@@ -310,7 +336,7 @@ def export(
         zip=zipping,
         zip_dest_dir=zip_dest_dir,
         deploy_url=config.deploy_url,
-        backend_exclude_sqlite_db_files=backend_exclude_sqlite_db_files,
+        upload_db_file=upload_db_file,
     )
 
     # Post a telemetry event.
@@ -431,6 +457,7 @@ def deploy(
         config.app_name,
         "--app-name",
         help="The name of the App to deploy under.",
+        hidden=True,
     ),
     regions: List[str] = typer.Option(
         list(),
@@ -441,20 +468,29 @@ def deploy(
     envs: List[str] = typer.Option(
         list(),
         "--env",
-        help="The environment variables to set: <key>=<value>. For multiple envs, repeat this option followed by the env name.",
+        help="The environment variables to set: <key>=<value>. For multiple envs, repeat this option, e.g. --env k1=v2 --env k2=v2.",
     ),
-    cpus: Optional[int] = typer.Option(None, help="The number of CPUs to allocate."),
+    cpus: Optional[int] = typer.Option(
+        None, help="The number of CPUs to allocate.", hidden=True
+    ),
     memory_mb: Optional[int] = typer.Option(
-        None, help="The amount of memory to allocate."
+        None, help="The amount of memory to allocate.", hidden=True
     ),
     auto_start: Optional[bool] = typer.Option(
-        True, help="Whether to auto start the instance."
+        None,
+        help="Whether to auto start the instance.",
+        hidden=True,
     ),
     auto_stop: Optional[bool] = typer.Option(
-        True, help="Whether to auto stop the instance."
+        None,
+        help="Whether to auto stop the instance.",
+        hidden=True,
     ),
     frontend_hostname: Optional[str] = typer.Option(
-        None, "--frontend-hostname", help="The hostname of the frontend."
+        None,
+        "--frontend-hostname",
+        help="The hostname of the frontend.",
+        hidden=True,
     ),
     interactive: Optional[bool] = typer.Option(
         True,
@@ -463,14 +499,17 @@ def deploy(
     with_metrics: Optional[str] = typer.Option(
         None,
         help="Setting for metrics scraping for the deployment. Setup required in user code.",
+        hidden=True,
     ),
     with_tracing: Optional[str] = typer.Option(
         None,
         help="Setting to export tracing for the deployment. Setup required in user code.",
+        hidden=True,
     ),
-    backend_exclude_sqlite_db_files: bool = typer.Option(
-        True,
-        help="Whether to exclude sqlite db files from the backend export.",
+    upload_db_file: bool = typer.Option(
+        False,
+        help="Whether to include local sqlite db files when uploading to hosting service.",
+        hidden=True,
     ),
     loglevel: constants.LogLevel = typer.Option(
         config.loglevel, help="The log level to use."
@@ -481,18 +520,16 @@ def deploy(
     console.set_log_level(loglevel)
 
     if not interactive and not key:
-        console.error("Please provide a deployment key when not in interactive mode.")
+        console.error(
+            "Please provide a name for the deployed instance when not in interactive mode."
+        )
         raise typer.Exit(1)
 
-    try:
-        hosting.check_requirements_txt_exist()
-    except Exception as ex:
-        console.error(f"{constants.RequirementsTxt.FILE} required for deployment")
-        raise typer.Exit(1) from ex
+    dependency.check_requirements()
 
     # Check if we are set up.
     prerequisites.check_initialized(frontend=True)
-
+    enabled_regions = None
     try:
         # Send a request to server to obtain necessary information
         # in preparation of a deployment. For example,
@@ -502,6 +539,10 @@ def deploy(
         pre_deploy_response = hosting.prepare_deploy(
             app_name, key=key, frontend_hostname=frontend_hostname
         )
+        # Note: we likely won't need to fetch this twice
+        if pre_deploy_response.enabled_regions is not None:
+            enabled_regions = pre_deploy_response.enabled_regions
+
     except Exception as ex:
         console.error(f"Unable to prepare deployment due to: {ex}")
         raise typer.Exit(1) from ex
@@ -531,9 +572,20 @@ def deploy(
         key = key_candidate
 
         # Then CP needs to know the user's location, which requires user permission
-        region_input = console.ask(
-            "Region to deploy to", default=regions[0] if regions else "sjc"
-        )
+        console.debug(f"{enabled_regions=}")
+        while True:
+            region_input = console.ask(
+                "Region to deploy to. Enter to use default.",
+                default=regions[0] if regions else "sjc",
+            )
+
+            if enabled_regions is None or region_input in enabled_regions:
+                break
+            else:
+                console.warn(
+                    f"{region_input} is not a valid region. Must be one of {enabled_regions}"
+                )
+                console.warn("Run `nextpy deploymemts regions` to see details.")
         regions = regions or [region_input]
 
         # process the envs
@@ -544,6 +596,8 @@ def deploy(
     if not key or not regions or not app_name or not app_prefix or not api_url:
         console.error("Please provide all the required parameters.")
         raise typer.Exit(1)
+    # Note: if the user uses --no-interactive mode, there was no prepare_deploy call
+    # so we do not check the regions until the call to hosting server
 
     processed_envs = hosting.process_envs(envs) if envs else None
 
@@ -552,23 +606,26 @@ def deploy(
     config.deploy_url = deploy_url
     tmp_dir = tempfile.mkdtemp()
     try:
-        tmp_dir = tempfile.mkdtemp()
         export(
             frontend=True,
             backend=True,
             zipping=True,
             zip_dest_dir=tmp_dir,
             loglevel=loglevel,
-            backend_exclude_sqlite_db_files=backend_exclude_sqlite_db_files,
+            upload_db_file=upload_db_file,
         )
     except ImportError as ie:
         console.error(
             f"Encountered ImportError, did you install all the dependencies? {ie}"
         )
-        raise typer.Exit(1) from ie
-    finally:
         if os.path.exists(tmp_dir):
             shutil.rmtree(tmp_dir)
+        raise typer.Exit(1) from ie
+    except Exception as ex:
+        console.error(f"Unable to export due to: {ex}")
+        if os.path.exists(tmp_dir):
+            shutil.rmtree(tmp_dir)
+        raise typer.Exit(1) from ex
 
     frontend_file_name = constants.ComponentName.FRONTEND.zip()
     backend_file_name = constants.ComponentName.BACKEND.zip()
@@ -626,8 +683,6 @@ def deploy(
             time.sleep(1)
     if not backend_up:
         console.print("Backend unreachable")
-    else:
-        console.print("Backend is up")
 
     with console.status("Checking frontend ..."):
         for _ in range(constants.Hosting.FRONTEND_POLL_RETRIES):
@@ -636,17 +691,37 @@ def deploy(
             time.sleep(1)
     if not frontend_up:
         console.print("frontend is unreachable")
-    else:
-        console.print("frontend is up")
 
     if frontend_up and backend_up:
         console.print(
             f"Your site [ {key} ] at {regions} is up: {deploy_response.frontend_url}"
         )
         return
-    console.warn(
-        f"Your deployment is taking unusually long. Check back later on its status: `reflex deployments status {key}`"
-    )
+    console.warn(f"Your deployment is taking time.")
+    console.warn(f"Check back later on its status: `nextpy deployments status {key}`")
+    console.warn(f"For logs: `nextpy deployments logs {key}`")
+
+
+@cli.command()
+def demo(
+    frontend_port: str = typer.Option(
+        "3001", help="Specify a different frontend port."
+    ),
+    backend_port: str = typer.Option("8001", help="Specify a different backend port."),
+):
+    """Run the demo app."""
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        os.chdir(tmp_dir)
+        _init(
+            name="nextpy_demo",
+            template=constants.Templates.Kind.DEMO,
+            loglevel=constants.LogLevel.DEBUG,
+        )
+        _run(
+            frontend_port=frontend_port,
+            backend_port=backend_port,
+            loglevel=constants.LogLevel.DEBUG,
+        )
 
 
 deployments_cli = typer.Typer()

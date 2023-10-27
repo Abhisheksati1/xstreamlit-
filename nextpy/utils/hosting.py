@@ -224,6 +224,7 @@ class DeploymentPrepareResponse(Base):
     # This is for a new deployment, user has not deployed this app before.
     # The server returns key suggestion based on the app name.
     suggestion: Optional[DeploymentPrepInfo] = None
+    enabled_regions: Optional[List[str]] = None
 
     @root_validator(pre=True)
     def ensure_at_least_one_deploy_params(cls, values):
@@ -304,6 +305,7 @@ def prepare_deploy(
             reply=response_json["reply"],
             suggestion=response_json["suggestion"],
             existing=response_json["existing"],
+            enabled_regions=response_json.get("enabled_regions"),
         )
     except httpx.RequestError as re:
         console.debug(f"Unable to prepare launch due to {re}.")
@@ -406,6 +408,7 @@ def deploy(
         with_metrics: A string indicating the metrics endpoint.
 
     Raises:
+        AssertionError: If the request is rejected by the hosting server.
         Exception: If the operation fails. The exception message is the reason.
 
     Returns:
@@ -450,13 +453,16 @@ def deploy(
         # If the server explicitly states bad request,
         # display a different error
         if response.status_code == HTTPStatus.BAD_REQUEST:
-            raise ValueError(response.json()["detail"])
+            raise AssertionError(f"Server rejected this request: {response.text}")
         response.raise_for_status()
         response_json = response.json()
         return DeploymentPostResponse(
             frontend_url=response_json["frontend_url"],
             backend_url=response_json["backend_url"],
         )
+    except OSError as oe:
+        console.debug(f"Client side error related to file operation: {oe}")
+        raise
     except httpx.RequestError as re:
         console.debug(f"Unable to deploy due to request error: {re}")
         raise Exception("request error") from re
@@ -469,9 +475,10 @@ def deploy(
     except (KeyError, ValidationError) as kve:
         console.debug(f"Post params or server response format unexpected: {kve}")
         raise Exception("internal errors") from kve
-    except ValueError as ve:
+    except AssertionError as ve:
         console.debug(f"Unable to deploy due to request error: {ve}")
-        raise Exception("request error") from ve
+        # re-raise the error back to the user as client side error
+        raise
     except Exception as ex:
         console.debug(f"Unable to deploy due to internal errors: {ex}.")
         raise Exception("internal errors") from ex
@@ -839,16 +846,37 @@ async def get_logs(
         )
 
 
-def check_requirements_txt_exist():
-    """Check if requirements.txt exists in the current directory.
+def check_requirements_txt_exist() -> bool:
+    """Check if requirements.txt exists in the top level app directory.
 
-    Raises:
-        Exception: If the requirements.txt does not exist.
+    Returns:
+        True if requirements.txt exists, False otherwise.
     """
-    if not os.path.exists(constants.RequirementsTxt.FILE):
-        raise Exception(
-            f"Unable to find {constants.RequirementsTxt.FILE} in the current directory."
-        )
+    return os.path.exists(constants.RequirementsTxt.FILE)
+
+
+def check_requirements_for_non_nextpy_packages() -> bool:
+    """Check the requirements.txt file for packages other than nextpy.
+
+    Returns:
+        True if packages other than nextpy are found, False otherwise.
+    """
+    if not check_requirements_txt_exist():
+        return False
+    try:
+        with open(constants.RequirementsTxt.FILE) as fp:
+            for req_line in fp.readlines():
+                package_name = re.search(r"^([^=<>!~]+)", req_line.lstrip())
+                # If we find a package that is not nextpy
+                if (
+                    package_name
+                    and package_name.group(1) != constants.Nextpy.MODULE_NAME
+                ):
+                    return True
+    except Exception as ex:
+        console.warn(f"Unable to scan requirements.txt for dependencies due to {ex}")
+
+    return False
 
 
 def authenticate_on_browser(
@@ -944,15 +972,22 @@ def interactive_get_deployment_key_from_user_input(
         deploy_url = suggestion.deploy_url
 
         # If user takes the suggestion, we will use the suggested key and proceed
-        while key_input := console.ask(f"Name of deployment", default=key_candidate):
+        while key_input := console.ask(
+            f"Choose a name for your deployed app. Enter to use default.",
+            default=key_candidate,
+        ):
             try:
                 pre_deploy_response = prepare_deploy(
                     app_name,
                     key=key_input,
                     frontend_hostname=frontend_hostname,
                 )
-                assert pre_deploy_response.reply is not None
-                assert key_input == pre_deploy_response.reply.key
+                if (
+                    pre_deploy_response.reply is None
+                    or key_input != pre_deploy_response.reply.key
+                ):
+                    # Rejected by server, try again
+                    continue
                 key_candidate = pre_deploy_response.reply.key
                 api_url = pre_deploy_response.reply.api_url
                 deploy_url = pre_deploy_response.reply.deploy_url
@@ -1075,7 +1110,7 @@ def interactive_prompt_for_envs() -> list[str]:
     envs_finished = False
     env_count = 1
     env_key_prompt = f" * env-{env_count} name (enter to skip)"
-    console.print("Environment variables ...")
+    console.print("Environment variables for your production App ...")
     while not envs_finished:
         env_key = console.ask(env_key_prompt)
         if not env_key:
@@ -1106,13 +1141,16 @@ def get_regions() -> list[dict]:
         )
         response.raise_for_status()
         response_json = response.json()
-        assert response_json and isinstance(
-            response_json, list
-        ), "Expect server to return a list "
-        assert not response_json or (
-            response_json[0] is not None and isinstance(response_json[0], dict)
-        ), "Expect return values are dict's"
-
+        if response_json is None or not isinstance(response_json, list):
+            console.debug("Expect server to return a list ")
+            return []
+        if (
+            response_json
+            and response_json[0] is not None
+            and not isinstance(response_json[0], dict)
+        ):
+            console.debug("Expect return values are dict's")
+            return []
         return response_json
     except Exception as ex:
         console.debug(f"Unable to get regions due to {ex}.")

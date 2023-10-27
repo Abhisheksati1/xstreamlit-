@@ -60,7 +60,7 @@ def _zip(
     target: str,
     root_dir: str,
     exclude_venv_dirs: bool,
-    exclude_sqlite_db_files: bool = True,
+    upload_db_file: bool = False,
     dirs_to_exclude: set[str] | None = None,
     files_to_exclude: set[str] | None = None,
 ) -> None:
@@ -71,7 +71,7 @@ def _zip(
         target: The target zip file.
         root_dir: The root directory to zip.
         exclude_venv_dirs: Whether to exclude venv directories.
-        exclude_sqlite_db_files: Whether to exclude sqlite db files.
+        upload_db_file: Whether to include local sqlite db files.
         dirs_to_exclude: The directories to exclude.
         files_to_exclude: The files to exclude.
 
@@ -97,11 +97,8 @@ def _zip(
         files[:] = [
             f
             for f in files
-            if not f.startswith(".")
-            and (not exclude_sqlite_db_files or not f.endswith(".db"))
+            if not f.startswith(".") and (upload_db_file or not f.endswith(".db"))
         ]
-        # Modify the files in-place so the hidden files are excluded.
-        files[:] = [f for f in files if not f.startswith(".")]
         files_to_zip += [
             os.path.join(root, file) for file in files if file not in files_to_exclude
         ]
@@ -129,7 +126,7 @@ def export(
     zip: bool = False,
     zip_dest_dir: str = os.getcwd(),
     deploy_url: str | None = None,
-    backend_exclude_sqlite_db_files: bool = True,
+    upload_db_file: bool = False,
 ):
     """Export the app for deployment.
 
@@ -139,7 +136,7 @@ def export(
         zip: Whether to zip the app.
         zip_dest_dir: The destination directory for created zip files (if any)
         deploy_url: The URL of the deployed app.
-        backend_exclude_sqlite_db_files: Whether to exclude sqlite db files from the backend zip.
+        upload_db_file: Whether to include local sqlite db files from the backend zip.
     """
     # Remove the static folder.
     path_ops.rm(constants.Dirs.WEB_STATIC)
@@ -187,7 +184,6 @@ def export(
                 root_dir=".web/_static",
                 files_to_exclude=files_to_exclude,
                 exclude_venv_dirs=False,
-                exclude_sqlite_db_files=False,
             )
         if backend:
             _zip(
@@ -199,7 +195,7 @@ def export(
                 dirs_to_exclude={"assets", "__pycache__"},
                 files_to_exclude=files_to_exclude,
                 exclude_venv_dirs=True,
-                exclude_sqlite_db_files=backend_exclude_sqlite_db_files,
+                upload_db_file=upload_db_file,
             )
 
 
@@ -250,6 +246,7 @@ def setup_frontend_prod(
     """
     setup_frontend(root, disable_telemetry)
     export(deploy_url=get_config().deploy_url)
+
 
 def _looks_like_venv_dir(dir_to_check: str) -> bool:
     return os.path.exists(os.path.join(dir_to_check, "pyvenv.cfg"))

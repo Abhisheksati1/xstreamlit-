@@ -2,7 +2,7 @@
 import os
 from types import SimpleNamespace
 
-from nextpy.constants.base import Dirs
+from nextpy.constants.base import Dirs, Nextpy
 
 from .compiler import Ext
 
@@ -47,7 +47,7 @@ class RequirementsTxt(SimpleNamespace):
     # The requirements.txt file.
     FILE = "requirements.txt"
     # The partial text used to form requirement that pins a nextpy version
-    DEFAULTS_STUB = "nextpy=="
+    DEFAULTS_STUB = f"{Nextpy.MODULE_NAME}=="
 
 
 # The deployment URL.
