@@ -1,28 +1,22 @@
-"""The settings page for the template."""
+"""The settings page."""
+
+from code.templates import template
+
 import nextpy as xt
 
-from ..styles import *
 
-
-def settings_page() -> xt.Component:
-    """The UI for the settings page.
+@template(route="/settings", title="Settings")
+def settings() -> xt.Component:
+    """The settings page.
 
     Returns:
-        xt.Component: The UI for the settings page.
+        The UI for the settings page.
     """
-    return xt.box(
-        xt.vstack(
-            xt.heading(
-                "Settings",
-                font_size="3em",
-            ),
-            xt.text(
-                "Welcome to Nextpy!",
-            ),
-            xt.text(
-                "You can use this template to get started with Nextpy.",
-            ),
-            style=template_content_style,
+    return xt.vstack(
+        xt.heading("Settings", font_size="3em"),
+        xt.text("Welcome to Nextpy!"),
+        xt.text(
+            "You can edit this page in ",
+            xt.code("{your_app}/pages/settings.py"),
         ),
-        style=template_page_style,
     )

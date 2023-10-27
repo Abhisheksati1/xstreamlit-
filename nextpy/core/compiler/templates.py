@@ -19,7 +19,7 @@ class NextpyJinjaEnvironment(Environment):
         )
         self.filters["json_dumps"] = json_dumps
         self.filters["react_setter"] = lambda state: f"set{state.capitalize()}"
-        self.loader = FileSystemLoader(constants.Boilerplate.Dirs.JINJA_TEMPLATE)
+        self.loader = FileSystemLoader(constants.Templates.Dirs.JINJA_TEMPLATE)
         self.globals["const"] = {
             "socket": constants.CompileVars.SOCKET,
             "result": constants.CompileVars.RESULT,

@@ -60,8 +60,10 @@ def get_node_version() -> version.Version | None:
     except (FileNotFoundError, TypeError):
         return None
 
+
 def get_fnm_version() -> version.Version | None:
     """Get the version of fnm.
+
     Returns:
         The version of FNM.
     """
@@ -70,6 +72,7 @@ def get_fnm_version() -> version.Version | None:
         return version.parse(result.stdout.split(" ")[1])  # type: ignore
     except (FileNotFoundError, TypeError):
         return None
+
 
 def get_bun_version() -> version.Version | None:
     """Get the version of bun.
@@ -238,7 +241,7 @@ def initialize_requirements_txt():
         console.info(f"Unable to check {fp} for nextpy dependency.")
 
 
-def initialize_app_directory(app_name: str, template: constants.Boilerplate.Kind):
+def initialize_app_directory(app_name: str, template: constants.Templates.Kind):
     """Initialize the app directory on nextpy init.
 
     Args:
@@ -246,17 +249,25 @@ def initialize_app_directory(app_name: str, template: constants.Boilerplate.Kind
         template: The template to use.
     """
     console.log("Initializing the app directory.")
-    path_ops.cp(
-        os.path.join(constants.Boilerplate.Dirs.BASE, "apps", template.value, "code"),
-        app_name,
-    )
+
+    # Copy the template to the current directory.
+    template_dir = os.path.join(constants.Templates.Dirs.BASE, "apps", template.value)
+    for file in os.listdir(template_dir):
+        # Copy the file but keep the name the same.
+        path_ops.cp(os.path.join(template_dir, file), file)
+
+    # Rename the template app to the app name.
+    path_ops.mv(constants.Templates.Dirs.CODE, app_name)
     path_ops.mv(
-        os.path.join(app_name, template.value + ".py"),
+        os.path.join(app_name, template.value + constants.Ext.PY),
         os.path.join(app_name, app_name + constants.Ext.PY),
     )
-    path_ops.cp(
-        os.path.join(constants.Boilerplate.Dirs.BASE, "apps", template.value, "assets"),
-        constants.Dirs.APP_ASSETS,
+
+    # Fix up the imports.
+    path_ops.find_replace(
+        app_name,
+        f"from {constants.Templates.Dirs.CODE}",
+        f"from {app_name}",
     )
 
 
@@ -264,7 +275,7 @@ def initialize_web_directory():
     """Initialize the web directory on nextpy init."""
     console.log("Initializing the web directory.")
 
-    path_ops.cp(constants.Boilerplate.Dirs.WEB_TEMPLATE, constants.Dirs.WEB)
+    path_ops.cp(constants.Templates.Dirs.WEB_TEMPLATE, constants.Dirs.WEB)
 
     initialize_package_json()
 

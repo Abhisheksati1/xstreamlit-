@@ -1,7 +1,7 @@
 """Styles for the app."""
-from code.state import State
-
 import nextpy as xt
+
+from .state import State
 
 border_radius = "0.375rem"
 box_shadow = "0px 0px 0px 1px rgba(84, 82, 95, 0.14)"
@@ -54,19 +54,14 @@ base_style = {
     xt.MenuItem: hover_accent_bg,
 }
 
-markdown_style = {
-    "code": lambda text: xt.code(text, color="#1F1944", bg="#EAE4FD"),
-    "a": lambda text, **props: xt.link(
-        text,
-        **props,
-        font_weight="bold",
-        color="#03030B",
-        text_decoration="underline",
-        text_decoration_color="#AD9BF8",
-        _hover={
-            "color": "#AD9BF8",
-            "text_decoration": "underline",
-            "text_decoration_color": "#03030B",
-        },
-    ),
+tab_style = {
+    "color": "#494369",
+    "font_weight": 600,
+    "_selected": {
+        "color": "#5646ED",
+        "bg": "#F5EFFE",
+        "padding_x": "0.5em",
+        "padding_y": "0.25em",
+        "border_radius": "8px",
+    },
 }

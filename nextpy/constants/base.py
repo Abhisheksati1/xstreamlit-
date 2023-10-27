@@ -70,8 +70,8 @@ class Nextpy(SimpleNamespace):
     )
 
 
-class Boilerplate(SimpleNamespace):
-    """Constants related to Boilerplate."""
+class Templates(SimpleNamespace):
+    """Constants related to Templates."""
 
     # Dynamically get the enum values from the .templates folder
     template_dir = os.path.join(Nextpy.ROOT_DIR, Nextpy.MODULE_NAME, ".templates/apps")
@@ -89,6 +89,8 @@ class Boilerplate(SimpleNamespace):
         WEB_TEMPLATE = os.path.join(BASE, "web")
         # The jinja template directory.
         JINJA_TEMPLATE = os.path.join(BASE, "jinja")
+        # Where the code for the templates is stored.
+        CODE = "code"
 
 
 class Next(SimpleNamespace):

@@ -1,28 +1,21 @@
-"""The dashboard page for the template."""
+"""The dashboard page."""
+from code.templates import template
+
 import nextpy as xt
 
-from ..styles import *
 
-
-def dashboard_page() -> xt.Component:
-    """The UI for the dashboard page.
+@template(route="/dashboard", title="Dashboard")
+def dashboard() -> xt.Component:
+    """The dashboard page.
 
     Returns:
-        xt.Component: The UI for the dashboard page.
+        The UI for the dashboard page.
     """
-    return xt.box(
-        xt.vstack(
-            xt.heading(
-                "Dashboard",
-                font_size="3em",
-            ),
-            xt.text(
-                "Welcome to Nextpy!",
-            ),
-            xt.text(
-                "You can use this template to get started with Nextpy.",
-            ),
-            style=template_content_style,
+    return xt.vstack(
+        xt.heading("Dashboard", font_size="3em"),
+        xt.text("Welcome to Nextpy!"),
+        xt.text(
+            "You can edit this page in ",
+            xt.code("{your_app}/pages/dashboard.py"),
         ),
-        style=template_page_style,
     )

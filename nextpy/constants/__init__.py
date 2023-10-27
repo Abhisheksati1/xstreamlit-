@@ -14,7 +14,7 @@ from .base import (
     Next,
     Ping,
     Nextpy,
-    Boilerplate,
+    Templates,
 )
 from .compiler import (
     NOCOMPILE_FILE,
@@ -94,7 +94,7 @@ __ALL__ = [
     SocketEvent,
     STYLES_DIR,
     Tailwind,
-    Boilerplate,
+    Templates,
     CompileVars,
     Hosting,
 ]

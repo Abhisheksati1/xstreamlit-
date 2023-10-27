@@ -152,9 +152,9 @@ class AppHarness:
                 "".join(inspect.getsource(self.app_source).splitlines(True)[1:]),
             )
             with chdir(self.app_path):
-                nextpy.cli.init(
+                nextpy.cli._init(
                     name=self.app_name,
-                    template=nextpy.constants.Boilerplate.Kind.DEFAULT,
+                    template=nextpy.constants.Templates.Kind.BLANK,
                     loglevel=nextpy.constants.LogLevel.INFO,
                 )
                 self.app_module_path.write_text(source_code)
