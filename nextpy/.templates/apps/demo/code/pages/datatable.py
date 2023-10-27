@@ -2,7 +2,7 @@
 from typing import Any
 
 import nextpy as xt
-from reflex.components.datadisplay.dataeditor import DataEditorTheme
+from nextpy.components.datadisplay.dataeditor import DataEditorTheme
 
 from ..styles import *
 from ..webui.state import State

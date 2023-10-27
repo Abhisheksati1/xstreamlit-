@@ -32,7 +32,7 @@ def sidebar_header() -> xt.Component:
                     "bg": accent_color,
                 },
             ),
-            href="https://github.com/reflex-dev/reflex",
+            href="https://github.com/dot-agent",
         ),
         width="100%",
         border_bottom=border,

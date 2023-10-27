@@ -1,7 +1,7 @@
 """Sidebar component for the app."""
 
-from code import styles
-from code.state import State
+from demoapp import styles
+from demoapp.state import State
 
 import nextpy as xt
 
