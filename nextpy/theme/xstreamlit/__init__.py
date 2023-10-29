@@ -1,43 +1,88 @@
 """Import all the components."""
 from __future__ import annotations
 
-from .base import Script
-from .component import Component
-from .component import NoSSRComponent as NoSSRComponent
-from .color_picker import *
-from .datadisplay import *
-from .disclosure import *
-from .feedback import *
-from .forms import *
-from .graphing import *
-from .layout import *
-from .media import *
-from .navigation import *
-from .overlay import *
-from .typography import *
-from .animation import *
-from .animation.framer import *
-from .latex.latex_randerer import *
-# Add the convenience methods for all the components.
-# locals().update(
-#     {
-#         utils.to_snake_case(name): value.create
-#         for name, value in locals().items()
-#         if isinstance(value, type) and issubclass(value, Component)
-#     }
-# )
+from nextpy.components.base import Script
+from nextpy.components.color_picker import * 
+from nextpy.components.component import Component
+from nextpy.components.component import NoSSRComponent as NoSSRComponent
+from nextpy.components.datadisplay import *
+from nextpy.components.disclosure import *
+from nextpy.components.feedback import *
+from nextpy.components.forms import *
+from nextpy.components.graphing import *
+from nextpy.components.graphing import recharts
+from nextpy.components.layout import *
+from nextpy.components.media import *
+from nextpy.components.navigation import *
+from nextpy.components.overlay import *
+from nextpy.components.typography import *
+from nextpy.components.latex.latex_randerer import *
+#from nextpy.theme.xstreamlit import Area_Chart
 
-# Add the convenience methods for all the components manually.
-# This is necessary for static type checking to work.
+from nextpy.theme.xstreamlit.data_elements import *
+from nextpy.theme.xstreamlit.input_widgets import *
+from nextpy.theme.xstreamlit.layout_and_container import *
+from nextpy.theme.xstreamlit.media_elements import *
+from .text_elements import * 
+from .chart_elements import *
+
+
+#def area_chart(data, x=None, y=None):         # st.area_chart() 
+#    return recharts.area_chart(
+#        recharts.area(data_key="y", stroke="#8884d8", fill="#8884d8"),
+#        recharts.x_axis(data_key="x"),
+#        recharts.y_axis(),
+#        data = data ,
+#        width="40%",
+#        height=300,
+#    )
+
+def bar_chart(data, x=None, y=None,):          # st.bar_chart()
+    return recharts.bar_chart(
+    recharts.bar(
+        data_key="uv", stroke="#8884d8", fill="#8884d8"
+    ),
+    recharts.x_axis(data_key="name"),
+    recharts.y_axis(),
+    data=data,
+)
+
+def line_chart(data,X=None,y=None):            # st.line_chart()
+    return recharts.line_chart( 
+    recharts.line(
+        data_key="pv",
+        stroke="#8884d8",
+    ),
+    recharts.line(
+        data_key="uv",
+        stroke="#82ca9d",
+    ),
+    recharts.x_axis(data_key="name"),
+    recharts.y_axis(),
+    data=data,
+    )
+    
+def scatter_chart(data, x=None, y=None):      # st.scatter_chart()
+    pass
+
+def pie_chart(data, x=None, y=None):          # st.pie_chart()
+    recharts.pie_chart(
+        recharts.pie(data),
+        recharts.x_axis(x),
+    )
+
+
+
+
 component = Component.create
+write = Text.create
+latex = Latex.create
+dataframe = DataTable.create
 badge = Badge.create
-code = Code.create
 code_block = CodeBlock.create
 connection_banner = ConnectionBanner.create
 connection_modal = ConnectionModal.create
-data_editor = DataEditor.create
 data_table = DataTable.create
-divider = Divider.create
 list = List.create
 list_item = ListItem.create
 ordered_list = OrderedList.create
@@ -93,9 +138,7 @@ skeleton = Skeleton.create
 skeleton_circle = SkeletonCircle.create
 skeleton_text = SkeletonText.create
 spinner = Spinner.create
-button = Button.create
 button_group = ButtonGroup.create
-checkbox = Checkbox.create
 checkbox_group = CheckboxGroup.create
 date_picker = DatePicker.create
 date_time_picker = DateTimePicker.create
@@ -111,14 +154,13 @@ form_error_message = FormErrorMessage.create
 form_helper_text = FormHelperText.create
 form_label = FormLabel.create
 icon_button = IconButton.create
-input = Input.create
+# input = Input.create
 input_group = InputGroup.create
 input_left_addon = InputLeftAddon.create
 input_right_addon = InputRightAddon.create
 input_left_element = InputLeftElement.create
 input_right_element = InputRightElement.create
-moment = Moment.create
-multi_select = MultiSelect.create
+multi_select = MultiSelect
 multi_select_option = MultiSelectOption
 number_decrement_stepper = NumberDecrementStepper.create
 number_increment_stepper = NumberIncrementStepper.create
@@ -143,7 +185,7 @@ slider_mark = SliderMark.create
 slider_thumb = SliderThumb.create
 slider_track = SliderTrack.create
 switch = Switch.create
-text_area = TextArea.create
+# text_area = TextArea.create
 upload = Upload.create
 area = Area.create
 bar = Bar.create
@@ -182,9 +224,6 @@ avatar = Avatar.create
 avatar_badge = AvatarBadge.create
 avatar_group = AvatarGroup.create
 icon = Icon.create
-image = Image.create
-video = Video.create
-audio = Audio.create
 breadcrumb = Breadcrumb.create
 breadcrumb_item = BreadcrumbItem.create
 breadcrumb_link = BreadcrumbLink.create
@@ -240,15 +279,13 @@ popover_footer = PopoverFooter.create
 popover_header = PopoverHeader.create
 popover_trigger = PopoverTrigger.create
 tooltip = Tooltip.create
-heading = Heading.create
 highlight = Highlight.create
-markdown = Markdown.create
 span = Span.create
-text = Text.create
 script = Script.create
 aspect_ratio = AspectRatio.create
 kbd = KeyboardKey.create
 color_mode_button = ColorModeButton.create
 color_mode_icon = ColorModeIcon.create
 color_mode_switch = ColorModeSwitch.create
-latex = Latex.create
+plotly = Plotly.create
+
